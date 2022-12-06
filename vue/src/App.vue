@@ -3,9 +3,12 @@
     <div id="nav">
       <nav-bar>
         <ul class="nav-links">
-          <li><router-link id="home" v-bind:to="{name: 'home'}">Home</router-link></li>
+          <!-- <li><router-link href="/home" id="home" v-bind:to="{name: 'home'}">Home</router-link></li> -->
+          <li><router-link @click="this.$router.push({name:'home'})" v-bind:to="{name: 'home'}">Home</router-link></li>
+
         </ul>
       </nav-bar>
+      <home/>
       <router-link v-bind:to="{ name: 'home' }">Home</router-link>
       <router-link v-bind:to="{ name: 'logout' }" v-if="$store.state.token != ''">Logout</router-link>
       
@@ -16,7 +19,6 @@
 
 <script>
 import NavBar from "./components/NavBar.vue"
-
 export default {
   name: "App",
   components: {
