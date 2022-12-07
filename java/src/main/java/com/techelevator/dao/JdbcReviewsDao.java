@@ -2,9 +2,10 @@ package com.techelevator.dao;
 
 import com.techelevator.model.Reviews;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
-
+@Component
 public class JdbcReviewsDao implements ReviewsDAO {
 
     private JdbcTemplate jdbcTemplate;

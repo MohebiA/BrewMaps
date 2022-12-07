@@ -1,4 +1,6 @@
 package com.techelevator.controller;
+import com.techelevator.dao.BeerDAO;
+import com.techelevator.dao.JdbcBeerDao;
 import com.techelevator.model.APIBeerDatum.BeerRoot;
 import com.techelevator.model.APIDatum.Root;
 import com.techelevator.model.BeerDetails;
@@ -16,8 +18,11 @@ public class BreweryController {
 
     private BreweryDetails breweryDetails;
 
-    public BreweryController(BreweryDetails breweryDetails){
+    private BeerDAO beerDAO;
+
+    public BreweryController(BreweryDetails breweryDetails, BeerDAO beerDAO){
         this.breweryDetails = breweryDetails;
+        this.beerDAO = beerDAO;
     }
 
     @RequestMapping(path="/breweries", method = RequestMethod.GET)
@@ -30,6 +35,7 @@ public class BreweryController {
         return breweryDetails.getBrewery(id);
     }
 
+    //TODO lat and long need to be zip
     @RequestMapping(path="/location/nearby", method = RequestMethod.GET)
     public List<BrewerResults> getBreweryByLocation(@RequestParam float latitude, @RequestParam float longitude, @RequestParam int search_radius){
         List<BrewerResults> result = null;
@@ -54,5 +60,12 @@ public class BreweryController {
     @RequestMapping(path="/beer/{id}", method = RequestMethod.GET)
     public BeerDetails getBeerById(@PathVariable String id){
         return breweryDetails.getBeerById(id);
+    }
+
+    @RequestMapping(path="/brewery/{id}/addbeer", method = RequestMethod.POST)
+    public boolean addBeer(@RequestBody BeerDetails beer) {
+
+       
+        return beerDAO.addBeer(beer) > 0;
     }
 }

@@ -45,8 +45,10 @@ CREATE TABLE user_brewery_history(user_id int NOT NULL, brewery_id int NOT NULL,
                 CONSTRAINT fk_user_brewery_history_brewery FOREIGN KEY(brewery_id) REFERENCES brewery(brewery_id));
 ALTER TABLE brewery
     ADD CONSTRAINT fk_user_id FOREIGN KEY (user_id) REFERENCES users (user_id);
+    
 ALTER TABLE beer
     ADD CONSTRAINT fk_brewery_id FOREIGN KEY (brewery_id) REFERENCES brewery (brewery_id);
+
 ALTER TABLE reviews 
     ADD CONSTRAINT fk_user_id FOREIGN KEY (user_id) REFERENCES users (user_id),
     ADD CONSTRAINT fk_brewery_id FOREIGN KEY (brewery_id) REFERENCES brewery (brewery_id),
