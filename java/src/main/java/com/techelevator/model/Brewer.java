@@ -1,22 +1,24 @@
 package com.techelevator.model;
 
 public class Brewer {
-    public String id;
-    public String object;
-    public String name;
-    public Object description;
-    public Object short_description;
-    public String url;
-    public boolean cb_verified;
-    public boolean brewer_verified;
-    public String facebook_url;
-    public String twitter_url;
-    public String instagram_url;
+    private int id;
+    private String apiBreweryId;
+    private String object;
+    private String name;
+    private Object description;
+    private Object short_description;
+    private String url;
+    private boolean cb_verified;
+    private boolean brewer_verified;
+    private String facebook_url;
+    private String twitter_url;
+    private String instagram_url;
 
     public Brewer() {}
 
-    public Brewer(String id, String object, String name, Object description, Object short_description, String url, boolean cb_verified, boolean brewer_verified, String facebook_url, String twitter_url, String instagram_url) {
+    public Brewer(int id, String apiBreweryId, String object, String name, Object description, Object short_description, String url, boolean cb_verified, boolean brewer_verified, String facebook_url, String twitter_url, String instagram_url) {
         this.id = id;
+        this.apiBreweryId = apiBreweryId;
         this.object = object;
         this.name = name;
         this.description = description;
@@ -29,11 +31,11 @@ public class Brewer {
         this.instagram_url = instagram_url;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 

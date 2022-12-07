@@ -16,6 +16,8 @@ import java.util.List;
 @Component
 public class BreweryDetailsRest implements BreweryDetails{
     private static final String API_URL = "https://api.catalog.beer/";
+    private static final String ZIP_START_API_URL = "http://api.openweathermap.org/geo/1.0/zip?zip=";
+    private static final String ZIP_END_API_URL = ",US&appid=e423411c9f8c3238f6c34c3a703c7cec";
 
     private RestTemplate restTemplate = new RestTemplate();
 
@@ -32,24 +34,6 @@ public class BreweryDetailsRest implements BreweryDetails{
         ResponseEntity<BrewerDetails> response = restTemplate.exchange(API_URL+"brewer/"+id, HttpMethod.GET, authEntity(), BrewerDetails.class);
         brewery = response.getBody();
         return brewery;
-    }
-
-    public List<BrewerResults> getBreweryByLocation(float latitude, float longitude, int search_radius){
-        Root listOfBreweries = null;
-        List<BrewerResults> nearbyBreweries = new ArrayList<>();
-        ResponseEntity<Root> response = restTemplate.exchange(API_URL+"location/nearby?latitude="+latitude+"&longitude="+ longitude +"&search_radius="+search_radius, HttpMethod.GET, authEntity(), Root.class);
-        listOfBreweries = response.getBody();
-
-        for(Datum data : listOfBreweries.getData()){
-            BrewerResults brewerResults = new BrewerResults();
-            brewerResults.setId(data.getBrewer().getId());
-            brewerResults.setName(data.getBrewer().getName());
-            brewerResults.setDistance((data.getDistance().getDistance()));
-            brewerResults.setUrl(data.getBrewer().getUrl());
-            brewerResults.setDescription(data.getBrewer().getDescription());
-            nearbyBreweries.add(brewerResults);
-        }
-        return nearbyBreweries;
     }
 
     public BeerRoot getBreweryBeerList(String id) {
@@ -76,6 +60,25 @@ public class BreweryDetailsRest implements BreweryDetails{
         return beerList;
     }
 
+    //TODO - added 12-06 - added zipcode method to use zip API to get lon/lat to filter by zip code
+    public List<BrewerResults> getLongLatFromZip(int zip, int search_radius) {
+        ZipLongLat zipLongLat = null;
+        ResponseEntity<ZipLongLat> latResponse = restTemplate.exchange(ZIP_START_API_URL+zip+ZIP_END_API_URL, HttpMethod.GET, zipAuthEntity(), ZipLongLat.class);
+        zipLongLat = latResponse.getBody();
+
+        Root listOfBreweries = null;
+        List<BrewerResults> nearbyBreweries = new ArrayList<>();
+        ResponseEntity<Root> response = restTemplate.exchange(API_URL+"location/nearby?latitude="+zipLongLat.getLat()+"&longitude="+ zipLongLat.getLon() +"&search_radius="+search_radius, HttpMethod.GET, authEntity(), Root.class);
+        listOfBreweries = response.getBody();
+
+        for(Datum data : listOfBreweries.getData()){
+            BrewerResults breweryToAdd = addBreweryToList(data);
+            nearbyBreweries.add(breweryToAdd);
+        }
+
+        return nearbyBreweries;
+    }
+
     public BeerDetails getBeerById(String id){
         BeerDetails beer = null;
         ResponseEntity<BeerDetails> response = restTemplate.exchange(API_URL+"beer/"+id, HttpMethod.GET, authEntity(), BeerDetails.class);
@@ -83,6 +86,8 @@ public class BreweryDetailsRest implements BreweryDetails{
         return beer;
     }
 
+    //TODO - added 12-06 - added helper method section for ease of reference
+//  HELPER METHODS
     private HttpEntity<BrewerDetails> authEntity() {
         String username = "d4b002c2-c531-437e-b2c1-12863de7507f";
         String password = "";
@@ -92,4 +97,21 @@ public class BreweryDetailsRest implements BreweryDetails{
         headers.add("Accept", String.valueOf(json));
         return new HttpEntity<>(headers);
     }
+
+    private HttpEntity<ZipLongLat> zipAuthEntity(){
+        HttpHeaders headers = new HttpHeaders();
+        return new HttpEntity<>(headers);
+    }
+
+    private BrewerResults addBreweryToList(Datum data){
+        BrewerResults brewerResults = new BrewerResults();
+        brewerResults.setId(data.getBrewer().getId());
+        brewerResults.setName(data.getBrewer().getName());
+        brewerResults.setDistance((data.getDistance().getDistance()));
+        brewerResults.setUrl(data.getBrewer().getUrl());
+        brewerResults.setDescription(data.getBrewer().getDescription());
+        return brewerResults;
+    }
+
+
 }

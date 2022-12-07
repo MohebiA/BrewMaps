@@ -31,13 +31,13 @@ public class JdbcBeerDao implements BeerDAO{
     @Override
     public int addBeer(BeerDetails beer) {
 
-        String sql = "insert into beer (name, img_url, description, abv, beer_type, brewery_id, been_removed) " +
-       " values (?, ?, ?, ?, ?, ?, ?) returning beer_id; ";
+        String sql = "insert into beer (name, img_url, description, abv, beer_type, brewery_id, api_beer_id, been_removed) " +
+       " values (?, ?, ?, ?, ?, ?, ?, ?) returning beer_id; ";
         Integer newBeerId = 0;
         try {
 
          newBeerId = jdbcTemplate.queryForObject(sql, Integer.class, beer.getName(), beer.getImgUrl(), beer.getDescription(), beer.getAbv(),
-                 beer.getStyle(), beer.getBreweryId(), beer.isBeenRemoved());
+                 beer.getStyle(), beer.getBreweryId(), beer.getApiId(), beer.isBeenRemoved());
 
         }
         catch (ResourceAccessException rae){

@@ -13,13 +13,13 @@ public interface BreweryDetails {
 
     BeerDetails getBeerById(String id);
 
-    List<BrewerResults> getBreweryByLocation(float latitude, float longitude, int search_radius);
-
     BeerRoot getBreweryBeerList(String id);
 
     List<BeerList> getBeerListByBrewery(String id);
 
-//    Root getBreweryByLocation(float latitude, float longitude, int search_radius);
+    List<BrewerResults> getLongLatFromZip(int zip, int search_radius);
 
+//    Root getBreweryByLocation(float latitude, float longitude, int search_radius);
+//    List<BrewerResults> getBreweryByLocation(float latitude, float longitude, int search_radius);
 
 }
