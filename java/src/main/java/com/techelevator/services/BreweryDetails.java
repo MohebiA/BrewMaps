@@ -17,7 +17,7 @@ public interface BreweryDetails {
 
     List<BeerList> getBeerListByBrewery(String id);
 
-    List<BrewerResults> getLongLatFromZip(int zip, int search_radius);
+    List<BrewerResults> getLongLatFromZip(double latitude, double longitude, int search_radius);
 
 //    Root getBreweryByLocation(float latitude, float longitude, int search_radius);
 //    List<BrewerResults> getBreweryByLocation(float latitude, float longitude, int search_radius);

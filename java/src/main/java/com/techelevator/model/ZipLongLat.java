@@ -57,4 +57,20 @@ public class ZipLongLat {
     public void setCountry(String country) {
         this.country = country;
     }
+
+
+    public double zipToLat(double latitude, int radius) {
+        double lat = 0.0145;
+
+
+       double latRadius = (lat * radius)/2;
+       return latRadius;
+    }
+
+    public double zipToLon(double longitude, int radius) {
+        double lon = 0.0183;
+
+        double lonRadius = (lon * radius)/2;
+        return lonRadius;
+    }
 }
