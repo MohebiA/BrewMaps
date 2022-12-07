@@ -1,20 +1,19 @@
-package com.techelevator.model;
+package com.techelevator.model.APIDatum;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Datum {
-    public Location location;
-    public Distance distance;
-    public Brewer brewer;
+    @JsonProperty("location")
+    Location location;
 
-    public Datum() {}
+    @JsonProperty("distance")
+    Distance distance;
 
-    public Datum(Location location, Distance distance, Brewer brewer) {
-        this.location = location;
-        this.distance = distance;
-        this.brewer = brewer;
-    }
+    @JsonProperty("brewer")
+    Brewer brewer;
 
     public Location getLocation() {
-        return location;
+        return this.location;
     }
 
     public void setLocation(Location location) {
@@ -22,7 +21,7 @@ public class Datum {
     }
 
     public Distance getDistance() {
-        return distance;
+        return this.distance;
     }
 
     public void setDistance(Distance distance) {
@@ -30,10 +29,11 @@ public class Datum {
     }
 
     public Brewer getBrewer() {
-        return brewer;
+        return this.brewer;
     }
 
     public void setBrewer(Brewer brewer) {
         this.brewer = brewer;
     }
+
 }

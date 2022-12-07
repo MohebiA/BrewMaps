@@ -1,15 +1,16 @@
 package com.techelevator.services;
-import com.techelevator.model.BeerDetails;
-import com.techelevator.model.BrewerDetails;
-import com.techelevator.model.BreweryLocation;
+import com.techelevator.model.*;
+import com.techelevator.model.APIBeerDatum.BeerDatum;
+import com.techelevator.model.APIBeerDatum.BeerRoot;
+import com.techelevator.model.APIDatum.Datum;
+import com.techelevator.model.APIDatum.Location;
+import com.techelevator.model.APIDatum.Root;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-import java.net.http.HttpResponse;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Component
@@ -32,21 +33,47 @@ public class BreweryDetailsRest implements BreweryDetails{
         brewery = response.getBody();
         return brewery;
     }
-    //TODO Use with Jackson
-    public BreweryLocation[] getFilterBreweriesByLocation(float latitude, float longitude,int search_radius) {
-        ObjectMapper om = new ObjectMapper();
-        BreweryLocation[] listOfBreweries = null;
-        ResponseEntity<BreweryLocation[]> response = restTemplate.exchange(API_URL + "location/nearby?latitude=" + latitude + "&longitude=" + longitude + "&search_radius=" + search_radius, HttpMethod.GET, authEntity(), BreweryLocation[].class);
-        return listOfBreweries;
+
+    public List<BrewerResults> getBreweryByLocation(float latitude, float longitude, int search_radius){
+        Root listOfBreweries = null;
+        List<BrewerResults> nearbyBreweries = new ArrayList<>();
+        ResponseEntity<Root> response = restTemplate.exchange(API_URL+"location/nearby?latitude="+latitude+"&longitude="+ longitude +"&search_radius="+search_radius, HttpMethod.GET, authEntity(), Root.class);
+        listOfBreweries = response.getBody();
+
+        for(Datum data : listOfBreweries.getData()){
+            BrewerResults brewerResults = new BrewerResults();
+            brewerResults.setId(data.getBrewer().getId());
+            brewerResults.setName(data.getBrewer().getName());
+            brewerResults.setDistance((data.getDistance().getDistance()));
+            brewerResults.setUrl(data.getBrewer().getUrl());
+            brewerResults.setDescription(data.getBrewer().getDescription());
+            nearbyBreweries.add(brewerResults);
+        }
+        return nearbyBreweries;
     }
 
+    public BeerRoot getBreweryBeerList(String id) {
+        BeerRoot beerList = null;
+        ResponseEntity<BeerRoot> response = restTemplate.exchange(API_URL+"/brewer/"+id+"/beer", HttpMethod.GET, authEntity(), BeerRoot.class);
+        beerList = response.getBody();
+        return beerList;
+    }
 
+    public List<BeerList> getBeerListByBrewery(String id) {
+        BeerRoot listOfBeers = null;
+        List<BeerList> beerList = new ArrayList<>();
+        ResponseEntity<BeerRoot> response = restTemplate.exchange(API_URL+"/brewer/"+id+"/beer", HttpMethod.GET, authEntity(), BeerRoot.class);
+        listOfBeers = response.getBody();
 
-    public BreweryLocation[] getBreweryByLocation(float latitude, float longitude,int search_radius){
-        BreweryLocation[] listOfBreweries = null;
-        ResponseEntity<BreweryLocation[]> response = restTemplate.exchange(API_URL+"location/nearby?latitude="+latitude+"&longitude="+ longitude +"&search_radius="+search_radius, HttpMethod.GET, authEntity(), BreweryLocation[].class);
-        listOfBreweries = response.getBody();
-        return listOfBreweries;
+        for(BeerDatum beer : listOfBeers.getData()){
+            BeerList beerToAdd = new BeerList();
+            beerToAdd.setId(beer.getId());
+            beerToAdd.setName(beer.getName());
+            beerToAdd.setStyle(beer.getStyle());
+            System.out.println(beerToAdd);
+            beerList.add(beerToAdd);
+        }
+        return beerList;
     }
 
     public BeerDetails getBeerById(String id){

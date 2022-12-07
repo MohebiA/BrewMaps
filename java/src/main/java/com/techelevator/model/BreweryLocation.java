@@ -1,5 +1,7 @@
 package com.techelevator.model;
 
+import com.techelevator.model.APIDatum.Datum;
+
 import java.util.ArrayList;
 
 public class BreweryLocation {

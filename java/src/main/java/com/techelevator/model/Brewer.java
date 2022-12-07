@@ -116,4 +116,6 @@ public class Brewer {
     public void setInstagram_url(String instagram_url) {
         this.instagram_url = instagram_url;
     }
+
+
 }

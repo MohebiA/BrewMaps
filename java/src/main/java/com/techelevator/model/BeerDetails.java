@@ -1,31 +1,52 @@
 package com.techelevator.model;
 
 public class BeerDetails {
-    String id;
+    int id;
     String name;
     String style;
     String description;
+    String imgUrl;
     int abv;
     int ibu;
-    BrewerDetails brewer = new BrewerDetails();
+    boolean beenRemoved;
+    int breweryId;
+    //BrewerDetails brewer = new BrewerDetails();
 
     public BeerDetails (){};
 
-    public BeerDetails(String id, String name, String style, String description, int abv, int ibu, BrewerDetails brewer) {
+    public BeerDetails(int id, String name, String style, String description, String imgUrl, int abv, int ibu, boolean beenRemoved, int breweryId) {
         this.id = id;
         this.name = name;
         this.style = style;
         this.description = description;
+        this.imgUrl = imgUrl;
         this.abv = abv;
         this.ibu = ibu;
-        this.brewer = brewer;
+        this.beenRemoved = beenRemoved;
+        this.breweryId = breweryId;
     }
 
-    public String getId() {
+    public boolean isBeenRemoved() {
+        return beenRemoved;
+    }
+
+    public void setBeenRemoved(boolean beenRemoved) {
+        this.beenRemoved = beenRemoved;
+    }
+
+    public String getImgUrl() {
+        return imgUrl;
+    }
+
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
+    }
+
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -69,12 +90,12 @@ public class BeerDetails {
         this.ibu = ibu;
     }
 
-    public BrewerDetails getBrewer() {
-        return brewer;
+    public int getBreweryId() {
+        return breweryId;
     }
 
-    public void setBrewer(BrewerDetails brewer) {
-        this.brewer = brewer;
+    public void setBreweryId(int breweryId) {
+        this.breweryId = breweryId;
     }
 }
 
