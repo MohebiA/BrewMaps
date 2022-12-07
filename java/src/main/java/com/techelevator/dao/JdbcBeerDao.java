@@ -2,6 +2,7 @@ package com.techelevator.dao;
 
 import com.techelevator.model.BeerDetails;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.ResourceAccessException;
 
@@ -20,11 +21,18 @@ public class JdbcBeerDao implements BeerDAO{
     public List<BeerDetails> getAllBeers() {
         List<BeerDetails> beerDetails = new ArrayList<>();
 
+        String sql = "select beer_id, name, img_url, description, abv, beer_type, api_beer_id, brewery_id, been_removed from beer;";
+//        SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
+//      while (results.next()) {
+//
+//      }
         return null;
     }
 
     @Override
     public BeerDetails getBeerById(String id) {
+        String sql = "select beer_id, name, img_url, description, abv, beer_type, api_beer_id, brewery_id, been_removed from beer WHERE beer_id = ?;";
+    //    SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
         return null;
     }
 
@@ -49,5 +57,11 @@ public class JdbcBeerDao implements BeerDAO{
     @Override
     public void deleteBeer(int beerId) {
 
+    }
+
+    private BeerDetails mapRowToBeerDetails(SqlRowSet rs) {
+        BeerDetails beer = new BeerDetails();
+
+        return beer;
     }
 }
