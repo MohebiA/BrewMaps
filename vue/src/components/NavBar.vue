@@ -1,35 +1,29 @@
 <template>
-  <div>
-  <b-nav id="navigation">
-    <b-container>
-      <b-row>
-        <b-col>
-             <b-navbar-brand id = "beerIcon"><router-link v-bind:to="{ name: 'home'}"> 🍺 </router-link> </b-navbar-brand>
+  
+<nav class="navbar navbar-expand-md bg-white navbar-light sticky-top">
+        <div class="container-fluid">
+        <a href="#" class="navbar-brand"><router-link v-bind:to="{ name: 'home'}"><b-button variant="bg-white"><h3>BrewMaps 🍺</h3></b-button></router-link></a>
 
-        </b-col>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navmenu">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-        <b-col>
-              <b-nav-item active><router-link v-bind:to="{ name: 'brewerylist' }">Breweries</router-link></b-nav-item>
+        <div class="collapse navbar-collapse" id="navmenu">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link"><router-link v-bind:to="{ name: 'brewerylist' }"><b-button variant="warning">Breweries</b-button></router-link></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link"><span class="p-2 text-dark"><router-link v-bind:to="{ name: 'login' }"><b-button variant="warning">Login</b-button></router-link></span></a>
+                    </li>
+                <li class="nav-item">
+                    <a class="nav-link"><span class="p-2 text-dark"><router-link v-bind:to="{ name: 'logout' }" v-if="$store.state.token != ''"><b-button variant="warning">Logout</b-button></router-link></span></a>
+                    </li>    
+            </ul>
+        </div>
+    </div>
+    </nav>
 
-        </b-col>
-
-        <b-col>
-              <b-nav-item><router-link v-bind:to="{ name: 'login' }">Login</router-link></b-nav-item>
-
-        </b-col>
-
-        <b-col>
-               <b-nav-item><router-link v-bind:to="{ name: 'logout' }" v-if="$store.state.token != ''">Logout</router-link> </b-nav-item>
-
-        </b-col>
-
-      </b-row>
-   
-   
-    </b-container>
-
-  </b-nav>
-</div>
 </template>
 
 <script>
@@ -39,25 +33,5 @@ export default {
 </script>
 
 <style>
-
-#navigation {
-    display: flex;
-    flex-direction: row;
-    padding: 12px 0;
-    margin: 0 auto;
-    width: 98%;
-    justify-content:space-evenly;
-    list-style-type: none;
-    
-}
-
-
-
-
-#beerIcon {
-font-size: 50px;
-text-decoration: none;
-
-}
 
 </style>

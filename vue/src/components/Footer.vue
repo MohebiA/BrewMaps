@@ -10,11 +10,11 @@
         <div>
           <b-col>
             <b-row>
-              <p><router-link v-bind:to="{ name: 'aboutus' }">About Us</router-link></p>
+              <p><router-link v-bind:to="{ name: 'aboutus' }"><b-button>About Us</b-button></router-link></p>
             </b-row>
             
             <b-row>
-              <p>Contact Us</p>
+              <p><b-button>Contact Us</b-button></p>
             </b-row>
 
             <b-row>
