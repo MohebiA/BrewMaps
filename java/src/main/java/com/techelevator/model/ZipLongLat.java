@@ -59,18 +59,13 @@ public class ZipLongLat {
     }
 
 
-    public double zipToLat(double latitude, int radius) {
-        double lat = 0.0145;
-
-
-       double latRadius = (lat * radius)/2;
+    public double zipToLat(int radius) {
+       double latRadius = (0.0145 * radius)/2;
        return latRadius;
     }
 
-    public double zipToLon(double longitude, int radius) {
-        double lon = 0.0183;
-
-        double lonRadius = (lon * radius)/2;
+    public double zipToLon(int radius) {
+          double lonRadius = (0.0183 * radius)/2;
         return lonRadius;
     }
 }

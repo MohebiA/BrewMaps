@@ -6,16 +6,20 @@ public class BrewerResults {
     double distance;
     String url;
     String description;
+    double lat;
+    double lon;
 
     public BrewerResults() {
     }
 
-    public BrewerResults(String id, String name, double distance, String url, String description) {
+    public BrewerResults(String id, String name, double distance, String url, String description, double lat, double lon) {
         this.id = id;
         this.name = name;
         this.distance = distance;
         this.url = url;
         this.description = description;
+        this.lat = lat;
+        this.lon = lon;
     }
 
     public String getId() {
@@ -56,6 +60,22 @@ public class BrewerResults {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public double getLat() {
+        return lat;
+    }
+
+    public void setLat(double lat) {
+        this.lat = lat;
+    }
+
+    public double getLon() {
+        return lon;
+    }
+
+    public void setLon(double lon) {
+        this.lon = lon;
     }
 
     @Override

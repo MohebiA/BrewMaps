@@ -83,9 +83,11 @@ public class BreweryController {
         List<BrewerResults> listOfBreweries = new ArrayList<>();
         ZipLongLat zipLongLat = locationConverter.getCoordinates(zip);
         listOfBreweries = breweryDetails.getLongLatFromZip(zipLongLat.getLat(), zipLongLat.getLon(), search_radius);
-     //   List<BrewerDetails> jdbcBreweries = new ArrayList<>();
-     //   jdbcBreweries = brewerDAO.getAllBrewers(zipLongLat.getLat(), zipLongLat.getLon(), search_radius);
-        return listOfBreweries;
+        List<BrewerResults> jdbcBreweries = brewerDAO.getAllBrewers(zipLongLat.getLat(), zipLongLat.getLon(), search_radius);
+        for(BrewerResults result : jdbcBreweries){
+            listOfBreweries.add(result);
+        }
+         return listOfBreweries;
     }
 
 
