@@ -5,6 +5,11 @@ import Login from '../views/Login.vue'
 import Logout from '../views/Logout.vue'
 import Register from '../views/Register.vue'
 import store from '../store/index'
+import BreweryList from '../views/BreweryList.vue'
+import BreweryDetails from '../views/BreweryDetails.vue'
+import BeerList from '../views/BeerList.vue'
+import BeerDetails from '../views/BeerDetails.vue'
+import AboutUs from '../views/AboutUs.vue'
 
 Vue.use(Router)
 
@@ -52,7 +57,58 @@ const router = new Router({
       meta: {
         requiresAuth: false
       }
-    }
+    },
+    {
+      path: "/brewerylist",
+      name: "brewerylist",
+      component: BreweryList,
+      meta: {
+        requiresAuth: false
+      }
+
+
+
+    },
+    {
+      path: "/brewerydetails",
+      name: "brewerydetails",
+      component: BreweryDetails,
+      meta: {
+        requiresAuth: false
+      }
+
+
+
+    },
+    {
+      path: "/beerlist",
+      name: "beerlist",
+      component: BeerList,
+      meta: {
+        requiresAuth: false
+      }
+
+    },
+    {
+      path: "/beerdetails",
+      name: "beerdetails",
+      component: BeerDetails,
+      meta: {
+        requiresAuth: false
+      }
+
+    },
+    {
+      path: "/aboutus",
+      name: "aboutus",
+      component: AboutUs,
+      meta: {
+        requiresAuth: false
+      }
+
+    },
+    
+
   ]
 })
 

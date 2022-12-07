@@ -8,21 +8,23 @@
 
         </ul>
       </nav-bar>
-      <home/>
-      <router-link v-bind:to="{ name: 'home' }">Home</router-link>
-      <router-link v-bind:to="{ name: 'logout' }" v-if="$store.state.token != ''">Logout</router-link>
-      
+      <home/>      
     </div>
+
     <router-view />
+              <Footer/>      
+
   </div>
 </template>
 
 <script>
 import NavBar from "./components/NavBar.vue"
+import Footer from "./components/Footer.vue"
 export default {
   name: "App",
   components: {
     NavBar,
+    Footer,
   }
 };
 </script>
