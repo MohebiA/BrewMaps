@@ -16,10 +16,12 @@ import java.util.List;
 @Component
 public class BreweryDetailsRest implements BreweryDetails{
     private static final String API_URL = "https://api.catalog.beer/";
-    private static final String ZIP_START_API_URL = "http://api.openweathermap.org/geo/1.0/zip?zip=";
-    private static final String ZIP_END_API_URL = ",US&appid=e423411c9f8c3238f6c34c3a703c7cec";
+  //  private static final String ZIP_START_API_URL = "http://api.openweathermap.org/geo/1.0/zip?zip=";
+  //  private static final String ZIP_END_API_URL = ",US&appid=e423411c9f8c3238f6c34c3a703c7cec";
 
     private RestTemplate restTemplate = new RestTemplate();
+
+    private LocationConverterRest locationConverterRest;
 
     public BreweryDetails[] getAllBreweries() {
         BreweryDetails[] allBreweries = null;
@@ -61,14 +63,16 @@ public class BreweryDetailsRest implements BreweryDetails{
     }
 
     //TODO - added 12-06 - added zipcode method to use zip API to get lon/lat to filter by zip code
-    public List<BrewerResults> getLongLatFromZip(int zip, int search_radius) {
-        ZipLongLat zipLongLat = null;
-        ResponseEntity<ZipLongLat> latResponse = restTemplate.exchange(ZIP_START_API_URL+zip+ZIP_END_API_URL, HttpMethod.GET, zipAuthEntity(), ZipLongLat.class);
-        zipLongLat = latResponse.getBody();
+    public List<BrewerResults> getLongLatFromZip(double latitude, double longitude, int search_radius) {
+      //  ZipLongLat zipLongLat = null;
+      //  ResponseEntity<ZipLongLat> latResponse = restTemplate.exchange(ZIP_START_API_URL+zip+ZIP_END_API_URL, HttpMethod.GET, zipAuthEntity(), ZipLongLat.class);
+      //  zipLongLat = latResponse.getBody();
+
+      //  ZipLongLat zipLongLat = locationConverterRest.getCoordinates(zip);
 
         Root listOfBreweries = null;
         List<BrewerResults> nearbyBreweries = new ArrayList<>();
-        ResponseEntity<Root> response = restTemplate.exchange(API_URL+"location/nearby?latitude="+zipLongLat.getLat()+"&longitude="+ zipLongLat.getLon() +"&search_radius="+search_radius, HttpMethod.GET, authEntity(), Root.class);
+        ResponseEntity<Root> response = restTemplate.exchange(API_URL+"location/nearby?latitude="+latitude+"&longitude="+ longitude +"&search_radius="+search_radius, HttpMethod.GET, authEntity(), Root.class);
         listOfBreweries = response.getBody();
 
         for(Datum data : listOfBreweries.getData()){
@@ -79,9 +83,9 @@ public class BreweryDetailsRest implements BreweryDetails{
         return nearbyBreweries;
     }
 
-    public BeerDetails getBeerById(String id){
+    public BeerDetails getBeerById(String apiId){
         BeerDetails beer = null;
-        ResponseEntity<BeerDetails> response = restTemplate.exchange(API_URL+"beer/"+id, HttpMethod.GET, authEntity(), BeerDetails.class);
+        ResponseEntity<BeerDetails> response = restTemplate.exchange(API_URL+"beer/"+apiId, HttpMethod.GET, authEntity(), BeerDetails.class);
         beer = response.getBody();
         return beer;
     }
@@ -98,10 +102,10 @@ public class BreweryDetailsRest implements BreweryDetails{
         return new HttpEntity<>(headers);
     }
 
-    private HttpEntity<ZipLongLat> zipAuthEntity(){
-        HttpHeaders headers = new HttpHeaders();
-        return new HttpEntity<>(headers);
-    }
+  // private HttpEntity<ZipLongLat> zipAuthEntity(){
+  //     HttpHeaders headers = new HttpHeaders();
+  //     return new HttpEntity<>(headers);
+  // }
 
     private BrewerResults addBreweryToList(Datum data){
         BrewerResults brewerResults = new BrewerResults();

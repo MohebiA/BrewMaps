@@ -1,10 +1,13 @@
 package com.techelevator.controller;
 import com.techelevator.dao.BeerDAO;
+import com.techelevator.dao.BrewerDAO;
 import com.techelevator.dao.JdbcBeerDao;
 import com.techelevator.model.*;
 import com.techelevator.model.APIBeerDatum.BeerRoot;
 import com.techelevator.model.APIDatum.Root;
 import com.techelevator.services.BreweryDetails;
+import com.techelevator.services.LocationConverter;
+import com.techelevator.services.LocationConverterRest;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -14,13 +17,19 @@ import java.util.List;
 @CrossOrigin
 public class BreweryController {
 
+    private LocationConverter locationConverter;
+
     private BreweryDetails breweryDetails;
 
     private BeerDAO beerDAO;
 
-    public BreweryController(BreweryDetails breweryDetails, BeerDAO beerDAO){
+    private BrewerDAO brewerDAO;
+
+    public BreweryController(BreweryDetails breweryDetails, BeerDAO beerDAO, LocationConverter locationConverter, BrewerDAO brewerDAO){
         this.breweryDetails = breweryDetails;
         this.beerDAO = beerDAO;
+        this.locationConverter = locationConverter;
+        this.brewerDAO = brewerDAO;
     }
 
     @RequestMapping(path="/breweries", method = RequestMethod.GET)
@@ -62,7 +71,7 @@ public class BreweryController {
         return breweryDetails.getBeerById(id);
     }
 
-    //TODO id shouldn't be in the path since we won't know the ID if its not in the API
+    //TODO id equals brewery id
     @RequestMapping(path="/brewery/{id}/addbeer", method = RequestMethod.POST)
     public boolean addBeer(@RequestBody BeerDetails beer) {
         return beerDAO.addBeer(beer) > 0;
@@ -72,9 +81,14 @@ public class BreweryController {
     @RequestMapping(path="/brewery/find", method = RequestMethod.GET)
     public List<BrewerResults> getBreweryByZip(@RequestParam int zip, @RequestParam int search_radius) {
         List<BrewerResults> listOfBreweries = new ArrayList<>();
-        listOfBreweries = breweryDetails.getLongLatFromZip(zip, search_radius);
+        ZipLongLat zipLongLat = locationConverter.getCoordinates(zip);
+        listOfBreweries = breweryDetails.getLongLatFromZip(zipLongLat.getLat(), zipLongLat.getLon(), search_radius);
+     //   List<BrewerDetails> jdbcBreweries = new ArrayList<>();
+     //   jdbcBreweries = brewerDAO.getAllBrewers(zipLongLat.getLat(), zipLongLat.getLon(), search_radius);
         return listOfBreweries;
     }
+
+
 
 
 }

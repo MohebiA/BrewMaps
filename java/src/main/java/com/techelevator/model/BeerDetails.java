@@ -23,7 +23,7 @@ public class BeerDetails {
     public BeerDetails (){};
 
     public BeerDetails(String apiId, int id, String name, String style, String description, String imgUrl, int abv, int ibu, boolean beenRemoved, int breweryId) {
-//        this.beerId = beerId;
+
         this.apiId = apiId;
         this.id = id;
         this.name = name;
@@ -35,22 +35,23 @@ public class BeerDetails {
         this.beenRemoved = beenRemoved;
         this.breweryId = breweryId;
     }
-
+    @JsonProperty("id")
     public String getApiId() {
         return apiId;
     }
 
+    @JsonProperty("id")
     public void setApiId(String apiId) {
         this.apiId = apiId;
     }
 
-//    public int getId() {
-//        return id;
-//    }
+   public int getId() {
+       return id;
+   }
 
-//    public void setId(int id) {
-//        this.id = id;
-//    }
+   public void setId(int id) {
+       this.id = id;
+   }
 
     public String getName() {
         return name;
