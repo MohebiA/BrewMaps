@@ -3,6 +3,7 @@ import com.techelevator.dao.BeerDAO;
 import com.techelevator.dao.BrewerDAO;
 import com.techelevator.dao.JdbcBeerDao;
 import com.techelevator.model.*;
+import com.techelevator.model.APIBeerDatum.BeerDatum;
 import com.techelevator.model.APIBeerDatum.BeerRoot;
 import com.techelevator.model.APIDatum.Root;
 import com.techelevator.services.BreweryDetails;
@@ -70,13 +71,23 @@ public class BreweryController {
     @RequestMapping(path="/brewery/{id}", method = RequestMethod.GET)
     public Brewer getBreweryBeerList(@PathVariable String id){
         Brewer result = null;
-        result = breweryDetails.getBreweryAndBeer(id);
+        int length = id.length();
+        if(id.length() > 14){
+            result = breweryDetails.getBreweryAndBeer(id);
+        }
+        else{
+            int intId = Integer.parseInt(id);
+            result =  brewerDAO.getBrewerByBreweryId(intId);
+        }
+
         return result;
     }
 
     @RequestMapping(path="/beer/{id}", method = RequestMethod.GET)
     public BeerDetails getBeerById(@PathVariable String id){
-        return breweryDetails.getBeerById(id);
+        BeerDetails beerDetails = new BeerDetails();
+        beerDetails =  breweryDetails.getBeerById(id);
+        return beerDetails;
     }
 
     //TODO id equals brewery id
@@ -97,8 +108,5 @@ public class BreweryController {
         }
          return listOfBreweries;
     }
-
-
-
 
 }

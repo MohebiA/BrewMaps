@@ -1,6 +1,8 @@
 package com.techelevator.dao;
 
 import com.techelevator.model.BeerDetails;
+import com.techelevator.model.BeerList;
+import com.techelevator.model.BeerListDetails;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
@@ -18,22 +20,26 @@ public class JdbcBeerDao implements BeerDAO{
     }
 
     @Override
-    public List<BeerDetails> getAllBeers() {
-        List<BeerDetails> beerDetails = new ArrayList<>();
+    public List<BeerList> getBreweryBeerByBreweryId(int id) {
+        List<BeerList> beerDetails = new ArrayList<>();
 
-        String sql = "select beer_id, name, img_url, description, abv, beer_type, api_beer_id, brewery_id, been_removed from beer;";
-//        SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
-//      while (results.next()) {
-//
-//      }
-        return null;
+        String sql = "select * from beer WHERE brewery_id = ?;";
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, id);
+        while (results.next()) {
+            beerDetails.add(mapRowToBeerList(results));
+        }
+        return beerDetails;
     }
 
     @Override
-    public BeerDetails getBeerById(String id) {
+    public BeerDetails getBeerByBeerId(int id) {
         String sql = "select beer_id, name, img_url, description, abv, beer_type, api_beer_id, brewery_id, been_removed from beer WHERE beer_id = ?;";
-    //    SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
-        return null;
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, id);
+        if (results.next()) {
+            return mapRowToBeerDetails(results);
+        } else {
+            return null;
+        }
     }
 
     @Override
@@ -59,9 +65,31 @@ public class JdbcBeerDao implements BeerDAO{
 
     }
 
-    private BeerDetails mapRowToBeerDetails(SqlRowSet rs) {
-        BeerDetails beer = new BeerDetails();
+    private BeerList mapRowToBeerList(SqlRowSet result){
+        BeerList bld = new BeerList();
 
+        bld.setId(result.getString("beer_id"));
+        bld.setName(result.getString("name"));
+        bld.setStyle(result.getString("beer_type"));
+
+        return bld;
+    }
+
+    private BeerDetails mapRowToBeerDetails(SqlRowSet result) {
+        BeerDetails beer = new BeerDetails();
+        beer.setId(result.getInt("beer_id"));
+        beer.setName(result.getString("name"));
+        beer.setImgUrl(result.getString("img_url"));
+        beer.setDescription(result.getString("description"));
+        beer.setAbv(result.getDouble("abv"));
+        beer.setStyle(result.getString("beer_type"));
+        beer.setBreweryId(result.getInt("brewery_id"));
+        beer.setApiId(result.getString("api_beer_id"));
+        beer.setBeenRemoved(result.getBoolean("been_removed"));
         return beer;
     }
+
+
 }
+
+

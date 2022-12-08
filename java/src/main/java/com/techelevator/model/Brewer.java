@@ -138,4 +138,5 @@ public class Brewer {
     public void setBeerList(List<BeerList> beerList) {
         this.beerList = beerList;
     }
+
 }
