@@ -51,7 +51,7 @@ public class JdbcBrewerDAO implements BrewerDAO {
         double largerLongitude = longitude + lonAdjustment;
 
 
-       String sql = "select * from brewery where (latitude between ? and ?) and (longitude between ? and ?);";
+       String sql = "select * from brewery where (latitude between ? and ?) and (longitude between ? and ?) and WHERE api_brewery_id = null;";
 
        try {
            SqlRowSet result = jdbcTemplate.queryForRowSet(sql, smallLatitude, largerLatitude, smallLongitude, largerLongitude);
@@ -65,11 +65,49 @@ public class JdbcBrewerDAO implements BrewerDAO {
     }
 
     @Override
-    public void addBrewery(BrewerDetails breweryId) {
+    public int addBrewery(Brewer brewer) {
+        int value = 0;
+        String sql = "insert into brewery (name, user_id, phone_num, address_1, address_2, city, state, zip, hours, brewery_img_url," +
+                " brewery_url, brewery_history, api_brewery_id, is_active, been_removed) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) returning brewery_id;";
+
+        try {
+            value = jdbcTemplate.queryForObject(sql, Integer.class, brewer.getName(),
+                    brewer.getUserId(), brewer.getPhoneNumber(), brewer.getAddress1(), brewer.getAddress2(), brewer.getCity(),
+                    brewer.getState(), brewer.getZip(), brewer.getHours(), brewer.getImgUrl(), brewer.getUrl(),
+                    brewer.getHistory(), brewer.getApiBreweryId(), brewer.isActive(), brewer.isBeenRemoved());
+        }
+        catch (ResourceAccessException e){
+
+        }
+
+
+
+        return value;
     }
 
     @Override
-    public void deleteBrewery(BrewerDetails breweryId) {
+    public boolean deleteBrewery(String id) {
+
+
+        try {
+
+                if(id.length() > 14) {
+                    String sql = "UPDATE brewery set is_active = false, been_removed = true where api_brewery_id = ?;";
+                    jdbcTemplate.update(sql, id);
+                } else {
+                    String sql = "UPDATE brewery set is_active = false, been_removed = true where api_brewery_id = ?;";
+                    int breweryId = Integer.parseInt(id);
+                    jdbcTemplate.update(sql, breweryId);
+                }
+
+
+
+            return true;
+        }
+        catch (ResourceAccessException e){
+            return false;
+        }
+
     }
 
     //HELPER METHODS

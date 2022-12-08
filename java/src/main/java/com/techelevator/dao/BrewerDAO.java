@@ -11,7 +11,7 @@ public interface BrewerDAO {
 //    BrewerDetails getBrewerById(String id);
     List<BrewerResults> getAllBrewers(double latitude, double longitude, int radius);
     Brewer getBrewerByBreweryId(int id);
-    void addBrewery (BrewerDetails breweryId);
-    void deleteBrewery (BrewerDetails breweryId);
+    int addBrewery (Brewer brewer);
+    boolean deleteBrewery (String id);
 
 }

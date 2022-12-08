@@ -1,14 +1,9 @@
 package com.techelevator.controller;
 import com.techelevator.dao.BeerDAO;
 import com.techelevator.dao.BrewerDAO;
-import com.techelevator.dao.JdbcBeerDao;
 import com.techelevator.model.*;
-import com.techelevator.model.APIBeerDatum.BeerDatum;
-import com.techelevator.model.APIBeerDatum.BeerRoot;
-import com.techelevator.model.APIDatum.Root;
 import com.techelevator.services.BreweryDetails;
 import com.techelevator.services.LocationConverter;
-import com.techelevator.services.LocationConverterRest;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -94,6 +89,16 @@ public class BreweryController {
     @RequestMapping(path="/brewery/{id}/addbeer", method = RequestMethod.POST)
     public boolean addBeer(@RequestBody BeerDetails beer) {
         return beerDAO.addBeer(beer) > 0;
+    }
+
+    @RequestMapping(path="/brewery/addbrewery", method = RequestMethod.POST)
+    public boolean addBrewery(@RequestBody Brewer brewer) {
+        return brewerDAO.addBrewery(brewer) > 0;
+    }
+
+    @RequestMapping(path="/brewery/{id}", method = RequestMethod.PUT)
+    public boolean deleteBrewery(@PathVariable String id) {
+        return brewerDAO.deleteBrewery(id);
     }
 
     //TODO - added 12-06 - added zipcode lookup

@@ -1,4 +1,4 @@
-package com.techelevator.model.APIDatum;
+package com.techelevator.model.APIBeerDatum.APIDatum;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

@@ -1,7 +1,6 @@
 package com.techelevator.services;
 import com.techelevator.model.*;
 import com.techelevator.model.APIBeerDatum.BeerRoot;
-import com.techelevator.model.APIDatum.Root;
 
 import java.util.List;
 

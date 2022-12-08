@@ -3,6 +3,20 @@ package com.techelevator.model;
 import java.util.List;
 
 public class Brewer {
+    private String address1;
+    private String address2;
+    private String city;
+    private String zip;
+    private String state;
+    private String hours;
+    private String imgUrl;
+    private String history;
+    private double latitude;
+    private double longitude;
+    private boolean isActive;
+    private boolean beenRemoved;
+    private String phoneNumber;
+    private int userId;
     private int id;
     private String apiBreweryId;
     private String object;
@@ -19,7 +33,24 @@ public class Brewer {
 
     public Brewer() {}
 
-    public Brewer(int id, String apiBreweryId, String object, String name, Object description, Object short_description, String url, boolean cb_verified, boolean brewer_verified, String facebook_url, String twitter_url, String instagram_url, List<BeerList> beerList) {
+    public Brewer(String address1, String address2, String city, String zip, String state, String hours, String imgUrl, String history,
+                  double latitude, double longitude, boolean isActive, boolean beenRemoved, String phoneNumber, int userId, int id,
+                  String apiBreweryId, String object, String name, Object description, Object short_description, String url,
+                  boolean cb_verified, boolean brewer_verified, String facebook_url, String twitter_url, String instagram_url, List<BeerList> beerList) {
+        this.address1 = address1;
+        this.address2 = address2;
+        this.city = city;
+        this.zip = zip;
+        this.state = state;
+        this.hours = hours;
+        this.imgUrl = imgUrl;
+        this.history = history;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.isActive = isActive;
+        this.beenRemoved = beenRemoved;
+        this.phoneNumber = phoneNumber;
+        this.userId = userId;
         this.id = id;
         this.apiBreweryId = apiBreweryId;
         this.object = object;
@@ -33,6 +64,118 @@ public class Brewer {
         this.twitter_url = twitter_url;
         this.instagram_url = instagram_url;
         this.beerList = beerList;
+    }
+
+    public String getAddress1() {
+        return address1;
+    }
+
+    public void setAddress1(String address1) {
+        this.address1 = address1;
+    }
+
+    public String getAddress2() {
+        return address2;
+    }
+
+    public void setAddress2(String address2) {
+        this.address2 = address2;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getZip() {
+        return zip;
+    }
+
+    public void setZip(String zip) {
+        this.zip = zip;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public String getHours() {
+        return hours;
+    }
+
+    public void setHours(String hours) {
+        this.hours = hours;
+    }
+
+    public String getImgUrl() {
+        return imgUrl;
+    }
+
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
+    }
+
+    public String getHistory() {
+        return history;
+    }
+
+    public void setHistory(String history) {
+        this.history = history;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
+    }
+
+    public boolean isBeenRemoved() {
+        return beenRemoved;
+    }
+
+    public void setBeenRemoved(boolean beenRemoved) {
+        this.beenRemoved = beenRemoved;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     public int getId() {

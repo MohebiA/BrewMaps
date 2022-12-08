@@ -1,6 +1,6 @@
 package com.techelevator.model;
 
-import com.techelevator.model.APIDatum.Datum;
+import com.techelevator.model.APIBeerDatum.APIDatum.Datum;
 
 import java.util.ArrayList;
 
