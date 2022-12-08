@@ -16,8 +16,6 @@ import java.util.List;
 @Component
 public class BreweryDetailsRest implements BreweryDetails{
     private static final String API_URL = "https://api.catalog.beer/";
-  //  private static final String ZIP_START_API_URL = "http://api.openweathermap.org/geo/1.0/zip?zip=";
-  //  private static final String ZIP_END_API_URL = ",US&appid=e423411c9f8c3238f6c34c3a703c7cec";
 
     private RestTemplate restTemplate = new RestTemplate();
 
