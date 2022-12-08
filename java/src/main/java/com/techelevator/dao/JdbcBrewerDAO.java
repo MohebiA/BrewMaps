@@ -64,7 +64,6 @@ public class JdbcBrewerDAO implements BrewerDAO {
     private BrewerResults mapResultsToRow(SqlRowSet result, double lat, double lon){
         BrewerResults brewerResults = new BrewerResults();
 
-
         brewerResults.setId(String.valueOf(result.getInt("brewery_id")));
         brewerResults.setName(result.getString("name"));
         brewerResults.setLat(result.getDouble("latitude"));

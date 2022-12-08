@@ -37,10 +37,10 @@ public class BreweryController {
         return breweryDetails.getAllBreweries();
     }
 
-    @RequestMapping(path="/brewery/{id}", method = RequestMethod.GET)
-    public BrewerDetails getOneBrewery(@PathVariable String id){
-        return breweryDetails.getBrewery(id);
-    }
+//    @RequestMapping(path="/brewery/{id}", method = RequestMethod.GET)
+//    public BrewerDetails getOneBrewery(@PathVariable String id){
+//        return breweryDetails.getBrewery(id);
+//    }
 
 //    //TODO lat and long need to be zip
 //    @RequestMapping(path="/location/nearby", method = RequestMethod.GET)
@@ -59,17 +59,25 @@ public class BreweryController {
 //        return result;
 //    }
 
-    @RequestMapping(path="/brewery/{id}/beerlist", method = RequestMethod.GET)
-    public List<BeerList> getBreweryBeerList(@PathVariable String id){
-        List<BeerList> result = null;
-        result = breweryDetails.getBeerListByBrewery(id);
+//    @RequestMapping(path="/brewery/{id}/beerlist", method = RequestMethod.GET)
+//    public List<BeerList> getBreweryBeerList(@PathVariable String id){
+//        List<BeerList> result = null;
+//        result = breweryDetails.getBeerListByBrewery(id);
+//        return result;
+//    }
+
+//    @RequestMapping(path="/brewery/{id}/beerlist", method = RequestMethod.GET)
+    @RequestMapping(path="/brewery/{id}", method = RequestMethod.GET)
+    public Brewer getBreweryBeerList(@PathVariable String id){
+        Brewer result = null;
+        result = breweryDetails.getBreweryAndBeer(id);
         return result;
     }
 
-    @RequestMapping(path="/beer/{id}", method = RequestMethod.GET)
-    public BeerDetails getBeerById(@PathVariable String id){
-        return breweryDetails.getBeerById(id);
-    }
+//    @RequestMapping(path="/beer/{id}", method = RequestMethod.GET)
+//    public BeerDetails getBeerById(@PathVariable String id){
+//        return breweryDetails.getBeerById(id);
+//    }
 
     //TODO id equals brewery id
     @RequestMapping(path="/brewery/{id}/addbeer", method = RequestMethod.POST)

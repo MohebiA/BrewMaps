@@ -44,7 +44,7 @@ public class BreweryDetailsRest implements BreweryDetails{
         beerList = response.getBody();
         return beerList;
     }
-
+    //One that works - DO NOT DELETE!
     public List<BeerList> getBeerListByBrewery(String id) {
         BeerRoot listOfBeers = null;
         List<BeerList> beerList = new ArrayList<>();
@@ -60,6 +60,34 @@ public class BreweryDetailsRest implements BreweryDetails{
             beerList.add(beerToAdd);
         }
         return beerList;
+    }
+
+    public Brewer getBreweryAndBeer(String id) {
+        BeerRoot listOfBeers = null;
+        List<BeerList> beerList = new ArrayList<>();
+        Brewer brewer = new Brewer();
+        ResponseEntity<BeerRoot> response = restTemplate.exchange(API_URL+"/brewer/"+id+"/beer", HttpMethod.GET, authEntity(), BeerRoot.class);
+        listOfBeers = response.getBody();
+
+        for(BeerDatum beer : listOfBeers.getData()){
+            BeerList beerToAdd = new BeerList();
+            beerToAdd.setId(beer.getId());
+            beerToAdd.setName(beer.getName());
+            beerToAdd.setStyle(beer.getStyle());
+            System.out.println(beerToAdd);
+            beerList.add(beerToAdd);
+        }
+
+//        brewer.setApiBreweryId(listOfBeers.getBrewer().getId());
+//        brewer.setName(listOfBeers.getBrewer().getName());
+//        brewer.setUrl(listOfBeers.getBrewer().getUrl());
+//        brewer.setDescription(listOfBeers.getBrewer().getDescription());
+//        brewer.setFacebook_url(listOfBeers.getBrewer().getFacebook_url());
+//        brewer.setInstagram_url(listOfBeers.getBrewer().getInstagram_url());
+//        brewer.setTwitter_url(listOfBeers.getBrewer().getTwitter_url());
+//        brewer.setBeerList(beerList);
+        brewer = setBrewerDetails(listOfBeers,beerList);
+        return brewer;
     }
 
     //TODO - added 12-06 - added zipcode method to use zip API to get lon/lat to filter by zip code
@@ -102,11 +130,6 @@ public class BreweryDetailsRest implements BreweryDetails{
         return new HttpEntity<>(headers);
     }
 
-  // private HttpEntity<ZipLongLat> zipAuthEntity(){
-  //     HttpHeaders headers = new HttpHeaders();
-  //     return new HttpEntity<>(headers);
-  // }
-
     private BrewerResults addBreweryToList(Datum data){
         BrewerResults brewerResults = new BrewerResults();
         brewerResults.setId(data.getBrewer().getId());
@@ -117,5 +140,17 @@ public class BreweryDetailsRest implements BreweryDetails{
         return brewerResults;
     }
 
+    private Brewer setBrewerDetails(BeerRoot root, List<BeerList> beerList ){
+        Brewer brewer = new Brewer();
+        brewer.setApiBreweryId(root.getBrewer().getId());
+        brewer.setName(root.getBrewer().getName());
+        brewer.setUrl(root.getBrewer().getUrl());
+        brewer.setDescription(root.getBrewer().getDescription());
+        brewer.setFacebook_url(root.getBrewer().getFacebook_url());
+        brewer.setInstagram_url(root.getBrewer().getInstagram_url());
+        brewer.setTwitter_url(root.getBrewer().getTwitter_url());
+        brewer.setBeerList(beerList);
 
+        return brewer;
+    }
 }

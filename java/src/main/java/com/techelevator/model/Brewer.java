@@ -1,5 +1,7 @@
 package com.techelevator.model;
 
+import java.util.List;
+
 public class Brewer {
     private int id;
     private String apiBreweryId;
@@ -13,10 +15,11 @@ public class Brewer {
     private String facebook_url;
     private String twitter_url;
     private String instagram_url;
+    private List<BeerList> beerList;
 
     public Brewer() {}
 
-    public Brewer(int id, String apiBreweryId, String object, String name, Object description, Object short_description, String url, boolean cb_verified, boolean brewer_verified, String facebook_url, String twitter_url, String instagram_url) {
+    public Brewer(int id, String apiBreweryId, String object, String name, Object description, Object short_description, String url, boolean cb_verified, boolean brewer_verified, String facebook_url, String twitter_url, String instagram_url, List<BeerList> beerList) {
         this.id = id;
         this.apiBreweryId = apiBreweryId;
         this.object = object;
@@ -29,6 +32,7 @@ public class Brewer {
         this.facebook_url = facebook_url;
         this.twitter_url = twitter_url;
         this.instagram_url = instagram_url;
+        this.beerList = beerList;
     }
 
     public int getId() {
@@ -119,5 +123,19 @@ public class Brewer {
         this.instagram_url = instagram_url;
     }
 
+    public String getApiBreweryId() {
+        return apiBreweryId;
+    }
 
+    public void setApiBreweryId(String apiBreweryId) {
+        this.apiBreweryId = apiBreweryId;
+    }
+
+    public List<BeerList> getBeerList() {
+        return beerList;
+    }
+
+    public void setBeerList(List<BeerList> beerList) {
+        this.beerList = beerList;
+    }
 }
