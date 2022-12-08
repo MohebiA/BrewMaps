@@ -21,7 +21,5 @@ public interface BreweryDetails {
 
     Brewer getBreweryAndBeer(String id);
 
-//    Root getBreweryByLocation(float latitude, float longitude, int search_radius);
-//    List<BrewerResults> getBreweryByLocation(float latitude, float longitude, int search_radius);
 
 }
