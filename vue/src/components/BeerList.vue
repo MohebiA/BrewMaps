@@ -1,17 +1,40 @@
 <template>
   <div>
-    <section id="brewerylist" class="p-5 bg-dark">
+    <section id="beerlist" class="p-5 bg-dark">
       <div class="container">
         <div class="row align-items-center justify-content-between text-center">
           <h4 class="text-light">LIST OF BEERS</h4>
+
+<div v-for="beer in beers" v-bind:key="beer.id" @click="getDetails(beer.id)">
+                    <b-button class="mb-2" variant="outline-warning">Hello</b-button>
+                </div>
+
+                <b-button>HELLO WORLD </b-button>
+
           <div class="col-md">
             <ul class="list-unstyled">
-              <li>
+              <!-- <li>
                 <router-link v-bind:to="{ name: 'beerdetails' }"
                   >BeerDetails</router-link
                 >
-              </li>
+              </li> -->
+
+ <div class="beer-list">
+                    
+              
+
+
+                </div>
+
+
+
               <div>
+
+
+                 
+
+
+
   <b-button variant="outline-warning" v-b-modal.modal-multi-1>Beer Name</b-button>
 
   <b-modal id="modal-multi-1" size="lg" title="Beer Name" ok-only no-stacking>
@@ -108,18 +131,10 @@
                   </template>
                 </b-modal>
               </div> -->
-              <li><a href="#">Beer 2, OH</a></li>
-              <li><a href="#">Beer 3, PA</a></li>
+              
             </ul>
           </div>
-          <div class="col-md p-5">
-            <ul class="list-unstyled">
-              <li><a href="#">Beer 4, TX</a></li>
-              <li><a href="#">Beer 5, TX</a></li>
-              <li><a href="#">Beer 6, FL</a></li>
-              <li><a href="#">Beer 7, NJ</a></li>
-            </ul>
-          </div>
+         
         </div>
       </div>
     </section>
@@ -127,6 +142,9 @@
 </template>
 
 <script>
+  import AppServices from "../services/AppServices";
+
+
   export default {
     data() {
       return {
@@ -134,6 +152,9 @@
           review: '',
           name: '',
           value: null,
+        },
+        beers: {
+
         },
         
         show: true
@@ -157,6 +178,12 @@
           this.show = true
         })
       }
+    },
+
+   created() {
+        AppServices.listBeersByBreweryId(this.$store.state.id).then((response) => {
+            this.beers = response.data
+        })
     }
   }
 </script>

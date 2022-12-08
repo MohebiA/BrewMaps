@@ -21,7 +21,8 @@ export default new Vuex.Store({
     token: currentToken || '',
     user: currentUser || {},
     zipcode: "",
-    radius: ""
+    radius: "",
+    id: "",
   },
   mutations: {
     SET_AUTH_TOKEN(state, token) {
@@ -45,6 +46,10 @@ export default new Vuex.Store({
     },
     SET_ZIPCODE(state, zipcode) {
       state.zipcode = zipcode;
+    },
+    SET_BREWERY_ID(state, id) {
+      state.id = id;
     }
+
   }
 })

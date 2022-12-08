@@ -14,12 +14,16 @@ export default {
     },
 
     getBeerById(id) {
-        return http.get(`/beers/${id}`)
+        return http.get(`/beer/${id}`)
     },
 
     createReview(review) {
         return http.post(`/reviews`, review)
     },
+
+    listBeersByBreweryId(id) {
+        return http.get(`/brewery/${id}`)
+    }
 
 
 }

@@ -50,6 +50,13 @@
           <router-link v-bind:to="{ name: 'beerlist' }"
             ><b-button variant="primary">View Beer List</b-button></router-link
           >
+                <div v-for="beer in brewery.beerList" v-bind:key="beer.id">
+                    <b-button class="mb-2" variant="outline-warning">{{beer.name}}</b-button>
+                </div>
+
+
+
+                
         </div>
       </div>
     </section>
