@@ -74,10 +74,10 @@ public class BreweryController {
         return result;
     }
 
-//    @RequestMapping(path="/beer/{id}", method = RequestMethod.GET)
-//    public BeerDetails getBeerById(@PathVariable String id){
-//        return breweryDetails.getBeerById(id);
-//    }
+    @RequestMapping(path="/beer/{id}", method = RequestMethod.GET)
+    public BeerDetails getBeerById(@PathVariable String id){
+        return breweryDetails.getBeerById(id);
+    }
 
     //TODO id equals brewery id
     @RequestMapping(path="/brewery/{id}/addbeer", method = RequestMethod.POST)

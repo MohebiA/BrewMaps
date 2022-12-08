@@ -74,18 +74,9 @@ public class BreweryDetailsRest implements BreweryDetails{
             beerToAdd.setId(beer.getId());
             beerToAdd.setName(beer.getName());
             beerToAdd.setStyle(beer.getStyle());
-            System.out.println(beerToAdd);
             beerList.add(beerToAdd);
         }
 
-//        brewer.setApiBreweryId(listOfBeers.getBrewer().getId());
-//        brewer.setName(listOfBeers.getBrewer().getName());
-//        brewer.setUrl(listOfBeers.getBrewer().getUrl());
-//        brewer.setDescription(listOfBeers.getBrewer().getDescription());
-//        brewer.setFacebook_url(listOfBeers.getBrewer().getFacebook_url());
-//        brewer.setInstagram_url(listOfBeers.getBrewer().getInstagram_url());
-//        brewer.setTwitter_url(listOfBeers.getBrewer().getTwitter_url());
-//        brewer.setBeerList(beerList);
         brewer = setBrewerDetails(listOfBeers,beerList);
         return brewer;
     }
