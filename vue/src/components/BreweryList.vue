@@ -12,7 +12,7 @@
                 <div class="brewery-list">
                     
                     <div v-for="brewery in breweries" v-bind:key="brewery.id" @click="getDetails(brewery.id)">
-                        <p>{{brewery.name}}</p>
+                        <b-button class="mb-2" variant="outline-warning">{{brewery.name}}</b-button>
                     </div>
 
 
