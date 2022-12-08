@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <nav-bar></nav-bar>
+    <nav-bar/>
     <section class="text-dark p-4 pb-3 pt-3 bg-light">
       <div class="container-fluid">
         <div class="d-sm-flex align-items-center justify-content-between">
@@ -14,7 +14,8 @@
     <b-dropdown id="dropdown-form" text="Enter Zip Code" ref="dropdown" class="mt-2" variant="warning">
       <b-dropdown-form>
         <b-form-group label="Zip Code" label-for="dropdown-form-email" @submit.stop.prevent>
-          <b-form-input
+          <b-form-input v-model="zipcode"
+            
             id="dropdown-form-email"
             size="md"
             placeholder="15205"
@@ -22,7 +23,7 @@
         </b-form-group>
 
         <b-form-group label="Radius In Miles" label-for="dropdown-form-password">
-          <b-form-input
+          <b-form-input v-model="radius"
             id="dropdown-form-password"
             type="number"
             min = "0"
@@ -89,12 +90,17 @@
 export default {
   data() {
     return {
+      zipcode: "",
+      radius: "",
       // image
     };
   },
   methods: {
     onClick() {
-      this.$refs.dropdown.hide(true)
+      this.$refs.dropdown.hide(true);
+      this.$store.commit('SET_FILTER', this.radius);
+      this.$store.commit('SET_ZIPCODE', this.zipcode);
+      this.$router.push({name: 'brewerylist'})
     }
   }
 };

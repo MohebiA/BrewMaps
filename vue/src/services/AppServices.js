@@ -6,6 +6,20 @@ const http = axios.create({
 
 export default {
     list(zip, radius) {
-        return http.get(`/location/nearby?zip=${zip}&search_radius=${radius}`);
+        return http.get(`/brewery/find?zip=${zip}&search_radius=${radius}`);
     },
+
+    getBreweryById(id) {
+        return http.get(`/brewery/${id}`)
+    },
+
+    getBeerById(id) {
+        return http.get(`/beers/${id}`)
+    },
+
+    createReview(review) {
+        return http.post(`/reviews`, review)
+    },
+
+
 }

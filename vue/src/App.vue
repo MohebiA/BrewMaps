@@ -8,7 +8,7 @@
 
         </ul>
       </nav-bar>
-      <home/>      
+      <!-- <home/>       -->
     </div>
 
     <router-view />

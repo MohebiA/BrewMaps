@@ -12,6 +12,74 @@
                 >
               </li>
               <div>
+  <b-button variant="outline-warning" v-b-modal.modal-multi-1>Beer Name</b-button>
+
+  <b-modal id="modal-multi-1" size="lg" title="Beer Name" ok-only no-stacking>
+    <p class="my-2">Beer Details</p>
+    <b-button v-b-modal.modal-multi-2>Leave a review</b-button>
+    <li>Reviews Placeholder</li>
+  </b-modal>
+
+  <b-modal id="modal-multi-2" title="Reviews" ok-only>
+    <p class="my-2">Leave a review</p>
+
+    <div>
+    <b-form @submit="onSubmit" @reset="onReset" v-if="show">
+      <b-form-group
+        id="input-group-1"
+        label="Your name:"
+        label-for="input-1"
+        description="Please enter your name."
+      >
+        <b-form-input
+          id="input-1"
+          v-model="form.name"
+          type="text"
+          placeholder="Enter your name"
+          required
+        ></b-form-input>
+      </b-form-group>
+
+      <b-form-group id="input-group-2" label="Leave a review:" label-for="input-2">
+        <b-form-input
+          id="input-2"
+          v-model="form.review"
+          placeholder="Enter review"
+          required
+        ></b-form-input>
+      </b-form-group>
+
+       <b-form-group id="input-group-3" label="Leave a rating:" label-for="input-3">
+        <div>
+            <b-form-rating variant="warning" v-model="form.value"></b-form-rating>
+            <p class="mt-2">Value: {{ value }}</p>
+
+        </div>
+
+        
+      
+      </b-form-group>
+
+
+      
+     
+
+      <b-button type="submit" variant="primary">Submit</b-button>
+      <b-button type="reset" variant="danger">Reset</b-button>
+    </b-form>
+    <!-- <b-card class="mt-3" header="Form Data Result">
+      <pre class="m-0">{{ form }}</pre>
+    </b-card> -->
+  </div>
+    
+  </b-modal>
+
+  
+              </div>
+
+
+
+              <!-- <div>
                 <b-button v-b-modal.modal-tall variant="outline-warning"
                   >Beer Modal</b-button
                 >
@@ -21,10 +89,10 @@
                     Cras mattis consectetur purus sit amet fermentum. Cras justo
                     odio, dapibus ac facilisis in, egestas eget quam. Morbi leo
                     risus, porta ac consectetur ac, vestibulum at eros.
-                  </p>
+                  </p> -->
 
                   <!-- Need to finish actions for each button to close and review -->
-                  <template #modal-footer>
+                  <!-- <template #modal-footer>
                     <button
                       v-b-modal.modal-close_visit
                       class="btn btn-danger btn-sm m-1"
@@ -39,7 +107,7 @@
                     </button>
                   </template>
                 </b-modal>
-              </div>
+              </div> -->
               <li><a href="#">Beer 2, OH</a></li>
               <li><a href="#">Beer 3, PA</a></li>
             </ul>
@@ -58,12 +126,37 @@
   </div>
 </template>
 
-
 <script>
-export default {};
+  export default {
+    data() {
+      return {
+        form: {
+          review: '',
+          name: '',
+          value: null,
+        },
+        
+        show: true
+      }
+    },
+    methods: {
+      onSubmit(event) {
+        event.preventDefault()
+        alert(JSON.stringify(this.form))
+      },
+      onReset(event) {
+        event.preventDefault()
+        // Reset our form values
+        this.form.email = ''
+        this.form.name = ''
+        this.form.food = null
+        this.form.checked = []
+        // Trick to reset/clear native browser form validation state
+        this.show = false
+        this.$nextTick(() => {
+          this.show = true
+        })
+      }
+    }
+  }
 </script>
-
-
-
-<style>
-</style>

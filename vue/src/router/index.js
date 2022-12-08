@@ -59,7 +59,7 @@ const router = new Router({
       }
     },
     {
-      path: "/brewerylist",
+      path: "/brewery/find",
       name: "brewerylist",
       component: BreweryList,
       meta: {
@@ -70,7 +70,7 @@ const router = new Router({
 
     },
     {
-      path: "/brewerydetails",
+      path: "/brewery/:id",
       name: "brewerydetails",
       component: BreweryDetails,
       meta: {

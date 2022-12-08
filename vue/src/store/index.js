@@ -19,7 +19,9 @@ if(currentToken != null) {
 export default new Vuex.Store({
   state: {
     token: currentToken || '',
-    user: currentUser || {}
+    user: currentUser || {},
+    zipcode: "",
+    radius: ""
   },
   mutations: {
     SET_AUTH_TOKEN(state, token) {
@@ -37,6 +39,12 @@ export default new Vuex.Store({
       state.token = '';
       state.user = {};
       axios.defaults.headers.common = {};
+    },
+    SET_FILTER(state, radius) {
+      state.radius = radius;
+    },
+    SET_ZIPCODE(state, zipcode) {
+      state.zipcode = zipcode;
     }
   }
 })
