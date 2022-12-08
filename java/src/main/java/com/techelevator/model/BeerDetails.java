@@ -10,10 +10,13 @@ public class BeerDetails {
 
     int id;
     String name;
+
+    @JsonProperty("beer_type")
     String style;
+
     String description;
     String imgUrl;
-    int abv;
+    double abv;
     int ibu;
     boolean beenRemoved;
     int breweryId;
@@ -22,7 +25,7 @@ public class BeerDetails {
 
     public BeerDetails (){};
 
-    public BeerDetails(String apiId, int id, String name, String style, String description, String imgUrl, int abv, int ibu, boolean beenRemoved, int breweryId) {
+    public BeerDetails(String apiId, int id, String name, String style, String description, String imgUrl, double abv, int ibu, boolean beenRemoved, int breweryId) {
 
         this.apiId = apiId;
         this.id = id;
@@ -61,10 +64,12 @@ public class BeerDetails {
         this.name = name;
     }
 
+    @JsonProperty("beer_type")
     public String getStyle() {
         return style;
     }
 
+    @JsonProperty("beer_type")
     public void setStyle(String style) {
         this.style = style;
     }
@@ -85,11 +90,11 @@ public class BeerDetails {
         this.imgUrl = imgUrl;
     }
 
-    public int getAbv() {
+    public double getAbv() {
         return abv;
     }
 
-    public void setAbv(int abv) {
+    public void setAbv(double abv) {
         this.abv = abv;
     }
 

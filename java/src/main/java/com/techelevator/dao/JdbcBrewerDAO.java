@@ -1,8 +1,6 @@
 package com.techelevator.dao;
 
-import com.techelevator.model.BrewerDetails;
-import com.techelevator.model.BrewerResults;
-import com.techelevator.model.ZipLongLat;
+import com.techelevator.model.*;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
@@ -15,15 +13,29 @@ public class JdbcBrewerDAO implements BrewerDAO {
 
     private JdbcTemplate jdbcTemplate;
 
+    private BeerDAO beerDAO;
     private ZipLongLat zipLongLat = new ZipLongLat();
 
-    public JdbcBrewerDAO(JdbcTemplate jdbcTemplate) {
+    public JdbcBrewerDAO(JdbcTemplate jdbcTemplate, BeerDAO beerDAO) {
         this.jdbcTemplate = jdbcTemplate;
+        this.beerDAO = beerDAO;
     }
 
     @Override
-    public BrewerDetails getBrewerById(String id) {
-        return null;
+    public Brewer getBrewerByBreweryId(int id) {
+        Brewer brewery = new Brewer();
+
+        String sql = "SELECT * FROM brewery WHERE brewery_id = ?;";
+
+        SqlRowSet result = jdbcTemplate.queryForRowSet(sql, id);
+        if(result.next()){
+            brewery = mapSingleBreweryToRow(result);
+        }
+
+        //TODO get beerList
+        List<BeerList> beerList = beerDAO.getBreweryBeerByBreweryId(id);
+        brewery.setBeerList(beerList);
+        return brewery;
     }
 
     @Override
@@ -75,6 +87,18 @@ public class JdbcBrewerDAO implements BrewerDAO {
 
         return brewerResults;
     }
+
+    private Brewer mapSingleBreweryToRow(SqlRowSet result){
+        Brewer brewery = new Brewer();
+
+        brewery.setId(result.getInt("brewery_id"));
+        brewery.setName(result.getString("name"));
+        brewery.setDescription(result.getString("brewery_history"));
+        brewery.setUrl(result.getString("brewery_url"));
+
+        return brewery;
+    }
+
     //lat&lon1 are search zip, lat&lon2 are the brewery zip
     private double distanceCalculator(double lat1, double lon1, double lat2, double lon2){
         {
