@@ -49,6 +49,9 @@ export default new Vuex.Store({
     },
     SET_BREWERY_ID(state, id) {
       state.id = id;
+    },
+    SET_BEER_ID(state, id) {
+      state.id = id;
     }
 
   }

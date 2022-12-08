@@ -77,8 +77,6 @@ const router = new Router({
         requiresAuth: false
       }
 
-
-
     },
     {
       path: "/beerlist",
@@ -90,7 +88,7 @@ const router = new Router({
 
     },
     {
-      path: "/beerdetails",
+      path: "/beer/:id",
       name: "beerdetails",
       component: BeerDetails,
       meta: {
