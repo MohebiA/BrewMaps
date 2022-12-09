@@ -56,6 +56,8 @@ public class BreweryController {
             int intId = Integer.parseInt(id);
             result =  brewerDAO.getBrewerByBreweryId(intId);
         }
+
+
         return result;
     }
 
@@ -72,6 +74,9 @@ public class BreweryController {
         else{
             int intId = Integer.parseInt(id);
         }
+
+        result.setReviews(reviewsDAO.getAllReviewsForBeer(id));
+
         return result;
     }
 
@@ -202,11 +207,8 @@ public class BreweryController {
 
         return (newReview > 0);
     }
-//
-//    @RequestMapping(path="/beer/{id}/reviews", method = RequestMethod.GET)
-//    public List<Reviews> getReviews(@PathVariable String id){
-//        return reviewsDAO.getAllReviewsForBeer(id);
-//    }
+
+
 
 
 
@@ -233,11 +235,14 @@ public class BreweryController {
 //        result = breweryDetails.getBeerListByBrewery(id);
 //        return result;
 //    }
-
 //    @RequestMapping(path="/brewery/{id}/beerlist", method = RequestMethod.GET)
 //    public List<BeerList> getBreweryBeerList(@PathVariable String id){
 //        List<BeerList> result = null;
 //        result = breweryDetails.getBeerListByBrewery(id);
 //        return result;
+//    }
+//    @RequestMapping(path="/beer/{id}/reviews", method = RequestMethod.GET)
+//    public List<Reviews> getReviews(@PathVariable String id){
+//        return reviewsDAO.getAllReviewsForBeer(id);
 //    }
 }

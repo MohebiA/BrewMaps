@@ -31,7 +31,7 @@ public class BeerDetails {
 
     public BeerDetails (){};
 
-    public BeerDetails(String apiId, int id, String name, String style, String description, String imgUrl, double abv, int ibu, boolean beenRemoved, int breweryId, Brewer brewer) {
+    public BeerDetails(String apiId, int id, String name, String style, String description, String imgUrl, double abv, int ibu, boolean beenRemoved, int breweryId, Brewer brewer, List<Reviews> reviews) {
 
         this.apiId = apiId;
         this.id = id;
@@ -44,6 +44,7 @@ public class BeerDetails {
         this.beenRemoved = beenRemoved;
         this.breweryId = breweryId;
         this.brewer = brewer;
+        this.reviews = reviews;
     }
     @JsonProperty("id")
     public String getApiId() {
@@ -137,6 +138,14 @@ public class BeerDetails {
 
     public void setBrewer(Brewer brewer) {
         this.brewer = brewer;
+    }
+
+    public List<Reviews> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(List<Reviews> reviews) {
+        this.reviews = reviews;
     }
 }
 
