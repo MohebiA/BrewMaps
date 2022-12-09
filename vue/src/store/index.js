@@ -23,6 +23,8 @@ export default new Vuex.Store({
     zipcode: "",
     radius: "",
     id: "",
+    
+    
   },
   mutations: {
     SET_AUTH_TOKEN(state, token) {

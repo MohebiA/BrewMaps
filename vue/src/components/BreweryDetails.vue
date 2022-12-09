@@ -55,11 +55,13 @@
           <!-- > -->
               <h4>BEER LIST</h4>
           
-          <div v-for="beer in brewery.beerList" v-bind:key="beer.id">
-            <router-link v-bind:to="{ name: 'beerdetails' }"><b-button
+          <div v-for="beer in brewery.beerList" v-bind:key="beer.id" @click="setBeerId(beer.id)">
+            <!-- <router-link v-bind:to="{ name: 'beerdetails' }"> -->
+              <b-button
               class="mb-2"
               variant="outline-warning"
-              >{{ beer.name }} <hr> {{beer.style}}</b-button></router-link>
+              >{{ beer.name }} <hr> {{beer.style}}</b-button>
+              <!-- </router-link> -->
             
           </div>
         </div>
@@ -82,6 +84,7 @@ export default {
   data() {
     return {
       brewery: {},
+      selectedBeerId: "",
     };
   },
 
@@ -90,6 +93,14 @@ export default {
       this.brewery = response.data;
     });
   },
+  methods: {
+    setBeerId(id) {
+      this.selectedBeerId = id;
+      this.$router.push({ name: 'beerdetails', params:{id:id} })
+    }
+
+    
+  }
 };
 </script>
 
