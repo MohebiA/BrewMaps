@@ -1,97 +1,114 @@
 <template>
   <div>
     <section id="brewerylist" class="p-5 bg-dark">
-        <div class="container">
-            <div class="row align-items-center justify-content-between text-center text-white">
-                <h4>{{beer.name}}</h4>
-                <h5>ABV: {{beer.abv}}</h5>
-                <h5>IBU: {{beer.ibu}}</h5>
-                <h5>Type: {{beer.beer_type}}</h5>
-                <h5>description: {{beer.description}}</h5>
-                <h5>{{beer.imgUrl}}</h5>
+      <div class="container">
+        <div
+          class="
+            row
+            align-items-center
+            justify-content-between
+            text-center text-white
+          "
+        >
+          <h4>{{ beer.name }}</h4>
+          <h5>ABV: {{ beer.abv }}</h5>
+          <h5>IBU: {{ beer.ibu }}</h5>
+          <h5>Type: {{ beer.beer_type }}</h5>
+          <h5>Description: {{ beer.description }}</h5>
+          <h5>{{ beer.imgUrl }}</h5>
 
+          <div class="brewery-list">
+            <div v-bind:key="beer.id" @click="getBeerById()">
+              <b-button
+                v-b-modal.modal-tall
+                class="mb-2"
+                variant="outline-warning"
+                >Leave a review</b-button
+              >
+              <b-modal id="modal-tall" title="Beer Review">
+                <b-form @submit="onSubmit" @reset="onReset" v-if="show">
+                  <h5 class="text-center">{{ beer.name }}</h5>
+                  <b-form-group
+                    id="input-group-1"
+                    label="Your name:"
+                    label-for="input-1"
+                  >
+                    <b-form-input
+                      id="input-1"
+                      v-model="form.name"
+                      type="text"
+                      placeholder="Enter your name"
+                      required
+                    ></b-form-input>
+                  </b-form-group>
 
-                <div class="brewery-list">
-                    
-                    <div v-bind:key="beer.id" @click="getBeerById()">
-                        <b-button v-b-modal.modal-tall class="mb-2" variant="outline-warning">Leave a review</b-button>
-                          <b-modal id="modal-tall" title="Beer Details">
-                               <b-form @submit="onSubmit" @reset="onReset" v-if="show">
-                                  <b-form-group
-                                    id="input-group-1"
-                                    label="Your name:"
-                                    label-for="input-1"
-                                    description="Please enter your name."
-                                  >
-                                    <b-form-input
-                                      id="input-1"
-                                      v-model="form.name"
-                                      type="text"
-                                      placeholder="Enter your name"
-                                      required
-                                    ></b-form-input>
-                                  </b-form-group>
+                  <b-form-group
+                    id="input-group-2"
+                    label="Leave a review:"
+                    label-for="input-2"
+                  >
+                    <b-form-textarea
+                      id="input-2"
+                      v-model="form.review"
+                      placeholder="Enter Review"
+                      required
+                    ></b-form-textarea>
+                  </b-form-group>
 
-                                  <b-form-group id="input-group-2" label="Leave a review:" label-for="input-2">
-                                    <b-form-input
-                                      id="input-2"
-                                      v-model="form.review"
-                                      placeholder="Enter review"
-                                      required
-                                    ></b-form-input>
-                                  </b-form-group>
+                  <b-form-group
+                    class="pb-3"
+                    id="input-group-3"
+                    label="Leave a rating:"
+                    label-for="input-3"
+                  >
+                    <div>
+                      <b-form-rating
+                        variant="warning"
+                        v-model="form.value"
+                      ></b-form-rating>
+                    </div>
+                  </b-form-group>
 
-                                  <b-form-group id="input-group-3" label="Leave a rating:" label-for="input-3">
-                                    <div>
-                                        <b-form-rating variant="warning" v-model="form.value"></b-form-rating>
-                                        <p class="mt-2">Value: {{ value }}</p>
+                  <b-button class="m-1" type="submit" variant="primary"
+                    >Submit</b-button
+                  >
+                  <b-button type="reset" variant="danger">Reset</b-button>
+                </b-form>
 
-                                    </div>
-
-                                    
-                                  
-                                  </b-form-group>
-
-
-                                  
-                                
-
-                                  <b-button type="submit" variant="primary">Submit</b-button>
-                                  <b-button type="reset" variant="danger">Reset</b-button>
-                                </b-form>
-
-
-
-
-                          
-
-
-
-
-
-
-
-                                
-                                 <p class="my-4">
-                                     {{beer.name}}
-                                </p>
-                                  <!-- <div>
+                <!-- <div>
                                     <b-form-rating v-model="value" show-value></b-form-rating>
                                       <p class="mt-2">Value: {{ value }}</p>
                                     </div> -->
-                             </b-modal> 
+              </b-modal>
 
-                        
+              <div class="mt-4">
+                <h2>Reviews</h2>
+                <ul>
+                  <li
+                    class="list-unstyled border border-warning p-2 m-2 rounded"
+                    v-for="review in reviews"
+                    v-bind:key="review.id"
+                  >
+                    <p>{{ review.name }}</p>
+                    <p>{{ review.review }}</p>
+                    <div>
+                      <label for="rating-readonly">Rating:</label>
+                      <b-form-rating
+                        id="rating-readonly"
+                        :value= "review.value"
+                        readonly
+                        show-value
+                        precision="0"
+                      ></b-form-rating>
                     </div>
-                    
+                  </li>
+                </ul>
+              </div>
 
+              <product-review @review-submitted="addReview"></product-review>
+            </div>
 
-
-
-
-
-
-                                  <!-- <div>
+            <!-- <div>
                 <b-button v-b-modal.modal-tall variant="outline-warning"
                   >Beer Modal</b-button
                 >
@@ -103,8 +120,8 @@
                     risus, porta ac consectetur ac, vestibulum at eros.
                   </p> -->
 
-              <!-- Need to finish actions for each button to close and review -->
-              <!-- <template #modal-footer>
+            <!-- Need to finish actions for each button to close and review -->
+            <!-- <template #modal-footer>
                     <button
                       v-b-modal.modal-close_visit
                       class="btn btn-danger btn-sm m-1"
@@ -120,20 +137,9 @@
                   </template>
                 </b-modal>
               </div> -->
-
-
-
-
-
-
-
-
-
-
-                </div>
-
-            </div>
+          </div>
         </div>
+      </div>
     </section>
   </div>
 </template>
@@ -146,41 +152,50 @@ export default {
   data() {
     return {
       beer: {},
-       form: {
-      review: '',
-      name: '',
-      value: null,
-    },
-    show: true
-    }
-
+      form: {
+        review: "",
+        name: "",
+        value: null,
+      },
+      reviews: [],
+      show: true,
+    };
   },
   methods: {
-      onSubmit(event) {
-        event.preventDefault()
-        alert(JSON.stringify(this.form))
-      },
-      onReset(event) {
-        event.preventDefault()
-        // Reset our form values
-        this.form.email = ''
-        this.form.name = ''
-        this.form.food = null
-        this.form.checked = []
-        // Trick to reset/clear native browser form validation state
-        this.show = false
-        this.$nextTick(() => {
-          this.show = true
-        })
-      }
+    onSubmit(event) {
+      let productReview = {
+        name: this.form.name,
+        review: this.form.review,
+        value: this.form.value,
+      };
+      // this.$emit('review-submitted', productReview)
+      event.preventDefault();
+      this.addReview(productReview);
+      // alert(JSON.stringify(this.form))
+    },
+    addReview(productReview) {
+      this.reviews.push(productReview);
+    },
+    onReset(event) {
+      event.preventDefault();
+      // Reset our form values
+      this.form.name = "";
+      this.form.review = "";
+      this.form.value = 0;
+
+      // Trick to reset/clear native browser form validation state
+      this.show = false;
+      this.$nextTick(() => {
+        this.show = true;
+      });
+    },
   },
-    created() {
+  created() {
     AppServices.getBeerById(this.$route.params.id).then((response) => {
       this.beer = response.data;
     });
-  }
-}
-
+  },
+};
 </script>
 
 

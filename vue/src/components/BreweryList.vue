@@ -11,7 +11,7 @@
 
                 <div class="brewery-list">
                     
-                    <div v-for="brewery in breweries" v-bind:key="brewery.id" @click="getDetails(brewery.id)">
+                    <div v-for="brewery in breweries" v-bind:key="brewery.id" @click="getDetails(brewery.id), setSelectedBrewery(brewery)">
                         <b-button class="mb-2" variant="outline-warning">{{brewery.name}}</b-button>
                     </div>
 
@@ -35,7 +35,8 @@ export default {
         return {
             breweries: {
 
-            }
+            },
+            selectedBreweryId: "",
 
             
         }
@@ -43,6 +44,13 @@ export default {
     methods: {
         getDetails(id) {
             this.$router.push({name: 'brewerydetails', params: {id:id}})
+        },
+        setSelectedBreweryId(id) {
+            this.$store.commit("SET_SELECTED_BREWERY_ID", this.selectedBreweryId)
+            this.$router.push({ name: 'brewerydetails', params:{id:id} })
+        },
+        setSelectedBrewery(brewery) {
+            this.$store.commit("SELECT_BREWERY", brewery)
         }
     },
 

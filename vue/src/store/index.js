@@ -23,7 +23,7 @@ export default new Vuex.Store({
     zipcode: "",
     radius: "",
     id: "",
-    
+    selectedBrewery: {}
     
   },
   mutations: {
@@ -54,6 +54,12 @@ export default new Vuex.Store({
     },
     SET_BEER_ID(state, id) {
       state.id = id;
+    },
+    SET_SELECTED_BREWERY_ID(state, selectedBrewery) {
+      state.selectedBrewery = selectedBrewery;
+    },
+    SELECT_BREWERY(state, selectedBrewery) {
+        state.selectedBrewery = selectedBrewery;
     }
 
   }

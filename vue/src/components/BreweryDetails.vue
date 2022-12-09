@@ -49,7 +49,7 @@
 
     <section class="container">
       <div class="row justify-content-center">
-        <div class="col-md-10 p-5">
+        <div class="text-center p-5">
           <!-- <router-link v-bind:to="{ name: 'beerlist' }"
             ><b-button variant="primary">View Beer List</b-button></router-link -->
           <!-- > -->
@@ -68,11 +68,12 @@
       </div>
     </section>
 
-    <b-container class="brewery-history">
-      <b-row align-v="center">
-        <h3>Brewery History</h3>
-      </b-row>
-    </b-container>
+    <section class="container">
+      <div class="text-center p-5">
+        <h3>Brewery History Coming Soon</h3>
+      </div>
+
+    </section>
   </div>
 </template>
 
