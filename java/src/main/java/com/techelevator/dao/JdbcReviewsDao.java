@@ -30,7 +30,13 @@ public class JdbcReviewsDao implements ReviewsDAO {
     }
 
     @Override
-    public void addReview(Reviews review) {
+    public int addReview(Reviews review, int beerId, int userId, int jdbcBreweryId) {
+        int reviewId = 0;
+        String sql = "Insert into reviews (rating, review, user_id, brewery_id, beer_id) values (?, ?, ?, ?, ?) returning review_id;";
 
+        reviewId = jdbcTemplate.queryForObject(sql, Integer.class, review.getRating(), review.getReview(), userId ,jdbcBreweryId , beerId);
+
+
+        return reviewId;
     }
 }

@@ -1,5 +1,7 @@
 package com.techelevator.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Reviews {
      private int reviewId;
      private int rating;

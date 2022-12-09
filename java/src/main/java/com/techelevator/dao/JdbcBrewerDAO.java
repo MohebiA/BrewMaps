@@ -48,7 +48,7 @@ public class JdbcBrewerDAO implements BrewerDAO {
 
         if (result.next()) {
             brewery = mapSingleBreweryToRow(result);
-            List<BeerList> beerList = beerDAO.getBreweryBeerByBreweryId(brewery.getId());
+            List<BeerList> beerList = beerDAO.getBreweryBeerByBreweryId(brewery.getBrewerId());
             brewery.setBeerList(beerList);
             return brewery;
         } else {
@@ -85,6 +85,7 @@ public class JdbcBrewerDAO implements BrewerDAO {
     @Override
     public int addBrewery(Brewer brewer, int userId) {
         int value = 0;
+        String apiId = brewer.getApiBreweryId();
 
         String sql = "insert into brewery (name, user_id, phone_num, address_1, address_2, city, state, zip, hours, brewery_img_url," +
                 " brewery_url, brewery_history, api_brewery_id, is_active, been_removed) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) returning brewery_id;";
@@ -96,6 +97,7 @@ public class JdbcBrewerDAO implements BrewerDAO {
                     brewer.getHistory(), brewer.getApiBreweryId(), brewer.isActive(), brewer.isBeenRemoved());
         }
         catch (ResourceAccessException e){
+            System.out.println("nope");
         }
         return value;
     }
@@ -126,7 +128,7 @@ public class JdbcBrewerDAO implements BrewerDAO {
         String sql = "SELECT * FROM brewery WHERE api_brewery_id = ?;";
         SqlRowSet result = jdbcTemplate.queryForRowSet(sql, id);
         if(result.next()){
-            brewery_id = mapSingleBreweryToRow(result).getId();
+            brewery_id = mapSingleBreweryToRow(result).getBrewerId();
         }
         return brewery_id;
     }
@@ -150,7 +152,7 @@ public class JdbcBrewerDAO implements BrewerDAO {
     private Brewer mapSingleBreweryToRow(SqlRowSet result){
         Brewer brewery = new Brewer();
 
-        brewery.setId(result.getInt("brewery_id"));
+        brewery.setBrewerId(result.getInt("brewery_id"));
         brewery.setName(result.getString("name"));
         brewery.setDescription(result.getString("brewery_history"));
         brewery.setUrl(result.getString("brewery_url"));

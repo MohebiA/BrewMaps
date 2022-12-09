@@ -1,6 +1,7 @@
 package com.techelevator.controller;
 import com.techelevator.dao.BeerDAO;
 import com.techelevator.dao.BrewerDAO;
+import com.techelevator.dao.ReviewsDAO;
 import com.techelevator.dao.UserDao;
 import com.techelevator.model.*;
 import com.techelevator.services.BreweryDetails;
@@ -26,20 +27,21 @@ public class BreweryController {
 
     private UserDao userDao;
 
-    public BreweryController(BreweryDetails breweryDetails, BeerDAO beerDAO, LocationConverter locationConverter, BrewerDAO brewerDAO, UserDao userDao){
+    private ReviewsDAO reviewsDAO;
+
+    public BreweryController(BreweryDetails breweryDetails, BeerDAO beerDAO, LocationConverter locationConverter, BrewerDAO brewerDAO, UserDao userDao, ReviewsDAO reviewsDAO){
         this.breweryDetails = breweryDetails;
         this.beerDAO = beerDAO;
         this.locationConverter = locationConverter;
         this.brewerDAO = brewerDAO;
         this.userDao = userDao;
+        this.reviewsDAO = reviewsDAO;
     }
 
     @RequestMapping(path="/breweries", method = RequestMethod.GET)
     public BreweryDetails[] getAllBreweries(){
         return breweryDetails.getAllBreweries();
     }
-
-
 
     @RequestMapping(path="/brewery/{id}", method = RequestMethod.GET)
     public Brewer getBreweryBeerList(@PathVariable String id){
@@ -163,6 +165,42 @@ public class BreweryController {
             listOfBreweries.add(result);
         }
          return listOfBreweries;
+    }
+
+    @RequestMapping(path="/beer/{id}/reviews", method = RequestMethod.POST)
+    public boolean addReview(@PathVariable String id, @RequestBody Reviews reviews, Principal principal){
+//        int userId = userDao.findIdByUsername(principal.getName());
+        int userId = 1;
+        int jdbcBeerId = 0;
+        int jdbcBreweryId = 0;
+        int newReview = 0;
+        String apiBreweryId;
+
+        try {
+            if (id.length() > 14) { //BEER ID > 14
+                jdbcBeerId = beerDAO.apiBeerExistsInJdbc(id); //CHECK IF JDBC has beer
+                if (jdbcBeerId == 0) { //If beer does not exist -- trigger this block
+                    BeerDetails beer = breweryDetails.getBeerById(id); //GET BEER FROM API
+                    apiBreweryId = beer.getBrewer().getApiBreweryId();
+                    jdbcBreweryId = brewerDAO.apiBreweryExistsInJdbc(apiBreweryId); //CHECK IF JDBC has brewery
+                    if (jdbcBreweryId == 0) { //If brewery does not exist -- trigger this block
+                        Brewer brewery = breweryDetails.getBreweryAndBeer(apiBreweryId); //API CALL TO GET BREWERY
+                        jdbcBreweryId = brewerDAO.addBrewery(brewery, userId); //CREATES BREWERY IN POSTGRES
+                    }
+                    jdbcBeerId = beerDAO.addBeer(beer, jdbcBreweryId); //CREATES BEER IN POSTGRES //TODO when principal added replace breweryId with brewery associated with principal
+                }else {
+                    jdbcBreweryId = beerDAO.getBeerByBeerId(jdbcBeerId).getBreweryId();
+                }
+            } else {
+                jdbcBeerId = Integer.parseInt(id);
+                jdbcBreweryId = beerDAO.getBeerByBeerId(jdbcBeerId).getBreweryId();
+            }
+            newReview = reviewsDAO.addReview(reviews, jdbcBeerId, userId, jdbcBreweryId);
+
+            }
+        catch (Exception e){}
+
+        return (newReview > 0);
     }
 
 

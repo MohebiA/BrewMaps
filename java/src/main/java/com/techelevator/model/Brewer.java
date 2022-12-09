@@ -1,5 +1,8 @@
 package com.techelevator.model;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
 public class Brewer {
@@ -17,7 +20,10 @@ public class Brewer {
     private boolean beenRemoved;
     private String phoneNumber;
     private int userId;
-    private int id;
+    private int brewerId;
+
+    @JsonProperty ("id")
+    @JsonAlias("apiBreweryId")
     private String apiBreweryId;
     private String object;
     private String name;
@@ -34,7 +40,7 @@ public class Brewer {
     public Brewer() {}
 
     public Brewer(String address1, String address2, String city, String zip, String state, String hours, String imgUrl, String history,
-                  double latitude, double longitude, boolean isActive, boolean beenRemoved, String phoneNumber, int userId, int id,
+                  double latitude, double longitude, boolean isActive, boolean beenRemoved, String phoneNumber, int userId, int brewerId,
                   String apiBreweryId, String object, String name, Object description, Object short_description, String url,
                   boolean cb_verified, boolean brewer_verified, String facebook_url, String twitter_url, String instagram_url, List<BeerList> beerList) {
         this.address1 = address1;
@@ -51,7 +57,7 @@ public class Brewer {
         this.beenRemoved = beenRemoved;
         this.phoneNumber = phoneNumber;
         this.userId = userId;
-        this.id = id;
+        this.brewerId = brewerId;
         this.apiBreweryId = apiBreweryId;
         this.object = object;
         this.name = name;
@@ -178,12 +184,12 @@ public class Brewer {
         this.userId = userId;
     }
 
-    public int getId() {
-        return id;
+    public int getBrewerId() {
+        return brewerId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setBrewerId(int brewerId) {
+        this.brewerId = brewerId;
     }
 
     public String getObject() {
@@ -266,10 +272,14 @@ public class Brewer {
         this.instagram_url = instagram_url;
     }
 
+    @JsonProperty ("id")
+    @JsonAlias("apiBreweryId")
     public String getApiBreweryId() {
         return apiBreweryId;
     }
 
+    @JsonProperty ("id")
+    @JsonAlias("apiBreweryId")
     public void setApiBreweryId(String apiBreweryId) {
         this.apiBreweryId = apiBreweryId;
     }
