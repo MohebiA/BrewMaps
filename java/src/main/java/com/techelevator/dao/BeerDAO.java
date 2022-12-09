@@ -14,8 +14,10 @@ public interface BeerDAO {
 
     int addBeer(BeerDetails beer, int breweryId);
 
-    void deleteBeer(int beerId);
+    boolean deleteBeer(String beerId);
 
     BeerDetails getBeerByAPIBeerId(String id);
+
+    int apiBeerExistsInJdbc(String id);
 
 }

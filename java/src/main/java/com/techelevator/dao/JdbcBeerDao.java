@@ -71,8 +71,32 @@ public class JdbcBeerDao implements BeerDAO{
     }
 
     @Override
-    public void deleteBeer(int beerId) {
+    public boolean deleteBeer(String beerId) {
+        try {
+            if(beerId.length() > 14) {
+                String sql = "UPDATE beer set been_removed = true where api_beer_id = ?;";
+                jdbcTemplate.update(sql, beerId);
+            }
+            else {
+                String sql = "UPDATE beer set been_removed = true where beer_id = ?;";
 
+                jdbcTemplate.update(sql, Integer.parseInt(beerId));
+            }
+            return true;
+        }
+        catch (ResourceAccessException e){
+            return false;
+        }
+    }
+
+    public int apiBeerExistsInJdbc(String id){
+        int beer_id = 0;
+        String sql = "SELECT * FROM beer WHERE api_beer_id = ?;";
+        SqlRowSet result = jdbcTemplate.queryForRowSet(sql, id);
+        if(result.next()){
+            beer_id = mapRowToBeerDetails(result).getId();
+        }
+        return beer_id;
     }
 
     private BeerList mapRowToBeerList(SqlRowSet result){

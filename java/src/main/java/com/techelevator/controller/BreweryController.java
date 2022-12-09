@@ -1,11 +1,14 @@
 package com.techelevator.controller;
 import com.techelevator.dao.BeerDAO;
 import com.techelevator.dao.BrewerDAO;
+import com.techelevator.dao.UserDao;
 import com.techelevator.model.*;
 import com.techelevator.services.BreweryDetails;
 import com.techelevator.services.LocationConverter;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.ResourceAccessException;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,11 +24,14 @@ public class BreweryController {
 
     private BrewerDAO brewerDAO;
 
-    public BreweryController(BreweryDetails breweryDetails, BeerDAO beerDAO, LocationConverter locationConverter, BrewerDAO brewerDAO){
+    private UserDao userDao;
+
+    public BreweryController(BreweryDetails breweryDetails, BeerDAO beerDAO, LocationConverter locationConverter, BrewerDAO brewerDAO, UserDao userDao){
         this.breweryDetails = breweryDetails;
         this.beerDAO = beerDAO;
         this.locationConverter = locationConverter;
         this.brewerDAO = brewerDAO;
+        this.userDao = userDao;
     }
 
     @RequestMapping(path="/breweries", method = RequestMethod.GET)
@@ -69,7 +75,10 @@ public class BreweryController {
 
     //TODO id equals brewery id
     @RequestMapping(path="/brewery/{id}/addbeer", method = RequestMethod.POST)
-    public boolean addBeer(@PathVariable String id, @RequestBody BeerDetails beer) {
+    public boolean addBeer(@PathVariable String id, @RequestBody BeerDetails beer, Principal principal) {
+
+      //  String userName = principal.getName();
+      //  int userId = userDao.findIdByUsername(userName);
 
         int jdbcBreweryId;
 
@@ -77,7 +86,10 @@ public class BreweryController {
             jdbcBreweryId = brewerDAO.apiBreweryExistsInJdbc(id);
             if(jdbcBreweryId == 0){
                 Brewer brewery = breweryDetails.getBreweryAndBeer(id); //API CALL
-                int newBreweryId = brewerDAO.addBrewery(brewery); //CREATES BREWERY IN POSTGRES
+
+
+
+                int newBreweryId = brewerDAO.addBrewery(brewery, 1); //CREATES BREWERY IN POSTGRES
                 return beerDAO.addBeer(beer, newBreweryId) > 0; //CREATES BEER
             } else {
                 return beerDAO.addBeer(beer, jdbcBreweryId) >0;
@@ -89,13 +101,55 @@ public class BreweryController {
         }
     }
 
+    @RequestMapping(path="/beer/{id}", method = RequestMethod.PUT)
+    public boolean deleteBeer(@PathVariable String id) {
+        int jdbcBeerId;
+        try {
+            if (id.length() > 14) {
+                jdbcBeerId = beerDAO.apiBeerExistsInJdbc(id);
+                if (jdbcBeerId == 0) {
+                    BeerDetails beer = breweryDetails.getBeerById(id); //API CALL
+                    //TODO when principal added replace breweryId with brewery associated with principal
+                    int newBeerId = beerDAO.addBeer(beer, 1); //CREATES BREWERY IN POSTGRES
+                    beerDAO.deleteBeer(String.valueOf(newBeerId));
+                } else {
+                    beerDAO.deleteBeer(String.valueOf(jdbcBeerId));
+                }
+            } else {
+                beerDAO.deleteBeer(id);
+            }
+        }catch (ResourceAccessException e){
+
+        }
+
+        return beerDAO.deleteBeer(id);
+    }
+
     @RequestMapping(path="/brewery/addbrewery", method = RequestMethod.POST)
     public boolean addBrewery(@RequestBody Brewer brewer) {
-        return brewerDAO.addBrewery(brewer) > 0;
+        return brewerDAO.addBrewery(brewer, 1) > 0;
     }
 
     @RequestMapping(path="/brewery/{id}", method = RequestMethod.PUT)
     public boolean deleteBrewery(@PathVariable String id) {
+        int jdbcBreweryId;
+        try {
+            if (id.length() > 14) {
+                jdbcBreweryId = brewerDAO.apiBreweryExistsInJdbc(id);
+                if (jdbcBreweryId == 0) {
+                    Brewer brewery = breweryDetails.getBreweryAndBeer(id); //API CALL
+                    int newBreweryId = brewerDAO.addBrewery(brewery, 1); //CREATES BREWERY IN POSTGRES
+                    brewerDAO.deleteBrewery(String.valueOf(newBreweryId));
+                } else {
+                    brewerDAO.deleteBrewery(String.valueOf(jdbcBreweryId));
+                }
+            } else {
+                brewerDAO.deleteBrewery(id);
+            }
+        }catch (ResourceAccessException e){
+
+        }
+
         return brewerDAO.deleteBrewery(id);
     }
 

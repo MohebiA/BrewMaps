@@ -14,7 +14,7 @@ CREATE TABLE users (
 
 CREATE TABLE brewery(brewery_id SERIAL NOT NULL PRIMARY KEY, name VARCHAR, user_id int NOT NULL, 
                      phone_num VARCHAR, address_1 VARCHAR, address_2 VARCHAR, city VARCHAR, state VARCHAR,
-                     zip VARCHAR NOT NULL, hours VARCHAR, brewery_img_url VARCHAR, brewery_url VARCHAR, brewery_history VARCHAR, 
+                     zip VARCHAR, hours VARCHAR, brewery_img_url VARCHAR, brewery_url VARCHAR, brewery_history VARCHAR, 
                      api_brewery_id VARCHAR, longitude NUMERIC, latitude NUMERIC, is_active BOOL, been_removed BOOL);
 
 CREATE TABLE beer(beer_id SERIAL NOT NULL PRIMARY KEY, name VARCHAR, img_url VARCHAR,
