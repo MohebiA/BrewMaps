@@ -4,7 +4,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Reviews {
      private int reviewId;
+
+     @JsonProperty("value")
      private int rating;
+
      private String review ="";
      private int userId;
      private int breweryId;
@@ -29,10 +32,12 @@ public class Reviews {
         this.reviewId = reviewId;
     }
 
+    @JsonProperty("value")
     public int getRating() {
         return rating;
     }
 
+    @JsonProperty("value")
     public void setRating(int rating) {
         this.rating = rating;
     }

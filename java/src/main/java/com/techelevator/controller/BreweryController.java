@@ -203,6 +203,13 @@ public class BreweryController {
         return (newReview > 0);
     }
 
+    @RequestMapping(path="/beer/{id}/reviews", method = RequestMethod.GET)
+    public List<Reviews> getReviews(@PathVariable String id){
+        return reviewsDAO.getAllReviewsForBeer(id);
+    }
+
+
+
 
     //OLD and NOT used code -- DO NOT DELETE
     //    @RequestMapping(path="/brewery/{id}", method = RequestMethod.GET)
