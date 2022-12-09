@@ -1,11 +1,13 @@
 package com.techelevator.model;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Reviews {
      private int reviewId;
 
      @JsonProperty("value")
+     @JsonAlias("rating")
      private int rating;
 
      private String review ="";
@@ -33,11 +35,15 @@ public class Reviews {
     }
 
     @JsonProperty("value")
+    @JsonAlias("rating")
+
     public int getRating() {
         return rating;
     }
 
     @JsonProperty("value")
+    @JsonAlias("rating")
+
     public void setRating(int rating) {
         this.rating = rating;
     }

@@ -3,6 +3,8 @@ package com.techelevator.model;
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.List;
+
 public class BeerDetails {
 //    int beerId;
     @JsonProperty("id")
@@ -22,6 +24,8 @@ public class BeerDetails {
     boolean beenRemoved;
     int breweryId;
     Brewer brewer;
+    List<Reviews> reviews;
+
 
     //BrewerDetails brewer = new BrewerDetails();
 

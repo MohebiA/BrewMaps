@@ -10,12 +10,28 @@
             text-center text-white
           "
         >
+
+
+
           <h4>{{ beer.name }}</h4>
-          <h5>ABV: {{ beer.abv }}</h5>
-          <h5>IBU: {{ beer.ibu }}</h5>
-          <h5>Type: {{ beer.beer_type }}</h5>
-          <h5>Description: {{ beer.description }}</h5>
-          <h5>{{ beer.imgUrl }}</h5>
+          <h5 id="null message" v-if="beer.name=== null">Beer Name: Coming Soon</h5>
+
+
+          <h5 id="null message" v-if="beer.ABV=== null">ABV: Coming Soon</h5>
+          <h5 v-else>ABV: {{ beer.abv }}</h5>
+
+          <h5 id="null message" v-if="beer.IBU=== null">IBU: Coming Soon</h5>
+          <h5 v-else>IBU: {{ beer.ibu }}</h5>
+
+          <h5 id="null message" v-if="beer.beer_type=== null">Type: Coming Soon</h5>
+          <h5 v-else>Type: {{ beer.beer_type }}</h5>
+          <!-- <h5>Description: {{ beer.description }}</h5> -->
+
+          <h5 id="null message" v-if="beer.description=== null">Description: Coming Soon</h5>
+          <h5 v-else>Description: {{beer.description}}</h5>
+
+          <h5 id="null message" v-if="beer.imgUrl=== null">Image: Coming Soon</h5>
+          <h5 v-else>{{ beer.imgUrl }}</h5>
 
           <div class="brewery-list">
             <div v-bind:key="beer.id" @click="getBeerById()">
@@ -25,7 +41,7 @@
                 variant="outline-warning"
                 >Leave a review</b-button
               >
-              <b-modal id="modal-tall" title="Beer Review">
+              <b-modal id="modal-tall" title="Beer Review" ok-only ok-title="Cancel">
                 <b-form @submit="onSubmit" @reset="onReset" v-if="show">
                   <h5 class="text-center">{{ beer.name }}</h5>
                   <b-form-group
@@ -151,7 +167,18 @@ import AppServices from "../services/AppServices";
 export default {
   data() {
     return {
-      beer: {},
+      beer: {
+        abv: "",
+        beenRemoved: false,
+        beer_type: "",
+        brewer: {},
+        breweryId: "",
+        description: "",
+        ibu: "",
+        id: "",
+        imgUrl: "",
+        name: "",
+      },
       form: {
         review: "",
         name: "",
@@ -168,11 +195,24 @@ export default {
         review: this.form.review,
         value: this.form.value,
       };
+
+      AppServices.createReview(this.form, this.beer.id)
+
       // this.$emit('review-submitted', productReview)
       event.preventDefault();
       this.addReview(productReview);
+
+      this.form.name = "";
+      this.form.review = "";
+      this.form.value = 0;
       // alert(JSON.stringify(this.form))
     },
+
+    saveReview(){
+      AppServices.createReview(this.productReview, this.beer.id)
+    
+    },
+
     addReview(productReview) {
       this.reviews.push(productReview);
     },

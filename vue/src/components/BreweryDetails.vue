@@ -29,22 +29,40 @@
     <section class="container">
       <div class="row align-items-center">
         <div class="col-md-6 order-md-1">
-          <p>Brewery Address</p>
+            <h5>Address: {{this.$store.state.selectedBrewery.address1}}</h5>
+            <h5 id="null message" v-if="this.$store.state.selectedBrewery.address1=== null" >Brewery Address: Coming Soon</h5>
+          
           <!--  where brewery address goes           -->
         </div>
         <div class="col-md-6 p-4">
-          <p>Contact Info</p>
+            <h5>{{brewery.description}}</h5>
+            <h5 id="null message" v-if="brewery.description=== null">Brewery Contact Info: Coming Soon</h5>
           <!--  where brewery contact info goes   -->
         </div>
         <div class="col-md-6 p-4">
-          <a :href="this.brewery.url">{{ brewery.url }}</a>
+          <h5>Website: <a :href="this.brewery.url">{{ brewery.url }}</a></h5>
+
+            <h5 id="null message" v-if="this.brewery.url=== null">Brewery Website: Coming Soon</h5>
+          
           <!--  where brewery Website info goes   -->
         </div>
         <div class="col-md-6 p-4">
-          <p>Hours open / closed</p>
+            <h5>{{brewery.description}}</h5>
+            <h5 id="null message" v-if="brewery.description=== null" >Brewery Hours: Coming Soon</h5>
           <!--  where brewery hours info goes   -->
         </div>
+       
       </div>
+    </section>
+
+    <section class="container">
+       <div class="row align-items-center">
+            <h5 class="text-center">{{brewery.description}}</h5>
+            <h5 id="null message" v-if="brewery.description=== null" class = "text-center">Brewery History: Coming Soon</h5>
+
+        </div>
+
+
     </section>
 
     <section class="container">
@@ -68,12 +86,12 @@
       </div>
     </section>
 
-    <section class="container">
+    <!-- <section class="container">
       <div class="text-center p-5">
         <h3>Brewery History Coming Soon</h3>
       </div>
 
-    </section>
+    </section> -->
   </div>
 </template>
 

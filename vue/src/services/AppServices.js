@@ -17,13 +17,24 @@ export default {
         return http.get(`/beer/${id}`)
     },
 
-    createReview(review) {
-        return http.post(`/reviews`, review)
+    createReview(productReview, id) {
+        return http.post(`/beer/${id}/reviews`, productReview)
     },
+
 
     listBeersByBreweryId(id) {
         return http.get(`/brewery/${id}`)
+    },
+
+    addBeer(id) {
+        return http.post(`/brewery/${id}/addbeer`)
     }
+
+
+
+    
+
+
 
 
 }
