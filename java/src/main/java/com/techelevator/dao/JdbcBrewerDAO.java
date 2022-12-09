@@ -175,4 +175,14 @@ public class JdbcBrewerDAO implements BrewerDAO {
         }
 
     }
+
+    public void deleteLocationId () {
+        String deleteSql = "DELETE FROM temp_location;";
+        jdbcTemplate.update(deleteSql);
+    }
+
+    public void setLocationId (String locationId, String breweryId){
+        String insertSql= "INSERT INTO temp_location (location_id, brewery_id) VALUES (?,?);";
+        jdbcTemplate.update(insertSql, locationId, breweryId);
+    }
 }

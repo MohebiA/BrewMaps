@@ -25,6 +25,7 @@ CREATE TABLE events(event_id SERIAL NOT NULL PRIMARY KEY, event_date date, event
 CREATE TABLE news(news_id SERIAL NOT NULL PRIMARY KEY, description VARCHAR, brewery_id int NOT NULL );
 CREATE TABLE alerts(alert_id SERIAL NOT NULL PRIMARY KEY, brewery_id int NOT NULL, description VARCHAR);
 CREATE TABLE response(response_id SERIAL NOT NULL PRIMARY KEY, review_id int NOT NULL, response VARCHAR, user_id int NOT NULL );
+CREATE TABLE temp_location(temp_id SERIAL PRIMARY KEY, location_id VARCHAR, brewery_id VARCHAR);
 
 CREATE TABLE user_favorties(user_id int NOT NULL, brewery_id int NOT NULL,
                 CONSTRAINT pk_user_favorites PRIMARY KEY(user_id, brewery_id),
@@ -44,6 +45,8 @@ CREATE TABLE user_brewery_history(user_id int NOT NULL, brewery_id int NOT NULL,
                 CONSTRAINT pk_user_brewery_history PRIMARY KEY (user_id, brewery_id),
                 CONSTRAINT fk_user_brewery_history_user FOREIGN KEY(user_id) REFERENCES users(user_id),
                 CONSTRAINT fk_user_brewery_history_brewery FOREIGN KEY(brewery_id) REFERENCES brewery(brewery_id));
+
+
 
 ALTER TABLE brewery
     ADD CONSTRAINT fk_user_id FOREIGN KEY (user_id) REFERENCES users (user_id);

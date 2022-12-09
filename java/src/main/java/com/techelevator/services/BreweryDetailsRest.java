@@ -1,4 +1,5 @@
 package com.techelevator.services;
+import com.techelevator.dao.BrewerDAO;
 import com.techelevator.model.*;
 import com.techelevator.model.APIBeerDatum.BeerDatum;
 import com.techelevator.model.APIBeerDatum.BeerRoot;
@@ -14,9 +15,15 @@ import java.util.List;
 
 @Component
 public class BreweryDetailsRest implements BreweryDetails{
+
+    public BreweryDetailsRest(BrewerDAO brewerDAO) {
+        this.brewerDAO = brewerDAO;
+    }
+
     private static final String API_URL = "https://api.catalog.beer/";
 
     private RestTemplate restTemplate = new RestTemplate();
+    private BrewerDAO brewerDAO;
 
     private LocationConverterRest locationConverterRest;
 
@@ -100,12 +107,13 @@ public class BreweryDetailsRest implements BreweryDetails{
         ResponseEntity<Root> response = restTemplate.exchange(API_URL+"location/nearby?latitude="+latitude+"&longitude="+ longitude +"&search_radius="+search_radius, HttpMethod.GET, authEntity(), Root.class);
         listOfBreweries = response.getBody();
 
+        brewerDAO.deleteLocationId();
+
         for(Datum data : listOfBreweries.getData()){
             BrewerResults breweryToAdd = addBreweryToList(data);
             nearbyBreweries.add(breweryToAdd);
+            brewerDAO.setLocationId(data.getLocation().getId(), data.getBrewer().getId());
         }
-
-
         return nearbyBreweries;
     }
 
