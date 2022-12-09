@@ -12,6 +12,7 @@ public class BeerDetails {
     String name;
 
     @JsonProperty("beer_type")
+    @JsonAlias("style")
     String style;
 
     String description;
@@ -65,11 +66,13 @@ public class BeerDetails {
     }
 
     @JsonProperty("beer_type")
+    @JsonAlias("style")
     public String getStyle() {
         return style;
     }
 
     @JsonProperty("beer_type")
+    @JsonAlias("style")
     public void setStyle(String style) {
         this.style = style;
     }

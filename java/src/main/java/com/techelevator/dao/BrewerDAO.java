@@ -13,5 +13,7 @@ public interface BrewerDAO {
     Brewer getBrewerByBreweryId(int id);
     int addBrewery (Brewer brewer);
     boolean deleteBrewery (String id);
+    Brewer getBrewerByApiId(String id);
+    int apiBreweryExistsInJdbc(String id);
 
 }

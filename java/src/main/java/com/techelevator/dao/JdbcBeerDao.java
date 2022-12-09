@@ -42,8 +42,18 @@ public class JdbcBeerDao implements BeerDAO{
         }
     }
 
+    public BeerDetails getBeerByAPIBeerId(String id) {
+        String sql = "select * FROM beer WHERE api_beer_id = ?;";
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, id);
+        if (results.next()) {
+            return mapRowToBeerDetails(results);
+        } else {
+            return null;
+        }
+    }
+
     @Override
-    public int addBeer(BeerDetails beer) {
+    public int addBeer(BeerDetails beer, int breweryId) {
 
         String sql = "insert into beer (name, img_url, description, abv, beer_type, brewery_id, api_beer_id, been_removed) " +
        " values (?, ?, ?, ?, ?, ?, ?, ?) returning beer_id; ";
@@ -51,7 +61,7 @@ public class JdbcBeerDao implements BeerDAO{
         try {
 
          newBeerId = jdbcTemplate.queryForObject(sql, Integer.class, beer.getName(), beer.getImgUrl(), beer.getDescription(), beer.getAbv(),
-                 beer.getStyle(), beer.getBreweryId(), beer.getApiId(), beer.isBeenRemoved());
+                 beer.getStyle(), breweryId, beer.getApiId(), beer.isBeenRemoved());
 
         }
         catch (ResourceAccessException rae){

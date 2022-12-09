@@ -12,8 +12,10 @@ public interface BeerDAO {
 
     BeerDetails getBeerByBeerId(int id);
 
-    int addBeer(BeerDetails beer);
+    int addBeer(BeerDetails beer, int breweryId);
 
     void deleteBeer(int beerId);
+
+    BeerDetails getBeerByAPIBeerId(String id);
 
 }

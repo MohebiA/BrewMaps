@@ -2,8 +2,8 @@ package com.techelevator.services;
 import com.techelevator.model.*;
 import com.techelevator.model.APIBeerDatum.BeerDatum;
 import com.techelevator.model.APIBeerDatum.BeerRoot;
-import com.techelevator.model.APIBeerDatum.APIDatum.Datum;
-import com.techelevator.model.APIBeerDatum.APIDatum.Root;
+import com.techelevator.model.APIDatum.Datum;
+import com.techelevator.model.APIDatum.Root;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
@@ -78,6 +78,15 @@ public class BreweryDetailsRest implements BreweryDetails{
         return brewer;
     }
 
+    //TODO no address in brewery object from API.  Only in Location "search by locationId" NOT associated with brewery id
+    public Brewer getBreweryLocation(String id) {
+        Brewer brewer = new Brewer();
+        ResponseEntity<BeerRoot> response = restTemplate.exchange(API_URL+"/location/"+id, HttpMethod.GET, authEntity(), BeerRoot.class);
+        brewer.setName(response.getBody().getBrewer().getName());
+        brewer.setUserId(2);
+        return brewer;
+    }
+
     //TODO - added 12-06 - added zipcode method to use zip API to get lon/lat to filter by zip code
     public List<BrewerResults> getLongLatFromZip(double latitude, double longitude, int search_radius) {
       //  ZipLongLat zipLongLat = null;
@@ -95,6 +104,7 @@ public class BreweryDetailsRest implements BreweryDetails{
             BrewerResults breweryToAdd = addBreweryToList(data);
             nearbyBreweries.add(breweryToAdd);
         }
+
 
         return nearbyBreweries;
     }
@@ -125,6 +135,11 @@ public class BreweryDetailsRest implements BreweryDetails{
         brewerResults.setDistance((data.getDistance().getDistance()));
         brewerResults.setUrl(data.getBrewer().getUrl());
         brewerResults.setDescription(data.getBrewer().getDescription());
+        brewerResults.setAddress1(data.getLocation().getAddress().getAddress2());
+        brewerResults.setCity(data.getLocation().getAddress().getCity());
+        brewerResults.setState(data.getLocation().getAddress().getState_short());
+        brewerResults.setZip(String.valueOf(data.getLocation().getAddress().getZip5()));
+
         return brewerResults;
     }
 
