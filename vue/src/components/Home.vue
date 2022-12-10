@@ -71,7 +71,7 @@
                   Discover breweries and beers and add your expert ratings and
                   reviews
                 </p>
-                <a href="#" class="btn btn-warning">Register</a>
+                <router-link v-bind:to="{ name: 'register' }"><b-button variant="warning">Register</b-button></router-link>
               </div>
             </div>
           </div>
