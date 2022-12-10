@@ -4,6 +4,7 @@ import com.techelevator.model.*;
 import com.techelevator.model.APIBeerDatum.BeerDatum;
 import com.techelevator.model.APIBeerDatum.BeerRoot;
 import com.techelevator.model.APIDatum.Datum;
+import com.techelevator.model.APIDatum.Location;
 import com.techelevator.model.APIDatum.Root;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;
@@ -48,6 +49,7 @@ public class BreweryDetailsRest implements BreweryDetails{
         beerList = response.getBody();
         return beerList;
     }
+
     //One that works - DO NOT DELETE!
     public List<BeerList> getBeerListByBrewery(String id) {
         BeerRoot listOfBeers = null;
@@ -153,6 +155,7 @@ public class BreweryDetailsRest implements BreweryDetails{
 
     private Brewer setBrewerDetails(BeerRoot root, List<BeerList> beerList ){
         Brewer brewer = new Brewer();
+
         brewer.setApiBreweryId(root.getBrewer().getId());
         brewer.setName(root.getBrewer().getName());
         brewer.setUrl(root.getBrewer().getUrl());
@@ -163,5 +166,15 @@ public class BreweryDetailsRest implements BreweryDetails{
         brewer.setBeerList(beerList);
 
         return brewer;
+    }
+
+    public String locationIDtoBreweryId(String id){
+        BrewerLocation location = new BrewerLocation();
+        String apiBreweryId = null;
+
+        ResponseEntity<BrewerLocation> response = restTemplate.exchange(API_URL+"/location/"+id, HttpMethod.GET, authEntity(), BrewerLocation.class);
+        location = response.getBody();
+        apiBreweryId = location.getBrewer().getApiBreweryId();
+        return apiBreweryId;
     }
 }

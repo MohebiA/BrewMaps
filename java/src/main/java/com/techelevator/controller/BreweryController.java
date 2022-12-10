@@ -46,17 +46,26 @@ public class BreweryController {
     @RequestMapping(path="/brewery/{id}", method = RequestMethod.GET)
     public Brewer getBreweryBeerList(@PathVariable String id){
         Brewer result;
-        if(id.length() > 14){
-            result = brewerDAO.getBrewerByApiId(id);
-            if(result == null){
-                result = breweryDetails.getBreweryAndBeer(id);
+        List<BeerList> beerList;
+        //String breweryApiId = (breweryDetails.locationIDtoBreweryId(id).length() > 14) ? breweryDetails.locationIDtoBreweryId(id) : id ;
+        String breweryApiId = id;
+
+        if(id.length() < 14){
+            int breweryId = Integer.parseInt(id);
+            String returnedId = brewerDAO.getApiBreweryIdFromDatabase(breweryId);
+            if(returnedId != null){
+                breweryApiId = returnedId;
             }
+        }
+        if(breweryApiId.length() > 14){
+            result = breweryDetails.getBreweryAndBeer(breweryApiId);
+            beerList = beerDAO.checkForDeletedBeers(result);
+            result.setBeerList(beerList);
         }
         else{
             int intId = Integer.parseInt(id);
             result =  brewerDAO.getBrewerByBreweryId(intId);
         }
-
 
         return result;
     }
@@ -84,8 +93,9 @@ public class BreweryController {
     @RequestMapping(path="/brewery/{id}/addbeer", method = RequestMethod.POST)
     public boolean addBeer(@PathVariable String id, @RequestBody BeerDetails beer, Principal principal) {
 
-      //  String userName = principal.getName();
-      //  int userId = userDao.findIdByUsername(userName);
+    //  String userName = principal.getName();
+    //  int userId = userDao.findIdByUsername(userName);
+    // String breweryApiId = (breweryDetails.locationIDtoBreweryId(id).length() > 14) ? breweryDetails.locationIDtoBreweryId(id) : id ;
 
         int jdbcBreweryId;
 
@@ -93,9 +103,6 @@ public class BreweryController {
             jdbcBreweryId = brewerDAO.apiBreweryExistsInJdbc(id);
             if(jdbcBreweryId == 0){
                 Brewer brewery = breweryDetails.getBreweryAndBeer(id); //API CALL
-
-
-
                 int newBreweryId = brewerDAO.addBrewery(brewery, 1); //CREATES BREWERY IN POSTGRES
                 return beerDAO.addBeer(beer, newBreweryId) > 0; //CREATES BEER
             } else {
@@ -134,11 +141,12 @@ public class BreweryController {
 
     @RequestMapping(path="/brewery/addbrewery", method = RequestMethod.POST)
     public boolean addBrewery(@RequestBody Brewer brewer) {
-        return brewerDAO.addBrewery(brewer, 1) > 0;
+        return brewerDAO.addBrewery(brewer, 1) > 0; //Userid will come from Principal
     }
 
     @RequestMapping(path="/brewery/{id}", method = RequestMethod.PUT)
     public boolean deleteBrewery(@PathVariable String id) {
+        //String breweryApiId = (breweryDetails.locationIDtoBreweryId(id).length() > 14) ? breweryDetails.locationIDtoBreweryId(id) : id ;
         int jdbcBreweryId;
         try {
             if (id.length() > 14) {
@@ -208,6 +216,12 @@ public class BreweryController {
         return (newReview > 0);
     }
 
+    //This was a test idea created by Sean, no use for the capstone
+    @RequestMapping(path="/location/{id}", method = RequestMethod.GET)
+    public String getBreweryIdByLocationId(@PathVariable String id){
+        return breweryDetails.locationIDtoBreweryId(id);
+    }
+
 
 
 
@@ -244,5 +258,24 @@ public class BreweryController {
 //    @RequestMapping(path="/beer/{id}/reviews", method = RequestMethod.GET)
 //    public List<Reviews> getReviews(@PathVariable String id){
 //        return reviewsDAO.getAllReviewsForBeer(id);
+//    }
+
+    //    TODO - OLD DOESNT WORK WITH API AND JDBC Connection
+//    @RequestMapping(path="/brewery/{id}", method = RequestMethod.GET)
+//    public Brewer getBreweryBeerList(@PathVariable String id){
+//        Brewer result;
+//        String breweryApiId;
+//
+//        if(id.length() > 14){
+//            result = brewerDAO.getBrewerByApiId(id);
+//            if(result == null){
+//                result = breweryDetails.getBreweryAndBeer(id);
+//            }
+//        }
+//        else{
+//            int intId = Integer.parseInt(id);
+//            result =  brewerDAO.getBrewerByBreweryId(intId);
+//        }
+//        return result;
 //    }
 }

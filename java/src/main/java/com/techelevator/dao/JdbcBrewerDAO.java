@@ -122,13 +122,22 @@ public class JdbcBrewerDAO implements BrewerDAO {
 
     }
 
-
     public int apiBreweryExistsInJdbc(String id){
         int brewery_id = 0;
         String sql = "SELECT * FROM brewery WHERE api_brewery_id = ?;";
         SqlRowSet result = jdbcTemplate.queryForRowSet(sql, id);
         if(result.next()){
             brewery_id = mapSingleBreweryToRow(result).getBrewerId();
+        }
+        return brewery_id;
+    }
+
+    public String getApiBreweryIdFromDatabase(int id){
+        String brewery_id = null;
+        String sql = "SELECT * FROM brewery WHERE brewery_id = ?;";
+        SqlRowSet result = jdbcTemplate.queryForRowSet(sql, id);
+        if(result.next()){
+            brewery_id = mapRowToApiBrewery(result).getApiBreweryId();
         }
         return brewery_id;
     }
@@ -156,6 +165,18 @@ public class JdbcBrewerDAO implements BrewerDAO {
         brewery.setName(result.getString("name"));
         brewery.setDescription(result.getString("brewery_history"));
         brewery.setUrl(result.getString("brewery_url"));
+
+        return brewery;
+    }
+
+    private Brewer mapRowToApiBrewery(SqlRowSet result){
+        Brewer brewery = new Brewer();
+
+        brewery.setBrewerId(result.getInt("brewery_id"));
+        brewery.setName(result.getString("name"));
+        brewery.setDescription(result.getString("brewery_history"));
+        brewery.setUrl(result.getString("brewery_url"));
+        brewery.setApiBreweryId(result.getString("api_brewery_id"));;
 
         return brewery;
     }
@@ -191,4 +212,6 @@ public class JdbcBrewerDAO implements BrewerDAO {
         String insertSql= "INSERT INTO temp_location (location_id, brewery_id) VALUES (?,?);";
         jdbcTemplate.update(insertSql, locationId, breweryId);
     }
+
+
 }

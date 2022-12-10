@@ -20,4 +20,6 @@ public interface BreweryDetails {
 
     Brewer getBreweryAndBeer(String id);
 
+    String locationIDtoBreweryId(String id);
+
 }

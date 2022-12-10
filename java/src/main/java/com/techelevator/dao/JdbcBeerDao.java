@@ -3,6 +3,7 @@ package com.techelevator.dao;
 import com.techelevator.model.BeerDetails;
 import com.techelevator.model.BeerList;
 import com.techelevator.model.BeerListDetails;
+import com.techelevator.model.Brewer;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
@@ -89,6 +90,26 @@ public class JdbcBeerDao implements BeerDAO{
         }
     }
 
+    public List<BeerList> checkForDeletedBeers(Brewer brewer){
+        List<BeerList> currentBrewerList = brewer.getBeerList();
+//        List<BeerList> replaceBeerList = new ArrayList<>();
+
+        String sql = "SELECT * FROM beer WHERE api_beer_id = ?;";
+
+        for(int i = 0; i < currentBrewerList.size(); i++){
+            BeerList beer = currentBrewerList.get(i);
+            SqlRowSet result = jdbcTemplate.queryForRowSet(sql, beer.getId());
+            if(result.next()){
+                BeerDetails beerDetails = mapRowToBeerDetails(result);
+                if (beerDetails.isBeenRemoved()) {
+                    String id = beer.getId();
+                    currentBrewerList.remove(i);
+                }
+            }
+        }
+        return currentBrewerList;
+    }
+
     public int apiBeerExistsInJdbc(String id){
         int beer_id = 0;
         String sql = "SELECT * FROM beer WHERE api_beer_id = ?;";
@@ -111,6 +132,7 @@ public class JdbcBeerDao implements BeerDAO{
 
     private BeerDetails mapRowToBeerDetails(SqlRowSet result) {
         BeerDetails beer = new BeerDetails();
+
         beer.setId(result.getInt("beer_id"));
         beer.setName(result.getString("name"));
         beer.setImgUrl(result.getString("img_url"));
@@ -123,7 +145,21 @@ public class JdbcBeerDao implements BeerDAO{
         return beer;
     }
 
-
+//    private boolean mapRowToDeleted(SqlRowSet result){
+//        BeerDetails beer = new BeerDetails();
+//
+//        beer.setId(result.getInt("beer_id"));
+//        beer.setName(result.getString("name"));
+//        beer.setImgUrl(result.getString("img_url"));
+//        beer.setDescription(result.getString("description"));
+//        beer.setAbv(result.getDouble("abv"));
+//        beer.setStyle(result.getString("beer_type"));
+//        beer.setBreweryId(result.getInt("brewery_id"));
+//        beer.setApiId(result.getString("api_beer_id"));
+//        beer.setBeenRemoved(result.getBoolean("been_removed"));
+//
+//        return beer.isBeenRemoved();
+//    }
 }
 
 

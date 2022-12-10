@@ -17,5 +17,6 @@ public interface BrewerDAO {
     int apiBreweryExistsInJdbc(String id);
     void setLocationId (String locationId, String breweryId);
     void deleteLocationId ();
+    String getApiBreweryIdFromDatabase(int id);
 
 }
