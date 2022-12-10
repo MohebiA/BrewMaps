@@ -70,6 +70,36 @@ public class BreweryController {
         return result;
     }
 
+    //TODO this uses locationID instead of api_brewery_id
+//    @RequestMapping(path="/brewery/{id}", method = RequestMethod.GET)
+//    public Brewer getBreweryBeerList(@PathVariable String id){
+//        Brewer result;
+//        List<BeerList> beerList;
+//        String breweryApiId = id;
+//        if (breweryApiId.length() > 14) {
+//            breweryApiId = (breweryDetails.locationIDtoBreweryId(id).length() > 14) ? breweryDetails.locationIDtoBreweryId(id) : id;
+//        }
+//
+//        if(breweryApiId.length() < 14){
+//            int breweryId = Integer.parseInt(id);
+//            String returnedId = brewerDAO.getApiBreweryIdFromDatabase(breweryId);
+//            if(returnedId != null){
+//                breweryApiId = returnedId;
+//            }
+//        }
+//        if(breweryApiId.length() > 14){
+//            result = breweryDetails.getBreweryAndBeer(breweryApiId);
+//            beerList = beerDAO.checkForDeletedBeers(result);
+//            result.setBeerList(beerList);
+//        }
+//        else{
+//            int intId = Integer.parseInt(breweryApiId);
+//            result =  brewerDAO.getBrewerByBreweryId(intId);
+//        }
+//
+//        return result;
+//    }
+
     @RequestMapping(path="/beer/{id}", method = RequestMethod.GET)
     public BeerDetails getBeerById(@PathVariable String id){
         BeerDetails result = new BeerDetails();
@@ -82,6 +112,7 @@ public class BreweryController {
         }
         else{
             int intId = Integer.parseInt(id);
+            result = beerDAO.getBeerByBeerId(intId);
         }
 
         result.setReviews(reviewsDAO.getAllReviewsForBeer(id));
