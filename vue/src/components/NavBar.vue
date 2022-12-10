@@ -19,6 +19,9 @@
                 <li class="nav-item">
                     <a class="nav-link"><span class="p-2 text-dark"><router-link v-bind:to="{ name: 'logout' }" v-if="$store.state.token != ''"><b-button variant="warning">Logout</b-button></router-link></span></a>
                     </li>    
+                <li class="nav-item">
+                    <a class="nav-link"><span class="p-2 text-dark"><router-link v-bind:to="{ name: 'admin' }"><b-button variant="warning">Admin</b-button></router-link></span></a>
+                    </li>     
             </ul>
         </div>
     </div>

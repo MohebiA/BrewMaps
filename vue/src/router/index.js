@@ -10,6 +10,7 @@ import BreweryDetails from '../views/BreweryDetails.vue'
 import BeerList from '../views/BeerList.vue'
 import BeerDetails from '../views/BeerDetails.vue'
 import AboutUs from '../views/AboutUs.vue'
+import Admin from '../views/Admin.vue'
 
 Vue.use(Router)
 
@@ -66,8 +67,14 @@ const router = new Router({
         requiresAuth: false
       }
 
-
-
+    },
+    {
+      path: "/admin",
+      name: "admin",
+      component: Admin,
+      meta: {
+        requiresAuth: false
+      }
     },
     {
       path: "/brewery/:id",
