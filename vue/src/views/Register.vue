@@ -1,5 +1,6 @@
 <template>
-  <div id="register" class="text-center">
+  <div>
+  <div id="register" class="container mt-5 mb-5 p-5 border border-dark rounded">
     <form class="form-register" @submit.prevent="register">
       <h1 class="h3 mb-3 font-weight-normal">Create Account</h1>
       <div class="alert alert-danger" role="alert" v-if="registrationErrors">
@@ -9,7 +10,7 @@
       <input
         type="text"
         id="username"
-        class="form-control"
+        class="form-control mt-1 mb-1"
         placeholder="Username"
         v-model="user.username"
         required
@@ -19,7 +20,7 @@
       <input
         type="password"
         id="password"
-        class="form-control"
+        class="form-control mt-1 mb-1"
         placeholder="Password"
         v-model="user.password"
         required
@@ -39,12 +40,15 @@
             <label for="form-check-label"></label>
           </div>
       </div>
-
-      <router-link :to="{ name: 'login' }">Have an account?</router-link>
-      <button class="btn btn-lg btn-primary btn-block" type="submit">
-        Create Account
-      </button>
+      <div class="text-center">
+        <button class="btn btn-md btn-primary btn-block" type="submit">
+         Create Account
+        </button>
+        <div><router-link :to="{ name: 'login' }">Have an account?</router-link></div>
+      </div>
     </form>
+  </div>
+    <img src="../Assets/Beer-icon.png" class="mx-auto d-block m-4" alt="">
   </div>
 </template>
 

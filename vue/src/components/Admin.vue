@@ -3,7 +3,8 @@
     <nav-bar/>
 
    <!-- Form -->
-    <section class="container mt-3 mb-4 border rounded">
+    <section class="container mt-5 mb-5 p-5 border border-dark rounded">
+      <h1 class="h3 mb-3 font-weight-normal">Add Brewery</h1>
         <div>
     <b-form @submit="onSubmit" @reset="onReset" v-if="show">
       <b-form-group
@@ -14,7 +15,7 @@
         <b-form-input
           id="input-1"
           v-model="newBrewery.name"
-          type="email"
+          type="text"
           placeholder="Enter Brewery Name"
           required
         ></b-form-input>
@@ -150,9 +151,9 @@
           <b-form-checkbox value="that">Check that out</b-form-checkbox>
         </b-form-checkbox-group>
       </b-form-group> -->
-
-      <b-button v-on:click="createBrewery()" type="submit" variant="primary">Submit</b-button>
-      <b-button v-on:click="onReset()" type="reset" variant="danger">Reset</b-button>
+      
+      <b-button class="ml-2" v-on:click="createBrewery()" type="submit" variant="primary">Submit</b-button>
+      <b-button class="m-2" v-on:click="onReset()" type="reset" variant="danger">Reset</b-button>
     </b-form>
     
   </div>
@@ -160,7 +161,7 @@
         
     </section>
 
-    <section>
+    <section class="container">
       <table id = "users-list">
         <thead>
           <tr>

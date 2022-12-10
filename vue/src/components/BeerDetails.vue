@@ -224,9 +224,9 @@ export default {
     
     },
 
-    addReview(productReview) {
-      this.reviews.push(productReview);
-    },
+    // addReview(productReview) {
+    //   this.reviews.push(productReview);
+    // },
     onReset(event) {
       event.preventDefault();
       // Reset our form values

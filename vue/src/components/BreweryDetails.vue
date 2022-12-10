@@ -67,7 +67,111 @@
             <h5 id="null message" v-if="brewery.description=== null" class = "text-center">Brewery History: Coming Soon</h5>
 
         </div>
+        <!-- v-if="this.$store.state.users.user_id === this.brewery.user_id || this.$store.state.users.user_id === 2" -->
+          <b-button
+                v-b-modal.modal-tall
+                class="mb-2"
+                variant="primary"
+                >Add a Beer</b-button
+              >
+              <b-modal id="modal-tall" title="Beer Review" ok-only ok-title="Cancel">
+                <b-form @submit="onSubmit" @reset="onReset" v-if="show">
+                  <h5 class="text-center">{{ beer.name }}</h5>
+                  <b-form-group
+                    id="input-group-1"
+                    label="Beer Name:"
+                    label-for="input-1"
+                  >
+                    <b-form-input
+                      id="input-1"
+                      v-model="beer.name"
+                      type="text"
+                      placeholder="Enter name"
+                      required
+                    ></b-form-input>
+                  </b-form-group>
 
+                  <b-form-group
+                    id="input-group-1"
+                    label="ABV:"
+                    label-for="input-1"
+                  >
+                    <b-form-input
+                      id="input-1"
+                      v-model="beer.abv"
+                      type="text"
+                      placeholder="ABV"
+                      required
+                    ></b-form-input>
+                  </b-form-group>
+
+                  <b-form-group
+                    id="input-group-1"
+                    label="IBU:"
+                    label-for="input-1"
+                  >
+                    <b-form-input
+                      id="input-1"
+                      v-model="beer.ibu"
+                      type="text"
+                      placeholder="IBU"
+                      required
+                    ></b-form-input>
+                  </b-form-group>
+
+                  <b-form-group
+                    id="input-group-1"
+                    label="Beer Type:"
+                    label-for="input-1"
+                  >
+                    <b-form-input
+                      id="input-1"
+                      v-model="beer.beer_type"
+                      type="text"
+                      placeholder="Type"
+                      required
+                    ></b-form-input>
+                  </b-form-group>
+
+                  <b-form-group
+                    id="input-group-1"
+                    label="Image URL:"
+                    label-for="input-1"
+                  >
+                    <b-form-input
+                      id="input-1"
+                      v-model="beer.imgUrl"
+                      type="text"
+                      placeholder="URL"
+                      required
+                    ></b-form-input>
+                  </b-form-group>
+
+                  <b-form-group
+                    id="input-group-1"
+                    label="Description:"
+                    label-for="input-1"
+                  >
+                    <b-form-textarea
+                      id="input-1"
+                      v-model="beer.description"
+                      
+                      placeholder="Enter beer details"
+                      required
+                    ></b-form-textarea>
+                  </b-form-group>
+
+                  <b-button class="m-1" type="submit" variant="primary"
+                    @click="locationReload()">Submit</b-button
+                  >
+                  <b-button type="reset" variant="danger">Reset</b-button>
+                </b-form>
+
+                <!-- <div>
+                                    <b-form-rating v-model="value" show-value></b-form-rating>
+                                      <p class="mt-2">Value: {{ value }}</p>
+                                    </div> -->
+              </b-modal>
 
     </section>
 
@@ -110,6 +214,25 @@ export default {
     return {
       brewery: {},
       selectedBeerId: "",
+      form: {
+        review: "",
+        name: "",
+        value: null,
+      },
+      reviews: [],
+      show: true,
+      beer: {
+        abv: "",
+        beenRemoved: false,
+        beer_type: "",
+        brewer: {},
+        breweryId: "",
+        description: "",
+        ibu: "",
+        id: "",
+        imgUrl: "",
+        name: "",
+      }
     };
   },
 
@@ -122,8 +245,39 @@ export default {
     setBeerId(id) {
       this.selectedBeerId = id;
       this.$router.push({ name: 'beerdetails', params:{id:id} })
-    }
+    },
+    onSubmit(event) {
 
+      AppServices.addBeer(this.beer, this.beer.id)
+
+      // this.$emit('review-submitted', productReview)
+      event.preventDefault();
+      // this.addReview(newBeer);
+
+        this.beer.abv= "";
+        this.beer.beer_type= "";
+        this.beer.description= "";
+        this.beer.ibu= "";
+        this.beer.imgUrl= "";
+        this.beer.name= "";
+      // alert(JSON.stringify(this.form))
+    },
+    onReset(event) {
+      event.preventDefault();
+      // Reset our form values
+        this.beer.abv= "";
+        this.beer.beer_type= "";
+        this.beer.description= "";
+        this.beer.ibu= "";
+        this.beer.imgUrl= "";
+        this.beer.name= "";
+
+      // Trick to reset/clear native browser form validation state
+      this.show = false;
+      this.$nextTick(() => {
+        this.show = true;
+      });
+    },
     
   }
 };

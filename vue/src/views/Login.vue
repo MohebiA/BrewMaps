@@ -1,5 +1,6 @@
 <template>
-  <div id="login" class="text-center">
+  <div>
+  <div id="login" class="container mt-5 mb-5 p-5 border border-dark rounded">
     <form class="form-signin" @submit.prevent="login">
       <h1 class="h3 mb-3 font-weight-normal">Please Sign In</h1>
       <div
@@ -16,7 +17,7 @@
       <input
         type="text"
         id="username"
-        class="form-control"
+        class="form-control mt-1 mb-1"
         placeholder="Username"
         v-model="user.username"
         required
@@ -26,14 +27,19 @@
       <input
         type="password"
         id="password"
-        class="form-control"
+        class="form-control mt-1 mb-1"
         placeholder="Password"
         v-model="user.password"
         required
       />
-      <router-link :to="{ name: 'register' }">Need an account?</router-link>
-      <button type="submit">Sign in</button>
+      <div class="text-center mt-5">
+        <button class="btn btn-md btn-primary btn-blocktype" type="submit">Sign in</button>
+        <div><router-link :to="{ name: 'register' }">Need an account?</router-link></div>
+
+      </div>
     </form>
+  </div>
+    <img src="../Assets/Beer-icon.png" class="mx-auto d-block m-4" alt="">
   </div>
 </template>
 
