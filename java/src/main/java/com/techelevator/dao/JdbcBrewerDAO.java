@@ -69,7 +69,7 @@ public class JdbcBrewerDAO implements BrewerDAO {
         double largerLongitude = longitude + lonAdjustment;
 
 
-       String sql = "select * from brewery where (latitude between ? and ?) and (longitude between ? and ?) and api_brewery_id = null;";
+       String sql = "select * from brewery where (latitude between ? and ?) and (longitude between ? and ?) and api_brewery_id = '';";
 
        try {
            SqlRowSet result = jdbcTemplate.queryForRowSet(sql, smallLatitude, largerLatitude, smallLongitude, largerLongitude);
@@ -88,13 +88,13 @@ public class JdbcBrewerDAO implements BrewerDAO {
         String apiId = brewer.getApiBreweryId();
 
         String sql = "insert into brewery (name, user_id, phone_num, address_1, address_2, city, state, zip, hours, brewery_img_url," +
-                " brewery_url, brewery_history, api_brewery_id, is_active, been_removed) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) returning brewery_id;";
+                " brewery_url, brewery_history, api_brewery_id, longitude, latitude, is_active, been_removed) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) returning brewery_id;";
 
         try {
             value = jdbcTemplate.queryForObject(sql, Integer.class, brewer.getName(),
                     userId, brewer.getPhoneNumber(), brewer.getAddress1(), brewer.getAddress2(), brewer.getCity(),
                     brewer.getState(), brewer.getZip(), brewer.getHours(), brewer.getImgUrl(), brewer.getUrl(),
-                    brewer.getHistory(), brewer.getApiBreweryId(), brewer.isActive(), brewer.isBeenRemoved());
+                    brewer.getHistory(), brewer.getApiBreweryId(), brewer.getLongitude(), brewer.getLatitude(), brewer.isActive(), brewer.isBeenRemoved());
         }
         catch (ResourceAccessException e){
             System.out.println("nope");

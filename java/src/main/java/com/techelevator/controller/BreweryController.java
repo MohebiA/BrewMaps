@@ -61,6 +61,12 @@ public class BreweryController {
             result = breweryDetails.getBreweryAndBeer(breweryApiId);
             beerList = beerDAO.checkForDeletedBeers(result);
             result.setBeerList(beerList);
+            if(brewerDAO.apiBreweryExistsInJdbc(breweryApiId) > 0){
+                List<BeerList> jdbcBeerList = (beerDAO.getBreweryBeerByBreweryId(brewerDAO.apiBreweryExistsInJdbc(breweryApiId)));
+                for (BeerList beer : jdbcBeerList){
+                    beerList.add(beer);
+                }
+            }
         }
         else{
             int intId = Integer.parseInt(id);
@@ -172,6 +178,11 @@ public class BreweryController {
 
     @RequestMapping(path="/brewery/addbrewery", method = RequestMethod.POST)
     public boolean addBrewery(@RequestBody Brewer brewer) {
+        int zip = Integer.parseInt(brewer.getZip());
+        ZipLongLat zipLongLat = locationConverter.getCoordinates(zip);
+        brewer.setLatitude(zipLongLat.getLat());
+        brewer.setLongitude(zipLongLat.getLon());
+
         return brewerDAO.addBrewery(brewer, 1) > 0; //Userid will come from Principal
     }
 
