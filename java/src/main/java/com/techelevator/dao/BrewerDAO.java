@@ -18,5 +18,6 @@ public interface BrewerDAO {
     void setLocationId (String locationId, String breweryId);
     void deleteLocationId ();
     String getApiBreweryIdFromDatabase(int id);
+    boolean updateBrewery(Brewer brewer, int id);
 
 }

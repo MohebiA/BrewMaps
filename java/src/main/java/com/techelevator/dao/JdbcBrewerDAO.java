@@ -23,6 +23,8 @@ public class JdbcBrewerDAO implements BrewerDAO {
 
     }
 
+
+
     @Override
     public Brewer getBrewerByBreweryId(int id) {
         Brewer brewery = new Brewer();
@@ -69,7 +71,7 @@ public class JdbcBrewerDAO implements BrewerDAO {
         double largerLongitude = longitude + lonAdjustment;
 
 
-       String sql = "select * from brewery where (latitude between ? and ?) and (longitude between ? and ?) and api_brewery_id = '';";
+       String sql = "select * from brewery where (latitude between ? and ?) and (longitude between ? and ?) and api_brewery_id is NULL;";
 
        try {
            SqlRowSet result = jdbcTemplate.queryForRowSet(sql, smallLatitude, largerLatitude, smallLongitude, largerLongitude);
@@ -142,11 +144,28 @@ public class JdbcBrewerDAO implements BrewerDAO {
         return brewery_id;
     }
 
+    public boolean updateBrewery(Brewer brewer, int id){
+        try {
+            String sql ="UPDATE brewery set name = ?, phone_num = ?, address_1 = ?, address_2 = ?, city = ?, state = ?, zip = ?, hours = ?, brewery_img_url = ?, " +
+                    "brewery_url = ?, brewery_history = ?, longitude = ?, latitude = ?, is_active = ?, been_removed = ? WHERE brewery_id = ?;";
+            jdbcTemplate.update(sql, brewer.getName(),
+                    brewer.getPhoneNumber(), brewer.getAddress1(), brewer.getAddress2(), brewer.getCity(),
+                    brewer.getState(), brewer.getZip(), brewer.getHours(), brewer.getImgUrl(), brewer.getUrl(),
+                    brewer.getHistory(), brewer.getLongitude(), brewer.getLatitude(), brewer.isActive(), brewer.isBeenRemoved(), id);
+            return true;
+        }
+        catch (ResourceAccessException e){
+            return false;
+        }
+    }
+
     //HELPER METHODS
     private BrewerResults mapResultsToRow(SqlRowSet result, double lat, double lon){
         BrewerResults brewerResults = new BrewerResults();
+        BrewerResults brewerResults1 = new BrewerResults();
 
         brewerResults.setId(String.valueOf(result.getInt("brewery_id")));
+        brewerResults1.setId(String.valueOf(result.getInt("api_brewery_id")));
         brewerResults.setName(result.getString("name"));
         brewerResults.setLat(result.getDouble("latitude"));
         brewerResults.setLon(result.getDouble("longitude"));

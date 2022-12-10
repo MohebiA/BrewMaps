@@ -152,6 +152,30 @@ public class BreweryController {
         }
     }
 
+    @RequestMapping(path="/brewery/{id}/updatebrewery", method = RequestMethod.PUT)
+    public boolean updateBrewery(@PathVariable String id, @RequestBody Brewer brewer, Principal principal) {
+        int jdbcBreweryId;
+        int zip = Integer.parseInt(brewer.getZip());
+        ZipLongLat zipLongLat = locationConverter.getCoordinates(zip);
+        brewer.setLatitude(zipLongLat.getLat());
+        brewer.setLongitude(zipLongLat.getLon());
+        if(id.length() > 14){
+            jdbcBreweryId = brewerDAO.apiBreweryExistsInJdbc(id);
+            if(jdbcBreweryId == 0){
+              int newBreweryId = brewerDAO.addBrewery(brewer, 1); //CREATES BREWERY IN POSTGRES
+                return (newBreweryId > 0);
+
+            } else {
+                return brewerDAO.updateBrewery(brewer, jdbcBreweryId);
+            }
+        }
+        else{
+            int intId = Integer.parseInt(id);
+            return brewerDAO.updateBrewery(brewer, intId);
+        }
+
+    }
+
     @RequestMapping(path="/beer/{id}", method = RequestMethod.PUT)
     public boolean deleteBeer(@PathVariable String id) {
         int jdbcBeerId;
@@ -175,6 +199,9 @@ public class BreweryController {
 
         return beerDAO.deleteBeer(id);
     }
+
+
+
 
     @RequestMapping(path="/brewery/addbrewery", method = RequestMethod.POST)
     public boolean addBrewery(@RequestBody Brewer brewer) {
@@ -217,6 +244,11 @@ public class BreweryController {
         listOfBreweries = breweryDetails.getLongLatFromZip(zipLongLat.getLat(), zipLongLat.getLon(), search_radius);
         List<BrewerResults> jdbcBreweries = brewerDAO.getAllBrewers(zipLongLat.getLat(), zipLongLat.getLon(), search_radius);
         for(BrewerResults result : jdbcBreweries){
+            for(int i = 0; i < listOfBreweries.size(); i++){
+                if (result.getId() == listOfBreweries.get(i).getId()) {
+                    listOfBreweries.remove(i);
+                }
+            }
             listOfBreweries.add(result);
         }
          return listOfBreweries;
