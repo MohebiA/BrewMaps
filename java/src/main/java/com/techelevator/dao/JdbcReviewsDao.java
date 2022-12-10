@@ -39,12 +39,13 @@ public class JdbcReviewsDao implements ReviewsDAO {
 
         if(beerId.length() > 14){
             BeerDetails beerDetails = beerDAO.getBeerByAPIBeerId(beerId);
+            if(beerDetails != null) {
+                String sql = "select * from reviews where beer_id = ?;";
 
-            String sql = "select * from reviews where beer_id = ?;";
-
-            SqlRowSet results = jdbcTemplate.queryForRowSet(sql, beerDetails.getId());
-            while(results.next()){
-                reviews.add(mapRowToReviews(results));
+                SqlRowSet results = jdbcTemplate.queryForRowSet(sql, beerDetails.getId());
+                while (results.next()) {
+                    reviews.add(mapRowToReviews(results));
+                }
             }
         } else {
 
