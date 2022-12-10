@@ -10,6 +10,17 @@
             text-center text-white
           "
         >
+        
+        <div>
+          <h5 id="null message" v-if="beer.imgUrl=== null"><b-img
+            id="Brewery-logo"
+            :src="require('../Assets/giovanna-gomes-Qy2KMPRV3X4-unsplash.jpg')"
+          ></b-img></h5>
+          <h5 v-else>{{ beer.imgUrl }}</h5>
+
+
+
+        </div>
 
 
 
@@ -86,7 +97,7 @@
                   </b-form-group>
 
                   <b-button class="m-1" type="submit" variant="primary"
-                    >Submit</b-button
+                    @click="locationReload()">Submit</b-button
                   >
                   <b-button type="reset" variant="danger">Reset</b-button>
                 </b-form>
@@ -102,7 +113,7 @@
                 <ul>
                   <li
                     class="list-unstyled border border-warning p-2 m-2 rounded"
-                    v-for="review in reviews"
+                    v-for="review in beer.reviews"
                     v-bind:key="review.id"
                   >
                     <p>{{ review.name }}</p>
@@ -229,6 +240,10 @@ export default {
         this.show = true;
       });
     },
+
+    locationReload() {
+      location.reload();
+    }
   },
   created() {
     AppServices.getBeerById(this.$route.params.id).then((response) => {

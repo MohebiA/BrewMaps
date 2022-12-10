@@ -7,10 +7,16 @@
     <section class="container">
       <b-row>
         <b-col>
-          <b-img
+          <h5 id="null message" v-if="brewery.imgUrl=== null"><b-img
             id="Brewery-logo"
             :src="require('../Assets/breweries.jpg')"
-          ></b-img>
+          ></b-img></h5>
+          <h5 v-else>{{ Brewery.imgUrl }}</h5>
+
+          <!-- <b-img
+            id="Brewery-logo"
+            :src="require('../Assets/breweries.jpg')"
+          ></b-img> -->
         </b-col>
 
         <b-col>
@@ -35,8 +41,8 @@
           <!--  where brewery address goes           -->
         </div>
         <div class="col-md-6 p-4">
-            <h5>{{brewery.description}}</h5>
-            <h5 id="null message" v-if="brewery.description=== null">Brewery Contact Info: Coming Soon</h5>
+            <h5>{{brewery.phoneNumber}}</h5>
+            <h5 id="null message" v-if="brewery.phoneNumber=== null">Brewery Contact Info: Coming Soon</h5>
           <!--  where brewery contact info goes   -->
         </div>
         <div class="col-md-6 p-4">
@@ -47,8 +53,8 @@
           <!--  where brewery Website info goes   -->
         </div>
         <div class="col-md-6 p-4">
-            <h5>{{brewery.description}}</h5>
-            <h5 id="null message" v-if="brewery.description=== null" >Brewery Hours: Coming Soon</h5>
+            <h5>{{brewery.hours}}</h5>
+            <h5 id="null message" v-if="brewery.hours=== null" >Brewery Hours: Coming Soon</h5>
           <!--  where brewery hours info goes   -->
         </div>
        
