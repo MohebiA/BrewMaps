@@ -117,8 +117,10 @@ public class BreweryController {
             }
         }
         else{
+
             int intId = Integer.parseInt(id);
             result = beerDAO.getBeerByBeerId(intId);
+            result.setApiId(String.valueOf(intId));
         }
 
         result.setReviews(reviewsDAO.getAllReviewsForBeer(id));

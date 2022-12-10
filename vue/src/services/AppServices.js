@@ -28,6 +28,18 @@ export default {
 
     addBeer(id) {
         return http.post(`/brewery/${id}/addbeer`)
+    },
+
+    createBrewery(brewery) {
+        return http.post(`/brewery/addbrewery`, brewery)
+    },
+
+    getUsers(){
+        return http.get('/users')
+    },
+
+    getBreweries(){
+        return http.get('/brewery')
     }
 
 

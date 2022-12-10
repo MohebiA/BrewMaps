@@ -7,6 +7,8 @@ import java.util.List;
 
 public class BeerDetails {
 //    int beerId;
+
+   //TODO: FIX THE VARIABLE JASON MAPPING iSSUE
     @JsonProperty("id")
     String apiId;
 

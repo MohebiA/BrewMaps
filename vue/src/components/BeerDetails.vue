@@ -246,8 +246,21 @@ export default {
     }
   },
   created() {
+
+    //RICH TEST LINE
+    this.beer.id = this.$route.params.id;
+
     AppServices.getBeerById(this.$route.params.id).then((response) => {
+
+
+      //TODO: REMOVE BEFORE PROD
+      alert( this.$route.params.id);
+
       this.beer = response.data;
+
+      //TODO: REMOVE BEFORE PROD
+      alert(JSON.stringify(response.data));
+
     });
   },
 };
