@@ -6,8 +6,11 @@ import com.techelevator.dao.UserDao;
 import com.techelevator.model.*;
 import com.techelevator.services.BreweryDetails;
 import com.techelevator.services.LocationConverter;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.ResourceAccessException;
+import org.springframework.web.server.ResponseStatusException;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
@@ -90,85 +93,116 @@ public class BreweryController {
         return result;
     }
 
-    //TODO id in params equals brewery id
+    //ADDED AND TESTED authorization
+    @PreAuthorize("hasRole('ROLE_BREWER')")
     @RequestMapping(path="/brewery/{id}/addbeer", method = RequestMethod.POST)
     public boolean addBeer(@PathVariable String id, @RequestBody BeerDetails beer, Principal principal) {
 
-    //  String userName = principal.getName();
-    //  int userId = userDao.findIdByUsername(userName);
+        boolean match = userIsBrewer(principal, id);
 
-        int jdbcBreweryId;
-
-        if(id.length() > 14){
-            jdbcBreweryId = brewerDAO.apiBreweryExistsInJdbc(id);
-            if(jdbcBreweryId == 0){
-                Brewer brewery = breweryDetails.getBreweryAndBeer(id); //API CALL
-                int newBreweryId = brewerDAO.addBrewery(brewery, 1); //CREATES BREWERY IN POSTGRES
-                return beerDAO.addBeer(beer, newBreweryId) > 0; //CREATES BEER
-            } else {
-                return beerDAO.addBeer(beer, jdbcBreweryId) >0;
+        if(match) {
+            int jdbcBreweryId;
+            int brewerId;
+            if (id.length() > 14) {
+                jdbcBreweryId = brewerDAO.apiBreweryExistsInJdbc(id);
+                if (jdbcBreweryId == 0) {
+                    Brewer brewery = breweryDetails.getBreweryAndBeer(id); //API CALL
+                    int newBreweryId = brewerDAO.addBrewery(brewery, 1); //CREATES BREWERY IN POSTGRES
+                    return beerDAO.addBeer(beer, newBreweryId) > 0; //CREATES BEER
+                } else {
+                    return beerDAO.addBeer(beer, jdbcBreweryId) > 0;
+                }
+            }
+            else {
+                int intId = Integer.parseInt(id);
+                return beerDAO.addBeer(beer, intId) > 0;
             }
         }
-        else{
-            int intId = Integer.parseInt(id);
-            return beerDAO.addBeer(beer, intId) > 0;
+        else {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "You are not the brewer of this brewery. Unable to add beer.");
         }
     }
 
+    //ADDED AND TESTED authorization
+    @PreAuthorize("hasRole('ROLE_BREWER')")
     @RequestMapping(path="/brewery/{id}/updatebrewery", method = RequestMethod.PUT)
     public boolean updateBrewery(@PathVariable String id, @RequestBody Brewer brewer, Principal principal) {
-        int jdbcBreweryId;
-        int zip = Integer.parseInt(brewer.getZip());
-        ZipLongLat zipLongLat = locationConverter.getCoordinates(zip);
-        brewer.setLatitude(zipLongLat.getLat());
-        brewer.setLongitude(zipLongLat.getLon());
-        if(id.length() > 14){
-            jdbcBreweryId = brewerDAO.apiBreweryExistsInJdbc(id);
-            if(jdbcBreweryId == 0){
-              int newBreweryId = brewerDAO.addBrewery(brewer, 1); //CREATES BREWERY IN POSTGRES
-                return (newBreweryId > 0);
 
-            } else {
-                return brewerDAO.updateBrewery(brewer, jdbcBreweryId);
-            }
-        }
-        else{
-            int intId = Integer.parseInt(id);
-            return brewerDAO.updateBrewery(brewer, intId);
-        }
-    }
+        boolean match = userIsBrewer(principal, id);
 
-    @RequestMapping(path="/beer/{id}", method = RequestMethod.PUT)
-    public boolean deleteBeer(@PathVariable String id) {
-        int jdbcBeerId;
-        try {
+        if(match) {
+            int jdbcBreweryId;
+            int zip = Integer.parseInt(brewer.getZip());
+            ZipLongLat zipLongLat = locationConverter.getCoordinates(zip);
+            brewer.setLatitude(zipLongLat.getLat());
+            brewer.setLongitude(zipLongLat.getLon());
             if (id.length() > 14) {
-                jdbcBeerId = beerDAO.apiBeerExistsInJdbc(id);
-                if (jdbcBeerId == 0) {
-                    BeerDetails beer = breweryDetails.getBeerById(id); //API CALL
-                    //TODO when principal added replace breweryId with brewery associated with principal
-                    int newBeerId = beerDAO.addBeer(beer, 1); //CREATES BREWERY IN POSTGRES
-                    beerDAO.deleteBeer(String.valueOf(newBeerId));
+                jdbcBreweryId = brewerDAO.apiBreweryExistsInJdbc(id);
+                if (jdbcBreweryId == 0) {
+                    int newBreweryId = brewerDAO.addBrewery(brewer, 1); //CREATES BREWERY IN POSTGRES
+                    return (newBreweryId > 0);
+
                 } else {
-                    beerDAO.deleteBeer(String.valueOf(jdbcBeerId));
+                    return brewerDAO.updateBrewery(brewer, jdbcBreweryId);
                 }
             } else {
-                beerDAO.deleteBeer(id);
+                int intId = Integer.parseInt(id);
+                return brewerDAO.updateBrewery(brewer, intId);
             }
-        }catch (ResourceAccessException e){ }
-        return beerDAO.deleteBeer(id);
+        }
+        else {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "You are not the brewer of this brewery. Unable to add beer.");
+            }
     }
 
+    //ADDED AND TESTED authorization
+    @PreAuthorize("hasRole('ROLE_BREWER')")
+    @RequestMapping(path="/beer/{id}", method = RequestMethod.PUT)
+    public boolean deleteBeer(@PathVariable String id, Principal principal) {
+
+        boolean match = userIsBeerBrewer(principal, id);
+
+        if (match) {
+            try {
+                int jdbcBeerId;
+                if (id.length() > 14) {
+                    jdbcBeerId = beerDAO.apiBeerExistsInJdbc(id);
+                    if (jdbcBeerId == 0) {
+                        BeerDetails beer = breweryDetails.getBeerById(id); //API CALL
+                        //TODO when principal added replace breweryId with brewery associated with principal
+                        int newBeerId = beerDAO.addBeer(beer, 1); //CREATES BREWERY IN POSTGRES
+                        beerDAO.deleteBeer(String.valueOf(newBeerId));
+                    } else {
+                        beerDAO.deleteBeer(String.valueOf(jdbcBeerId));
+                    }
+                } else {
+                    beerDAO.deleteBeer(id);
+                }
+            } catch (ResourceAccessException e) {
+            }
+            return beerDAO.deleteBeer(id);
+        }
+        else {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "You are not the brewer of this brewery. Unable to add beer.");
+        }
+    }
+
+    //ADDED AND TESTED authorization
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(path="/brewery/addbrewery", method = RequestMethod.POST)
-    public boolean addBrewery(@RequestBody Brewer brewer) {
+    public boolean addBrewery(@RequestBody Brewer brewer, Principal principal) {
+
+        int userId = userDao.findIdByUsername(principal.getName());
+
         int zip = Integer.parseInt(brewer.getZip());
         ZipLongLat zipLongLat = locationConverter.getCoordinates(zip);
         brewer.setLatitude(zipLongLat.getLat());
         brewer.setLongitude(zipLongLat.getLon());
 
-        return brewerDAO.addBrewery(brewer, 1) > 0; //Userid will come from Principal
+        return brewerDAO.addBrewery(brewer, userId) > 0; //Userid will come from Principal
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(path="/brewery/{id}", method = RequestMethod.PUT)
     public boolean deleteBrewery(@PathVariable String id) {
         //String breweryApiId = (breweryDetails.locationIDtoBreweryId(id).length() > 14) ? breweryDetails.locationIDtoBreweryId(id) : id ;
@@ -208,10 +242,12 @@ public class BreweryController {
          return listOfBreweries;
     }
 
+    //ADDED AND TESTED authorization
+    @PreAuthorize("isAuthenticated()")
     @RequestMapping(path="/beer/{id}/reviews", method = RequestMethod.POST)
     public boolean addReview(@PathVariable String id, @RequestBody Reviews reviews, Principal principal){
-//        int userId = userDao.findIdByUsername(principal.getName());
-        int userId = 1;
+        int userId = userDao.findIdByUsername(principal.getName());
+        int adminId = userDao.findIdByUsername("admin");
         int jdbcBeerId = 0;
         int jdbcBreweryId = 0;
         int newReview = 0;
@@ -226,7 +262,7 @@ public class BreweryController {
                     jdbcBreweryId = brewerDAO.apiBreweryExistsInJdbc(apiBreweryId); //CHECK IF JDBC has brewery
                     if (jdbcBreweryId == 0) { //If brewery does not exist -- trigger this block
                         Brewer brewery = breweryDetails.getBreweryAndBeer(apiBreweryId); //API CALL TO GET BREWERY
-                        jdbcBreweryId = brewerDAO.addBrewery(brewery, userId); //CREATES BREWERY IN POSTGRES
+                        jdbcBreweryId = brewerDAO.addBrewery(brewery, adminId); //CREATES BREWERY IN POSTGRES
                     }
                     jdbcBeerId = beerDAO.addBeer(beer, jdbcBreweryId); //CREATES BEER IN POSTGRES //TODO when principal added replace breweryId with brewery associated with principal
                 }else {
@@ -244,16 +280,43 @@ public class BreweryController {
         return (newReview > 0);
     }
 
-    //This was a test idea created by Sean, no use for the capstone
-    @RequestMapping(path="/location/{id}", method = RequestMethod.GET)
-    public String getBreweryIdByLocationId(@PathVariable String id){
-        return breweryDetails.locationIDtoBreweryId(id);
+    //HELPER METHODS
+    public boolean userIsBrewer(Principal principal, String id){
+        int jdbcBreweryId;
+        int brewerId;
+
+        int userId = userDao.findIdByUsername(principal.getName());
+
+        if(id.length() > 14) {
+            jdbcBreweryId = brewerDAO.apiBreweryExistsInJdbc(id);
+            brewerId = (jdbcBreweryId == 0) ? 0 : brewerDAO.getBrewerByBreweryId(jdbcBreweryId).getUserId();
+        }
+        else {
+            brewerId = brewerDAO.getBrewerByBreweryId(Integer.parseInt(id)).getUserId();
+        }
+
+        return brewerId == userId;
     }
 
+    public boolean userIsBeerBrewer(Principal principal, String id){
+        int jdbcBreweryId;
+        int brewerId;
 
+        int userId = userDao.findIdByUsername(principal.getName());
 
+        if(id.length() > 14) {
+            jdbcBreweryId = brewerDAO.apiBreweryExistsInJdbc(id);
+            brewerId = (jdbcBreweryId == 0) ? 0 : brewerDAO.getBrewerByBreweryId(jdbcBreweryId).getUserId();
+        }
+        else {
+            BeerDetails beer = beerDAO.getBeerByBeerId(Integer.parseInt(id));
+            Brewer brewer = brewerDAO.getBrewerByBreweryId(beer.getBreweryId());
+            brewerId = brewer.getUserId();
 
+        }
 
+        return brewerId == userId;
+    }
 
     //OLD and NOT used code -- DO NOT DELETE
     //    @RequestMapping(path="/brewery/{id}", method = RequestMethod.GET)
@@ -334,5 +397,11 @@ public class BreweryController {
 //        }
 //
 //        return result;
+//    }
+
+//    //This was a test idea created by Sean, no use for the capstone
+//    @RequestMapping(path="/location/{id}", method = RequestMethod.GET)
+//    public String getBreweryIdByLocationId(@PathVariable String id){
+//        return breweryDetails.locationIDtoBreweryId(id);
 //    }
 }

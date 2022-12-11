@@ -27,7 +27,8 @@ public class JdbcBrewerDAO implements BrewerDAO {
 
     @Override
     public Brewer getBrewerByBreweryId(int id) {
-        Brewer brewery = new Brewer();
+//        Brewer brewery = new Brewer();
+        Brewer brewery = null;
 
         String sql = "SELECT * FROM brewery WHERE brewery_id = ?;";
 
@@ -181,6 +182,7 @@ public class JdbcBrewerDAO implements BrewerDAO {
         Brewer brewery = new Brewer();
 
         brewery.setBrewerId(result.getInt("brewery_id"));
+        brewery.setUserId(result.getInt("user_id"));
         brewery.setName(result.getString("name"));
         brewery.setDescription(result.getString("brewery_history"));
         brewery.setUrl(result.getString("brewery_url"));
