@@ -2,7 +2,6 @@ package com.techelevator.dao;
 
 import com.techelevator.model.BeerDetails;
 import com.techelevator.model.BeerList;
-import com.techelevator.model.BeerListDetails;
 import com.techelevator.model.Brewer;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
@@ -24,7 +23,7 @@ public class JdbcBeerDao implements BeerDAO{
     public List<BeerList> getBreweryBeerByBreweryId(int id) {
         List<BeerList> beerDetails = new ArrayList<>();
 
-        String sql = "select * from beer WHERE brewery_id = ?;";
+        String sql = "select * from beer WHERE brewery_id = ? AND api_beer_id IS NULL;";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, id);
         while (results.next()) {
             beerDetails.add(mapRowToBeerList(results));
