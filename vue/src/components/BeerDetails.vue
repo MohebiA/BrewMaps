@@ -2,6 +2,12 @@
   <div>
     
     <section id="brewerylist" class="p-5 bg-dark">
+
+        <b-button class=" border border-2 border-dark m-5" v-on:click="deleteBeer(beer.id), getDetails(beer.breweryId)">
+              DELETE BEER
+            </b-button>
+
+
       <div class="container">
         <div
           class="
@@ -238,6 +244,15 @@ export default {
       });
     },
 
+    deleteBeer(id) {
+      AppServices.deleteBeer(id);
+
+    },
+
+    getDetails(id) {
+            this.$router.push({name: 'brewerydetails', params: {id:id}})
+        },
+
     locationReload() {
       location.reload();
     },
@@ -262,12 +277,12 @@ export default {
 
     AppServices.getBeerById(this.$route.params.id).then((response) => {
       //TODO: REMOVE BEFORE PROD
-      alert(this.$route.params.id);
+      // alert(this.$route.params.id);
 
       this.beer = response.data;
 
       //TODO: REMOVE BEFORE PROD
-      alert(JSON.stringify(response.data));
+      // alert(JSON.stringify(response.data));
     });
   },
 };
