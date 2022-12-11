@@ -26,7 +26,7 @@ export default {
         return http.get(`/brewery/${id}`)
     },
 
-    addBeer(newBeer, id) {
+    addBeer(id, newBeer) {
         return http.post(`/brewery/${id}/addbeer`, newBeer)
     },
 

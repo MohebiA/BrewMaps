@@ -24,7 +24,7 @@
       <b-form-group id="input-group-2" label="Brewery Phone Number:" label-for="input-2">
         <b-form-input
           id="input-2"
-          v-model="newBrewery.phoneNum"
+          v-model="newBrewery.phoneNumber"
           placeholder="Enter Brewery Phone Number"
           required
         ></b-form-input>
@@ -33,7 +33,7 @@
       <b-form-group id="input-group-2" label="Address:" label-for="input-2">
         <b-form-input
           id="input-2"
-          v-model="newBrewery.address_1"
+          v-model="newBrewery.address1"
           placeholder="Enter Brewery Address"
           required
         ></b-form-input>
@@ -42,7 +42,7 @@
       <b-form-group id="input-group-2" label="Second Address:" label-for="input-2">
         <b-form-input
           id="input-2"
-          v-model="newBrewery.address_2"
+          v-model="newBrewery.address2"
           placeholder="Enter second address if applicable"
           
         ></b-form-input>
@@ -87,7 +87,7 @@
       <b-form-group id="input-group-2" label="Brewery Logo:" label-for="input-2">
         <b-form-input
           id="input-2"
-          v-model="newBrewery.breweryImgUrl"
+          v-model="newBrewery.imgUrl"
           placeholder="Enter the url to the brewery logo"
           
         ></b-form-input>
@@ -96,7 +96,7 @@
       <b-form-group id="input-group-2" label="Brewery Website:" label-for="input-2">
         <b-form-input
           id="input-2"
-          v-model="newBrewery.websiteUrl"
+          v-model="newBrewery.url"
           placeholder="Enter the url to the brewery website"
           
         ></b-form-input>
@@ -105,7 +105,7 @@
       <b-form-group id="input-group-2" label="Brewery History:" label-for="input-2">
         <b-form-input
           id="input-2"
-          v-model="newBrewery.description"
+          v-model="newBrewery.history"
           placeholder="Enter a brief description for the history of the brewery"
           required
         ></b-form-input>
@@ -152,8 +152,8 @@
         </b-form-checkbox-group>
       </b-form-group> -->
       
-      <b-button class="ml-2" v-on:click="createBrewery()" type="submit" variant="primary">Submit</b-button>
-      <b-button class="m-2" v-on:click="onReset()" type="reset" variant="danger">Reset</b-button>
+      <b-button class="ml-2" type="submit" variant="primary" @click="locationReload()">Submit</b-button>
+      <b-button class="m-2" type="reset" variant="danger">Reset</b-button>
     </b-form>
     
   </div>
@@ -199,16 +199,16 @@ import AppServices from '../services/AppServices'
         newBrewery: {
           name: "",
           brewerUsername: "",
-          phoneNum: "",
-          address_1: "",
-          address_2: "",
+          phoneNumber: "",
+          address1: "",
+          address2: "",
           city: "",
           state: "",
           zip: "",
           hours: "",
-          breweryImgUrl: "",
-          websiteUrl: "",
-          description: "",
+          imgUrl: "",
+          url: "",
+          history: "",
           longitude: "",
           latitude: "",
 
@@ -230,6 +230,26 @@ import AppServices from '../services/AppServices'
       onSubmit(event) {
         event.preventDefault()
         alert(JSON.stringify(this.form))
+        AppServices.createBrewery(this.newBrewery)
+
+
+
+
+
+          this.newBrewery.name = ""
+          this.newBrewery.brewerUsername = ""
+          this.newBrewery.phoneNumber = ""
+          this.newBrewery.address1 = ""
+          this.newBrewery.address2 = ""
+          this.newBrewery.city = ""
+          this.newBrewery.state = ""
+          this.newBrewery.zip = ""
+          this.newBrewery.hours = ""
+          this.newBrewery.imgUrl = ""
+          this.newBrewery.url = ""
+          this.newBrewery.history = ""
+          this.newBrewery.longitude = ""
+          this.newBrewery.latitude = ""
       },
       onReset(event) {
         event.preventDefault()

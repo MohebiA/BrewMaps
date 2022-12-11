@@ -162,7 +162,7 @@
                   </b-form-group>
 
                   <b-button class="m-1" type="submit" variant="primary"
-                    @click="locationReload()">Submit</b-button
+                    >Submit</b-button
                   >
                   <b-button type="reset" variant="danger">Reset</b-button>
                 </b-form>
@@ -212,7 +212,26 @@ import AppServices from "../services/AppServices";
 export default {
   data() {
     return {
-      brewery: {},
+      brewery: {
+          brewery_id: "",
+          name: "",
+          phoneNumber: "",
+          address1: "",
+          address2: "",
+          city: "",
+          state: "",
+          zip: "",
+          hours: "",
+          imgUrl: "",
+          url: "",
+          history: "",
+          longitude: "",
+          latitude: "",
+
+
+
+
+      },
       selectedBeerId: "",
       form: {
         review: "",
@@ -248,7 +267,7 @@ export default {
     },
     onSubmit(event) {
 
-      AppServices.addBeer(this.beer, this.beer.id)
+      AppServices.addBeer(this.brewery.id, this.beer)
 
       // this.$emit('review-submitted', productReview)
       event.preventDefault();

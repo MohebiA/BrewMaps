@@ -36,16 +36,17 @@
 
           <h5 id="null message" v-if="beer.beer_type=== null">Type: Coming Soon</h5>
           <h5 v-else>Type: {{ beer.beer_type }}</h5>
-          <!-- <h5>Description: {{ beer.description }}</h5> -->
 
-          <h5 id="null message" v-if="beer.description=== null">Description: Coming Soon</h5>
+          <h5 id="null message" v-if="beer.description === null">Description: Coming Soon</h5>
           <h5 v-else>Description: {{beer.description}}</h5>
 
           <h5 id="null message" v-if="beer.imgUrl=== null">Image: Coming Soon</h5>
           <h5 v-else>{{ beer.imgUrl }}</h5>
 
+<!-- @click="getBeerById()" -->
           <div class="brewery-list">
-            <div v-bind:key="beer.id" @click="getBeerById()">
+           
+            <div v-bind:key="beer.id" >
               <b-button
                 v-b-modal.modal-tall
                 class="mb-2"
@@ -224,9 +225,9 @@ export default {
     
     },
 
-    // addReview(productReview) {
-    //   this.reviews.push(productReview);
-    // },
+    addReview(productReview) {
+      this.reviews.push(productReview);
+    },
     onReset(event) {
       event.preventDefault();
       // Reset our form values
@@ -243,6 +244,9 @@ export default {
 
     locationReload() {
       location.reload();
+    },
+    myAlert(){
+      alert("Good job");
     }
   },
   created() {
