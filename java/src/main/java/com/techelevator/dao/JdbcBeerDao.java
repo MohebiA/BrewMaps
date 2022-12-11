@@ -23,7 +23,7 @@ public class JdbcBeerDao implements BeerDAO{
     public List<BeerList> getBreweryBeerByBreweryId(int id) {
         List<BeerList> beerDetails = new ArrayList<>();
 
-        String sql = "select * from beer WHERE brewery_id = ? AND api_beer_id IS NULL;";
+        String sql = "select * from beer WHERE brewery_id = ? AND api_beer_id IS NULL AND been_removed = false;";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, id);
         while (results.next()) {
             beerDetails.add(mapRowToBeerList(results));
