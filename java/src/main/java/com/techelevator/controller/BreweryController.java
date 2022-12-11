@@ -155,6 +155,36 @@ public class BreweryController {
             }
     }
 
+    @PreAuthorize("hasRole('ROLE_BREWER')")
+    @RequestMapping(path="/beer/{id}/updatebeer", method = RequestMethod.PUT)
+    public boolean updateBeer(@PathVariable String id, @RequestBody BeerDetails beer, Principal principal) {
+
+        boolean match = userIsBeerMaker(principal, id);
+
+        if(match) {
+            Brewer brewery = brewerDAO.getBrewerByUserId(userDao.findIdByUsername(principal.getName()));
+
+            int jdbcBeerId;
+            int jdbcBreweryId;
+
+            if (id.length() > 14) {
+                jdbcBeerId = beerDAO.apiBeerExistsInJdbc(id);
+                if (jdbcBeerId == 0) {
+                        return beerDAO.addBeer(beer, brewery.getBrewerId()) > 0; //CREATES BEER
+                } else {
+                    return beerDAO.updateBeer(beer, jdbcBeerId);
+                }
+
+            } else {
+                int intId = Integer.parseInt(id);
+                return beerDAO.updateBeer(beer, intId);
+            }
+        }
+        else {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "You are not the brewer of this brewery. Unable to update beer details.");
+        }
+    }
+
     //ADDED AND TESTED authorization
     @PreAuthorize("hasRole('ROLE_BREWER')")
     @RequestMapping(path="/beer/{id}", method = RequestMethod.PUT)
@@ -204,7 +234,7 @@ public class BreweryController {
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(path="/brewery/{id}", method = RequestMethod.PUT)
-    public boolean deleteBrewery(@PathVariable String id) {
+    public boolean deleteBrewery(@PathVariable String id, Principal principal) {
         //String breweryApiId = (breweryDetails.locationIDtoBreweryId(id).length() > 14) ? breweryDetails.locationIDtoBreweryId(id) : id ;
         int jdbcBreweryId;
         try {
@@ -212,7 +242,7 @@ public class BreweryController {
                 jdbcBreweryId = brewerDAO.apiBreweryExistsInJdbc(id);
                 if (jdbcBreweryId == 0) {
                     Brewer brewery = breweryDetails.getBreweryAndBeer(id); //API CALL
-                    int newBreweryId = brewerDAO.addBrewery(brewery, 1); //CREATES BREWERY IN POSTGRES
+                    int newBreweryId = brewerDAO.addBrewery(brewery, userDao.findIdByUsername(principal.getName())); //CREATES BREWERY IN POSTGRES
                     brewerDAO.deleteBrewery(String.valueOf(newBreweryId));
                 } else {
                     brewerDAO.deleteBrewery(String.valueOf(jdbcBreweryId));
@@ -307,6 +337,34 @@ public class BreweryController {
         if(id.length() > 14) {
             jdbcBreweryId = brewerDAO.apiBreweryExistsInJdbc(id);
             brewerId = (jdbcBreweryId == 0) ? 0 : brewerDAO.getBrewerByBreweryId(jdbcBreweryId).getUserId();
+        }
+        else {
+            BeerDetails beer = beerDAO.getBeerByBeerId(Integer.parseInt(id));
+            Brewer brewer = brewerDAO.getBrewerByBreweryId(beer.getBreweryId());
+            brewerId = brewer.getUserId();
+
+        }
+
+        return brewerId == userId;
+    }
+
+    public boolean userIsBeerMaker(Principal principal, String id){
+        int jdbcBeerId;
+        int brewerId;
+
+        int userId = userDao.findIdByUsername(principal.getName());
+
+        if(id.length() > 14) {
+            jdbcBeerId = beerDAO.apiBeerExistsInJdbc(id);
+            if(jdbcBeerId == 0){
+                String apiId = breweryDetails.getBeerById(id).getBrewer().getApiBreweryId();
+                int jdbcBrewerId = brewerDAO.apiBreweryExistsInJdbc(apiId);
+                brewerId = brewerDAO.getBrewerByBreweryId(jdbcBrewerId).getUserId();
+            } else {
+                int breweryId = beerDAO.getBeerByBeerId(jdbcBeerId).getBreweryId();
+                brewerId = (jdbcBeerId == 0) ? 0 : brewerDAO.getBrewerByBreweryId(breweryId).getUserId();
+            }
+
         }
         else {
             BeerDetails beer = beerDAO.getBeerByBeerId(Integer.parseInt(id));

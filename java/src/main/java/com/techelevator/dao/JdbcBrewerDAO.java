@@ -24,6 +24,19 @@ public class JdbcBrewerDAO implements BrewerDAO {
     }
 
 
+    @Override
+    public Brewer getBrewerByUserId(int id) {
+        Brewer brewery = null;
+
+        String sql = "SELECT * FROM brewery WHERE user_id = ?;";
+
+        SqlRowSet result = jdbcTemplate.queryForRowSet(sql, id);
+        if(result.next()) {
+            brewery = mapSingleBreweryToRow(result);
+
+        }
+        return brewery;
+    }
 
     @Override
     public Brewer getBrewerByBreweryId(int id) {

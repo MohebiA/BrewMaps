@@ -71,6 +71,21 @@ public class JdbcBeerDao implements BeerDAO{
     }
 
     @Override
+    public boolean updateBeer(BeerDetails beer, int beerId){
+
+        try {
+            String sql = "UPDATE beer set name = ?, img_url = ?, description = ?, abv = ?, beer_type = ?, been_removed = ? " +
+                    "WHERE beer_id = ?;";
+            jdbcTemplate.update(sql, beer.getName(), beer.getImgUrl(), beer.getDescription(), beer.getAbv(),
+                    beer.getStyle(), beer.isBeenRemoved(), beerId);
+            return true;
+        }catch (ResourceAccessException e){
+            return false;
+        }
+
+    }
+
+    @Override
     public boolean deleteBeer(String beerId) {
         try {
             if(beerId.length() > 14) {

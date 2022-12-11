@@ -12,6 +12,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import com.techelevator.model.User;
+import org.springframework.web.client.ResourceAccessException;
 
 @Component
 public class JdbcUserDao implements UserDao {
@@ -94,6 +95,17 @@ public class JdbcUserDao implements UserDao {
         String ssRole = role.toUpperCase().startsWith("ROLE_") ? role.toUpperCase() : "ROLE_" + role.toUpperCase();
 
         return jdbcTemplate.update(insertUserSql, username, password_hash, ssRole) == 1;
+    }
+
+    @Override
+    public boolean delete(int userId){
+        String sql = "DELETE FROM users where user_id = ?;";
+        try {
+            jdbcTemplate.update(sql, userId);
+            return true;
+        }catch (ResourceAccessException e){
+            return false;
+        }
     }
 
     private User mapRowToUser(SqlRowSet rs) {
