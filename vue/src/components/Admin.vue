@@ -21,6 +21,20 @@
         ></b-form-input>
       </b-form-group>
 
+      <b-form-group
+        id="input-group-1"
+        label="Brewer Username:"
+        label-for="input-1"
+      >
+        <b-form-input
+          id="input-1"
+          v-model="newBrewery.brewerUsername"
+          type="text"
+          placeholder="Enter Brewer Username"
+          required
+        ></b-form-input>
+      </b-form-group>
+
       <b-form-group id="input-group-2" label="Brewery Phone Number:" label-for="input-2">
         <b-form-input
           id="input-2"

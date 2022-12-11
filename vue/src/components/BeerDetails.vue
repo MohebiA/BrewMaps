@@ -1,5 +1,6 @@
 <template>
   <div>
+    
     <section id="brewerylist" class="p-5 bg-dark">
       <div class="container">
         <div
@@ -10,50 +11,59 @@
             text-center text-white
           "
         >
-        
-        <div>
-          <h5 id="null message" v-if="beer.imgUrl=== null"><b-img
-            id="Brewery-logo"
-            :src="require('../Assets/giovanna-gomes-Qy2KMPRV3X4-unsplash.jpg')"
-          ></b-img></h5>
-          <h5 v-else>{{ beer.imgUrl }}</h5>
-
-
-
-        </div>
-
-
+          <div>
+            <h5 id="null message" v-if="beer.imgUrl === null">
+              <b-img
+                id="Brewery-logo"
+                :src="
+                  require('../Assets/giovanna-gomes-Qy2KMPRV3X4-unsplash.jpg')
+                "
+              ></b-img>
+            </h5>
+            <h5 v-else>{{ beer.imgUrl }}</h5>
+          </div>
 
           <h4>{{ beer.name }}</h4>
-          <h5 id="null message" v-if="beer.name=== null">Beer Name: Coming Soon</h5>
+          <h5 id="null message" v-if="beer.name === null">
+            Beer Name: Coming Soon
+          </h5>
 
-
-          <h5 id="null message" v-if="beer.ABV=== null">ABV: Coming Soon</h5>
+          <h5 id="null message" v-if="beer.ABV === null">ABV: Coming Soon</h5>
           <h5 v-else>ABV: {{ beer.abv }}</h5>
 
-          <h5 id="null message" v-if="beer.IBU=== null">IBU: Coming Soon</h5>
+          <h5 id="null message" v-if="beer.IBU === null">IBU: Coming Soon</h5>
           <h5 v-else>IBU: {{ beer.ibu }}</h5>
 
-          <h5 id="null message" v-if="beer.beer_type=== null">Type: Coming Soon</h5>
+          <h5 id="null message" v-if="beer.beer_type === null">
+            Type: Coming Soon
+          </h5>
           <h5 v-else>Type: {{ beer.beer_type }}</h5>
 
-          <h5 id="null message" v-if="beer.description === null">Description: Coming Soon</h5>
-          <h5 v-else>Description: {{beer.description}}</h5>
+          <h5 id="null message" v-if="beer.description === null">
+            Description: Coming Soon
+          </h5>
+          <h5 v-else>Description: {{ beer.description }}</h5>
 
-          <h5 id="null message" v-if="beer.imgUrl=== null">Image: Coming Soon</h5>
+          <h5 id="null message" v-if="beer.imgUrl === null">
+            Image: Coming Soon
+          </h5>
           <h5 v-else>{{ beer.imgUrl }}</h5>
 
-<!-- @click="getBeerById()" -->
+          <!-- @click="getBeerById()" -->
           <div class="brewery-list">
-           
-            <div v-bind:key="beer.id" >
+            <div v-bind:key="beer.id">
               <b-button
                 v-b-modal.modal-tall
                 class="mb-2"
                 variant="outline-warning"
                 >Leave a review</b-button
               >
-              <b-modal id="modal-tall" title="Beer Review" ok-only ok-title="Cancel">
+              <b-modal
+                id="modal-tall"
+                title="Beer Review"
+                ok-only
+                ok-title="Cancel"
+              >
                 <b-form @submit="onSubmit" @reset="onReset" v-if="show">
                   <h5 class="text-center">{{ beer.name }}</h5>
                   <b-form-group
@@ -97,8 +107,12 @@
                     </div>
                   </b-form-group>
 
-                  <b-button class="m-1" type="submit" variant="primary"
-                    @click="locationReload()">Submit</b-button
+                  <b-button
+                    class="m-1"
+                    type="submit"
+                    variant="primary"
+                    @click="locationReload()"
+                    >Submit</b-button
                   >
                   <b-button type="reset" variant="danger">Reset</b-button>
                 </b-form>
@@ -110,6 +124,12 @@
               </b-modal>
 
               <div class="mt-4">
+                <div class="well">
+                  <span class="amount" v-on:click="updateFilter()">
+                    {{averageRating}}</span>
+                  Average Rating
+                </div>
+                
                 <h2>Reviews</h2>
                 <ul>
                   <li
@@ -123,7 +143,7 @@
                       <label for="rating-readonly">Rating:</label>
                       <b-form-rating
                         id="rating-readonly"
-                        :value= "review.value"
+                        :value="review.value"
                         readonly
                         show-value
                         precision="0"
@@ -136,35 +156,6 @@
               <product-review @review-submitted="addReview"></product-review>
             </div>
 
-            <!-- <div>
-                <b-button v-b-modal.modal-tall variant="outline-warning"
-                  >Beer Modal</b-button
-                >
-
-                <b-modal id="modal-tall" title="Beer Details">
-                  <p class="my-4" v-for="i in 20" :key="i">
-                    Cras mattis consectetur purus sit amet fermentum. Cras justo
-                    odio, dapibus ac facilisis in, egestas eget quam. Morbi leo
-                    risus, porta ac consectetur ac, vestibulum at eros.
-                  </p> -->
-
-            <!-- Need to finish actions for each button to close and review -->
-            <!-- <template #modal-footer>
-                    <button
-                      v-b-modal.modal-close_visit
-                      class="btn btn-danger btn-sm m-1"
-                    >
-                      Close
-                    </button>
-                    <button
-                      v-b-modal.modal-close_visit
-                      class="btn btn-warning btn-sm m-1"
-                    >
-                      Review Beer
-                    </button>
-                  </template>
-                </b-modal>
-              </div> -->
           </div>
         </div>
       </div>
@@ -176,7 +167,12 @@
 <script>
 import AppServices from "../services/AppServices";
 
+
+
+
 export default {
+  
+  
   data() {
     return {
       beer: {
@@ -208,7 +204,7 @@ export default {
         value: this.form.value,
       };
 
-      AppServices.createReview(this.form, this.beer.id)
+      AppServices.createReview(this.form, this.beer.id);
 
       // this.$emit('review-submitted', productReview)
       event.preventDefault();
@@ -220,14 +216,14 @@ export default {
       // alert(JSON.stringify(this.form))
     },
 
-    saveReview(){
-      AppServices.createReview(this.productReview, this.beer.id)
-    
+    saveReview() {
+      AppServices.createReview(this.productReview, this.beer.id);
     },
 
     addReview(productReview) {
       this.reviews.push(productReview);
     },
+
     onReset(event) {
       event.preventDefault();
       // Reset our form values
@@ -245,26 +241,33 @@ export default {
     locationReload() {
       location.reload();
     },
-    myAlert(){
-      alert("Good job");
-    }
   },
-  created() {
+  computed: {
+    averageRating() {
+      const beerReviews = this.beer.reviews;
+      let sum = beerReviews.reduce((currentSum, review) => {
+        return currentSum + review.value;
+      }, 0);
+      if(sum === 0) {
+        return 0;
+      } else {
+        return (sum / beerReviews.length).toFixed(2);
+      }
+    },
+  },
 
+  created() {
     //RICH TEST LINE
     this.beer.id = this.$route.params.id;
 
     AppServices.getBeerById(this.$route.params.id).then((response) => {
-
-
       //TODO: REMOVE BEFORE PROD
-      alert( this.$route.params.id);
+      alert(this.$route.params.id);
 
       this.beer = response.data;
 
       //TODO: REMOVE BEFORE PROD
       alert(JSON.stringify(response.data));
-
     });
   },
 };
