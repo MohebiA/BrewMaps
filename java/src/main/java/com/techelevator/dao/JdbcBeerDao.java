@@ -8,6 +8,7 @@ import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.ResourceAccessException;
 
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 @Component
@@ -24,9 +25,14 @@ public class JdbcBeerDao implements BeerDAO{
         List<BeerList> beerDetails = new ArrayList<>();
 
         String sql = "select * from beer WHERE brewery_id = ? AND api_beer_id IS NULL AND been_removed = false;";
+        String avgSql = "SELECT AVG(rating) AS average FROM reviews WHERE beer_id = ?;";
+
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, id);
         while (results.next()) {
-            beerDetails.add(mapRowToBeerList(results));
+            BeerList currentBeer = mapRowToBeerList(results);
+            Double avgRate = jdbcTemplate.queryForObject(avgSql, Double.class, Integer.parseInt(currentBeer.getId()));
+            currentBeer.setAvgRating(avgRate);
+            beerDetails.add(currentBeer);
         }
         return beerDetails;
     }
@@ -157,6 +163,14 @@ public class JdbcBeerDao implements BeerDAO{
         beer.setApiId(result.getString("api_beer_id"));
         beer.setBeenRemoved(result.getBoolean("been_removed"));
         return beer;
+    }
+
+    private double mapAvgToRow(SqlRowSet rowSet){
+        BeerList beerList = new BeerList();
+        beerList.setAvgRating(rowSet.getDouble("average"));
+
+        return beerList.getAvgRating();
+
     }
 
 //    private boolean mapRowToDeleted(SqlRowSet result){

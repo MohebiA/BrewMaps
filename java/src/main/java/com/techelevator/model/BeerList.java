@@ -6,15 +6,15 @@ public class BeerList {
     private String id;
     private String name;
     private String style;
-    List<Reviews> reviewList;
+    double avgRating;
 
     public BeerList(){}
 
-    public BeerList(String id, String name, String style, List<Reviews> reviewList) {
+    public BeerList(String id, String name, String style, double avgRating) {
         this.id = id;
         this.name = name;
         this.style = style;
-        this.reviewList = reviewList;
+        this.avgRating = avgRating;
     }
 
     public String getId() {
@@ -41,12 +41,12 @@ public class BeerList {
         this.style = style;
     }
 
-    public List<Reviews> getReviewList() {
-        return reviewList;
+    public double getAvgRating() {
+        return avgRating;
     }
 
-    public void setReviewList(List<Reviews> reviewList) {
-        this.reviewList = reviewList;
+    public void setAvgRating(double avgRating) {
+        this.avgRating = avgRating;
     }
 
     @Override
