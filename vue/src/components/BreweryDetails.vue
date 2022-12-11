@@ -196,10 +196,11 @@
             @click="setBeerId(beer.id)"
           >
             <!-- <router-link v-bind:to="{ name: 'beerdetails' }"> -->
-            <b-button class="mb-2" variant="outline-warning"
+            <b-button class="mb-2 custom" variant="outline-warning"
               >{{ beer.name }}
               <hr />
-              {{ beer.style }}
+              <!-- {{ beer.beer_type }} -->
+              {{beer.style}}
               </b-button
             >
             <!-- </router-link> -->
@@ -270,6 +271,18 @@ export default {
     AppServices.getBreweryById(this.$route.params.id).then((response) => {
       this.brewery = response.data;
     });
+
+
+
+      // this.beer.id = this.$route.params.id;
+
+      //TODO: REMOVE BEFORE PROD
+      alert(this.$route.params.id);
+
+      // this.brewery = response.data;
+
+      //TODO: REMOVE BEFORE PROD
+      // alert(JSON.stringify(response.data));
   },
   methods: {
     setBeerId(id) {
@@ -277,11 +290,24 @@ export default {
       this.$router.push({ name: "beerdetails", params: { id: id } });
     },
     onSubmit(event) {
-      AppServices.addBeer(this.brewery.id, this.beer);
+        let addedBeer = {
+
+      abv: this.beer.abv,
+      beer_type: this.beer.beer_type,
+      description: this.beer.description,
+      ibu: this.beer.ibu,
+      imgUrl: this.beer.imgUrl,
+      name: this.beer.name,
+    // brewery_id:  this.beer.brewery_id = this.$route.params.id;
+      };
+      AppServices.addBeer(this.$route.params.id, this.beer);
 
       // this.$emit('review-submitted', productReview)
       event.preventDefault();
       // this.addReview(newBeer);
+
+      this.brewery.beerList.push(addedBeer);
+
 
       this.beer.abv = "";
       this.beer.beer_type = "";
@@ -289,6 +315,7 @@ export default {
       this.beer.ibu = "";
       this.beer.imgUrl = "";
       this.beer.name = "";
+      this.beer.brewery_id = this.$route.params.id;
       // alert(JSON.stringify(this.form))
     },
     onReset(event) {
@@ -318,5 +345,9 @@ export default {
   grid-column: 1/2;
   grid-row: 1/2;
   max-width: 300px;
+}
+
+.custom {
+  width: 300px !important;
 }
 </style>

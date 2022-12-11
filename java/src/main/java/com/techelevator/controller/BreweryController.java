@@ -97,7 +97,7 @@ public class BreweryController {
     @PreAuthorize("hasRole('ROLE_BREWER')")
     @RequestMapping(path="/brewery/{id}/addbeer", method = RequestMethod.POST)
     public boolean addBeer(@PathVariable String id, @RequestBody BeerDetails beer, Principal principal) {
-
+        BeerDetails checkedBeer = beer;
         boolean match = userIsBrewer(principal, id);
 
         if(match) {

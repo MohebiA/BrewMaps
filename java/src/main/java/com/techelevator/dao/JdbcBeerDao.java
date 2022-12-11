@@ -61,7 +61,7 @@ public class JdbcBeerDao implements BeerDAO{
         try {
 
          newBeerId = jdbcTemplate.queryForObject(sql, Integer.class, beer.getName(), beer.getImgUrl(), beer.getDescription(), beer.getAbv(),
-                 beer.getStyle(), breweryId, beer.getApiId(), beer.isBeenRemoved());
+                 beer.getStyle(), breweryId, (beer.getApiId()=="")? null : beer.getApiId(), beer.isBeenRemoved());
 
         }
         catch (ResourceAccessException rae){
