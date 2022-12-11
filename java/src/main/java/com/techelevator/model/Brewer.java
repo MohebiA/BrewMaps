@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
 public class Brewer {
+    private String brewerUsername;
     private String address1;
     private String address2;
     private String city;
@@ -39,10 +40,11 @@ public class Brewer {
 
     public Brewer() {}
 
-    public Brewer(String address1, String address2, String city, String zip, String state, String hours, String imgUrl, String history,
+    public Brewer(String brewerUsername, String address1, String address2, String city, String zip, String state, String hours, String imgUrl, String history,
                   double latitude, double longitude, boolean isActive, boolean beenRemoved, String phoneNumber, int userId, int brewerId,
                   String apiBreweryId, String object, String name, Object description, Object short_description, String url,
                   boolean cb_verified, boolean brewer_verified, String facebook_url, String twitter_url, String instagram_url, List<BeerList> beerList) {
+        this.brewerUsername = brewerUsername;
         this.address1 = address1;
         this.address2 = address2;
         this.city = city;
@@ -70,6 +72,14 @@ public class Brewer {
         this.twitter_url = twitter_url;
         this.instagram_url = instagram_url;
         this.beerList = beerList;
+    }
+
+    public String getBrewerUsername() {
+        return brewerUsername;
+    }
+
+    public void setBrewerUsername(String brewerUsername) {
+        this.brewerUsername = brewerUsername;
     }
 
     public String getAddress1() {
