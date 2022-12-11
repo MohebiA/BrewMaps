@@ -40,6 +40,10 @@ export default {
 
     getBreweries(){
         return http.get('/brewery')
+    },
+
+    deleteBeer(id) {
+        return http.put(`/beer/${id}`)
     }
 
 

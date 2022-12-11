@@ -203,9 +203,15 @@
               {{beer.style}}
               </b-button
             >
+            <b-button class="btn-close border border-2 border-dark m-5" v-on:click="deleteBeer(beer.id), alertMe()">
+              
+            </b-button>
             <!-- </router-link> -->
             
           </div>
+
+          
+
         </div>
       </div>
     </section>
@@ -318,6 +324,10 @@ export default {
       this.beer.brewery_id = this.$route.params.id;
       // alert(JSON.stringify(this.form))
     },
+
+    alertMe() {
+      alert("THIS IS AN ALERT");
+    },
     onReset(event) {
       event.preventDefault();
       // Reset our form values
@@ -334,6 +344,10 @@ export default {
         this.show = true;
       });
     },
+
+    deleteBeer(beer) {
+      AppServices.deleteBeer(beer);
+    }
     
   },
 };

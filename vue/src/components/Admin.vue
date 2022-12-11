@@ -94,7 +94,7 @@
           id="input-2"
           v-model="newBrewery.hours"
           placeholder="Enter hours of operation"
-          required
+          
         ></b-form-input>
       </b-form-group>
 
