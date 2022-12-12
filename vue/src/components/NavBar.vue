@@ -15,16 +15,18 @@
                 <!-- <li class="nav-item">
                     <a class="nav-link"><router-link v-bind:to="{ name: 'brewerylist' }"><b-button variant="warning">Breweries</b-button></router-link></a>
                 </li> -->
-                <li class="nav-item">
+                <li class="nav-item" v-if="this.$store.state.user.username == ''">
                     <a class="nav-link"><span class="p-2 text-dark"><router-link v-bind:to="{ name: 'login' }"><b-button variant="warning">Login</b-button></router-link></span></a>
                     </li>
-                <li class="nav-item">
+                <li class="nav-item" v-if="this.$store.state.user.username != ''">
                     <a class="nav-link"><span class="p-2 text-dark"><router-link v-bind:to="{ name: 'logout' }" v-if="$store.state.token != ''"><b-button variant="warning">Logout</b-button></router-link></span></a>
                     </li>    
-                <li class="admin" >
-                    <a class="nav-link"><span class="p-2 text-dark"><router-link v-bind:to="{ name: 'admin' }"><b-button variant="warning" v-show="this.$store.state.user.authorities.name = 'ROLE_ADMIN' ">Admin</b-button></router-link></span></a>
+                <li class="admin" v-if="this.$store.state.user.username == 'admin'">
+                    <a class="nav-link"><span class="p-2 text-dark"><router-link v-bind:to="{ name: 'admin' }"><b-button variant="warning">Admin</b-button></router-link></span></a>
                     </li>     
             </ul>
+
+            
         </div>
     </div>
     </nav>
@@ -36,19 +38,18 @@
 
 export default {
 
-    created: {
+    created() {
         
-
     },
     data() {
         return {
-            
+           
             
         }
     }
     
+    }
 
-}
 
 
 </script>

@@ -4,17 +4,19 @@
       <h1>{{ brewery.name }}</h1>
     </div>
 
-      
-    <section class="container">
-      <b-row>
-        <b-col>
-          <h5 id="null message" v-if="brewery.imgUrl === null">
+      <h5 id="null message" v-if="brewery.imgUrl === null">
             <b-img
               id="Brewery-logo"
               :src="require('../Assets/breweries.jpg')"
             ></b-img>
           </h5>
           <h5 v-else>{{ Brewery.imgUrl }}</h5>
+      
+    <section class="container">
+      
+      <b-row>
+        <b-col>
+          
 
           <!-- <b-img
             id="Brewery-logo"
@@ -22,16 +24,7 @@
           ></b-img> -->
         </b-col>
 
-        <b-col>
-          <b-container>
-            <b-col>
-              <b-row>1</b-row>
-              <b-row>2</b-row>
-              <b-row>3</b-row>
-              <b-row>4</b-row>
-            </b-col>
-          </b-container>
-        </b-col>
+        
       </b-row>
     </section>
 
@@ -88,10 +81,10 @@
         </h5>
       </div>
       <!-- v-if="this.$store.state.users.user_id === this.brewery.user_id || this.$store.state.users.user_id === 2" -->
-      <b-button v-b-modal.modal-tall class="mb-2" variant="primary"
+      <b-button v-if="this.$store.state.user.authorities[0].name == 'ROLE_BREWER'" v-b-modal.modal-tall class="mb-2" variant="primary"
         >Add a Beer</b-button
       >
-      <b-modal id="modal-tall" title="Beer Review" ok-only ok-title="Cancel">
+      <b-modal id="modal-tall" title="Add Beer" ok-only ok-title="Cancel">
         <b-form @submit="onSubmit" @reset="onReset" v-if="show">
           <h5 class="text-center">{{ beer.name }}</h5>
           <b-form-group
@@ -201,11 +194,11 @@
               <hr />
               <!-- {{ beer.beer_type }} -->
               {{beer.style}}
+              <hr />
+              {{beer.avgRating}} Star Rating
               </b-button
             >
-            <b-button class="btn-close border border-2 border-dark m-5" v-on:click="deleteBeer(beer.id), alertMe()">
-              
-            </b-button>
+  
             <!-- </router-link> -->
             
           </div>

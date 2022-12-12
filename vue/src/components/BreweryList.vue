@@ -12,7 +12,11 @@
                 <div class="brewery-list">
                     
                     <div v-for="brewery in breweries" v-bind:key="brewery.id" @click="getDetails(brewery.id), setSelectedBrewery(brewery)">
-                        <b-button class="mb-2" variant="outline-warning">{{brewery.name}}</b-button>
+                        <b-button class="mb-2 customButton" variant="outline-warning">
+                            {{brewery.name}}
+                            <hr />
+                            {{brewery.distance}} Miles
+                            </b-button>
                     </div>
 
 
@@ -65,5 +69,9 @@ export default {
 </script>
 
 <style>
+
+.customButton {
+  width: 300px !important;
+}
 
 </style>
