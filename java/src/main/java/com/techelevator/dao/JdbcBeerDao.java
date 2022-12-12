@@ -24,7 +24,7 @@ public class JdbcBeerDao implements BeerDAO{
     public List<BeerList> getBreweryBeerByBreweryId(int id) {
         List<BeerList> beerDetails = new ArrayList<>();
 
-        String sql = "select * from beer WHERE brewery_id = ? AND api_beer_id IS NULL AND been_removed = false;";
+        String sql = "select * from beer WHERE brewery_id = ? AND (api_beer_id IS NULL OR api_beer_id = '') AND been_removed = false;";
         String avgSql = "SELECT AVG(rating) AS average FROM reviews WHERE beer_id = ?;";
 
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, id);
@@ -43,13 +43,13 @@ public class JdbcBeerDao implements BeerDAO{
         for(BeerList beer : beerAvgList) {
             int beerId = (apiBeerExistsInJdbc(beer.getId()));
             String sql = "select * from beer WHERE api_beer_id = ? AND been_removed = false;";
-            String avgSql = "SELECT AVG(rating) AS average FROM reviews WHERE api_beer_id = ?;";
+            String avgSql = "SELECT AVG(rating) AS average FROM reviews WHERE beer_id = ?;";
 
             if (beerId > 0) {
                 SqlRowSet results = jdbcTemplate.queryForRowSet(sql, beer.getId());
                 while (results.next()) {
-                    BeerList currentBeer = mapRowToAvgApiBeerList(results);
-                    Double avgRate = jdbcTemplate.queryForObject(avgSql, Double.class, currentBeer.getId());
+               //     BeerList currentBeer = mapRowToAvgApiBeerList(results);
+                    Double avgRate = jdbcTemplate.queryForObject(avgSql, Double.class, beerId);
                     beer.setAvgRating((avgRate == null) ? 0 : avgRate);
                     //beerAvgList.add(beer);
                 }
