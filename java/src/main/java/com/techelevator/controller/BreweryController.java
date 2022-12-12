@@ -9,6 +9,7 @@ import com.techelevator.services.LocationConverter;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.server.ResponseStatusException;
 import java.security.Principal;
@@ -226,15 +227,34 @@ public class BreweryController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(path="/brewery/addbrewery", method = RequestMethod.POST)
     public boolean addBrewery(@RequestBody Brewer brewer, Principal principal) {
+        int brewerId = 0;
 
-        int userId = userDao.findIdByUsername(principal.getName());
+        try {
+            brewerId = userDao.findIdByUsername(brewer.getBrewerUsername());
+            
 
-        int zip = Integer.parseInt(brewer.getZip());
-        ZipLongLat zipLongLat = locationConverter.getCoordinates(zip);
-        brewer.setLatitude(zipLongLat.getLat());
-        brewer.setLongitude(zipLongLat.getLon());
+        }
+        catch (Exception e){
+            brewerId = 0;
+        }
 
-        return brewerDAO.addBrewery(brewer, userId) > 0; //Userid will come from Principal
+//        int newBreweryUserId = ( brewerId == 0) ? userDao.findIdByUsername(principal.getName()) : brewerId;
+        if(brewerId != 0) {
+            int zip = Integer.parseInt(brewer.getZip());
+            try {
+                ZipLongLat zipLongLat = locationConverter.getCoordinates(zip);
+                brewer.setLatitude(zipLongLat.getLat());
+                brewer.setLongitude(zipLongLat.getLon());
+            } catch (Exception e) {
+                e.getMessage();
+            }
+            return brewerDAO.addBrewery(brewer, brewerId) > 0;
+//            return brewerDAO.addBrewery(brewer, newBreweryUserId) > 0;
+        }else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Brewer username not found.  Brewery not created");
+        }
+
+         //Userid will come from Principal
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")

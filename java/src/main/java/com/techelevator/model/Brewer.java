@@ -44,6 +44,7 @@ public class Brewer {
                   double latitude, double longitude, boolean isActive, boolean beenRemoved, String phoneNumber, int userId, int brewerId,
                   String apiBreweryId, String object, String name, Object description, Object short_description, String url,
                   boolean cb_verified, boolean brewer_verified, String facebook_url, String twitter_url, String instagram_url, List<BeerList> beerList) {
+
         this.brewerUsername = brewerUsername;
         this.address1 = address1;
         this.address2 = address2;
@@ -59,6 +60,7 @@ public class Brewer {
         this.beenRemoved = beenRemoved;
         this.phoneNumber = phoneNumber;
         this.userId = userId;
+        this.brewerUsername = brewerUsername;
         this.brewerId = brewerId;
         this.apiBreweryId = apiBreweryId;
         this.object = object;
@@ -193,6 +195,8 @@ public class Brewer {
     public void setUserId(int userId) {
         this.userId = userId;
     }
+
+
 
     public int getBrewerId() {
         return brewerId;
