@@ -19,4 +19,6 @@ public interface UserDao {
     boolean create(String username, String password, String role);
 
     boolean delete(int userId);
+
+    boolean changeUserToBrewer(int userId);
 }
