@@ -44,6 +44,10 @@ export default {
 
     deleteBeer(id) {
         return http.put(`/beer/${id}`)
+    },
+
+    updateBrewery(id, brewery) {
+        return http.put(`/brewery/${id}/updatebrewery`, brewery)
     }
 
 

@@ -173,6 +173,144 @@
                                       <p class="mt-2">Value: {{ value }}</p>
                                     </div> -->
       </b-modal>
+
+      <div>
+    <div class="mb-3">
+      <b-button v-if="this.$store.state.user.authorities[0].name == 'ROLE_BREWER'" v-b-toggle.my-collapse>Update Brewery Form</b-button>
+    </div>
+
+    <b-collapse id="my-collapse">
+      <b-card title="Collapsible card">
+
+      <b-form @submit="locationReload" @reset="onReset" v-if="show">
+     <b-form-group
+        id="input-group-1"
+        label="Brewery Name:"
+        label-for="input-1"
+      >
+        <b-form-input
+          id="input-1"
+          v-model="updatedBrewery.name"
+          type="text"
+          placeholder="Enter Brewery Name"
+          
+        ></b-form-input>
+      </b-form-group>
+<!--  
+      <b-form-group
+        id="input-group-1"
+        label="Brewer Username:"
+        label-for="input-1"
+      >
+        <b-form-input
+          id="input-1"
+          v-model="brewery.brewerUsername"
+          type="text"
+          placeholder="Enter Brewer Username"
+          required
+        ></b-form-input>
+      </b-form-group> -->
+
+      <b-form-group id="input-group-2" label="Brewery Phone Number:" label-for="input-2">
+        <b-form-input
+          id="input-2"
+          v-model="updatedBrewery.phoneNumber"
+          placeholder="Enter Brewery Phone Number"
+          
+        ></b-form-input>
+      </b-form-group>
+
+      <b-form-group id="input-group-2" label="Address:" label-for="input-2">
+        <b-form-input
+          id="input-2"
+          v-model="updatedBrewery.address1"
+          placeholder="Enter Brewery Address"
+          
+        ></b-form-input>
+      </b-form-group>
+
+      <b-form-group id="input-group-2" label="Second Address:" label-for="input-2">
+        <b-form-input
+          id="input-2"
+          v-model="updatedBrewery.address2"
+          placeholder="Enter second address if applicable"
+          
+        ></b-form-input>
+      </b-form-group>
+
+      <b-form-group id="input-group-2" label="City:" label-for="input-2">
+        <b-form-input
+          id="input-2"
+          v-model="updatedBrewery.city"
+          placeholder="Enter city"
+          
+        ></b-form-input>
+      </b-form-group>
+
+      <b-form-group id="input-group-2" label="State:" label-for="input-2">
+        <b-form-input
+          id="input-2"
+          v-model="updatedBrewery.state"
+          placeholder="Enter state"
+          
+        ></b-form-input>
+      </b-form-group>
+
+      <b-form-group id="input-group-2" label="Zip:" label-for="input-2">
+        <b-form-input
+          id="input-2"
+          v-model="updatedBrewery.zip"
+          placeholder="Enter zipcode"
+          
+        ></b-form-input>
+      </b-form-group>
+
+      <b-form-group id="input-group-2" label="Hours:" label-for="input-2">
+        <b-form-input
+          id="input-2"
+          v-model="updatedBrewery.hours"
+          placeholder="Enter hours of operation"
+          
+        ></b-form-input>
+      </b-form-group>
+
+      <b-form-group id="input-group-2" label="Brewery Logo:" label-for="input-2">
+        <b-form-input
+          id="input-2"
+          v-model="updatedBrewery.imgUrl"
+          placeholder="Enter the url to the brewery logo"
+          
+        ></b-form-input>
+      </b-form-group>
+
+      <b-form-group id="input-group-2" label="Brewery Website:" label-for="input-2">
+        <b-form-input
+          id="input-2"
+          v-model="updatedBrewery.url"
+          placeholder="Enter the url to the brewery website"
+          
+        ></b-form-input>
+      </b-form-group>
+
+      <b-form-group id="input-group-2" label="Brewery History:" label-for="input-2">
+        <b-form-input
+          id="input-2"
+          v-model="updatedBrewery.history"
+          placeholder="Enter a brief description for the history of the brewery"
+          
+        ></b-form-input>
+      </b-form-group> 
+      
+      <b-button class="ml-2" type="submit" variant="primary" @click="updateBrewery(updatedBrewery.brewery_id, updatedBrewery)">Submit</b-button>
+      <b-button class="m-2" type="reset" variant="danger">Reset</b-button>
+    </b-form>
+
+      </b-card>
+    </b-collapse>
+
+    
+  </div>
+
     </section>
 
     <section class="container">
@@ -227,6 +365,24 @@ export default {
   
   data() {
     return {
+      updatedBrewery: {
+        brewery_id: this.$route.params.id,
+        name: "",
+        phoneNumber: "",
+        address1: "",
+        address2: "",
+        city: "",
+        state: "",
+        zip: "",
+        hours: "",
+        imgUrl: "",
+        url: "",
+        history: "",
+        longitude: "",
+        latitude: "",
+
+      },
+
       brewery: {
         brewery_id: "",
         name: "",
@@ -316,6 +472,10 @@ export default {
       this.beer.name = "";
       this.beer.brewery_id = this.$route.params.id;
       // alert(JSON.stringify(this.form))
+    },
+
+    updateBrewery(id, brewery) {
+      AppServices.updateBrewery(id, brewery);
     },
 
     alertMe() {
