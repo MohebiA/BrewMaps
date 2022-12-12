@@ -38,6 +38,28 @@ public class JdbcBeerDao implements BeerDAO{
     }
 
     @Override
+    public List<BeerList> getAvgRatingList(List<BeerList> beerList) {
+        List<BeerList> beerAvgList = beerList;
+        for(BeerList beer : beerAvgList) {
+            int beerId = (apiBeerExistsInJdbc(beer.getId()));
+            String sql = "select * from beer WHERE api_beer_id = ? AND been_removed = false;";
+            String avgSql = "SELECT AVG(rating) AS average FROM reviews WHERE api_beer_id = ?;";
+
+            if (beerId > 0) {
+                SqlRowSet results = jdbcTemplate.queryForRowSet(sql, beer.getId());
+                while (results.next()) {
+                    BeerList currentBeer = mapRowToAvgApiBeerList(results);
+                    Double avgRate = jdbcTemplate.queryForObject(avgSql, Double.class, currentBeer.getId());
+                    beer.setAvgRating((avgRate == null) ? 0 : avgRate);
+                    //beerAvgList.add(beer);
+                }
+            }
+        }
+        return beerAvgList;
+        }
+
+
+    @Override
     public BeerDetails getBeerByBeerId(int id) {
         String sql = "select * from beer WHERE beer_id = ?;";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, id);
@@ -144,6 +166,16 @@ public class JdbcBeerDao implements BeerDAO{
         BeerList bld = new BeerList();
 
         bld.setId(result.getString("beer_id"));
+        bld.setName(result.getString("name"));
+        bld.setStyle(result.getString("beer_type"));
+
+        return bld;
+    }
+
+    private BeerList mapRowToAvgApiBeerList(SqlRowSet result){
+        BeerList bld = new BeerList();
+
+        bld.setId(result.getString("api_beer_id"));
         bld.setName(result.getString("name"));
         bld.setStyle(result.getString("beer_type"));
 

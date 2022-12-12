@@ -25,4 +25,6 @@ public interface BeerDAO {
 
     List<BeerList> checkForDeletedBeers(Brewer brewer);
 
+    List<BeerList> getAvgRatingList(List<BeerList> beerList);
+
 }

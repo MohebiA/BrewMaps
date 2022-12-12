@@ -57,10 +57,12 @@ public class BreweryController {
             result = breweryDetails.getBreweryAndBeer(breweryApiId);
             beerList = beerDAO.checkForDeletedBeers(result);
             result.setBeerList(beerList);
+
             if(brewerDAO.apiBreweryExistsInJdbc(breweryApiId) > 0){
                 List<BeerList> jdbcBeerList = (beerDAO.getBreweryBeerByBreweryId(brewerDAO.apiBreweryExistsInJdbc(breweryApiId)));
                 for (BeerList beer : jdbcBeerList){
                     beerList.add(beer);
+
                 }
             }
         }
