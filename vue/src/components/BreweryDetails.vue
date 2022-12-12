@@ -1,16 +1,19 @@
 <template>
   <div>
-    <div class="text-center">
+    <div class="text-center bg-light p-4">
       <h1>{{ brewery.name }}</h1>
-    </div>
+    
 
+    
       <h5 id="null message" v-if="brewery.imgUrl === null">
             <b-img
               id="Brewery-logo"
+              class="img-fluid mx-auto d-block m-4"
               :src="require('../Assets/breweries.jpg')"
             ></b-img>
           </h5>
           <h5 v-else>{{ Brewery.imgUrl }}</h5>
+    </div>      
       
     <section class="container">
       
@@ -29,8 +32,8 @@
     </section>
 
     <section class="container">
-      <div class="row align-items-center">
-        <div class="col-md-6 order-md-1">
+      <div class="row align-items-center justify-content-center text-center">
+        <div class="col-md-6 order-md-1 border rounded border-dark p-2 pb-4 m-2">
           <h5>Address: {{ this.$store.state.selectedBrewery.address1 }}</h5>
           <h5
             id="null message"
@@ -41,14 +44,14 @@
 
           <!--  where brewery address goes           -->
         </div>
-        <div class="col-md-6 p-4">
+        <div class="col-md-6 border rounded border-dark pb-4 m-2">
           <h5>{{ brewery.phoneNumber }}</h5>
           <h5 id="null message" v-if="brewery.phoneNumber === null">
             Brewery Contact Info: Coming Soon
           </h5>
           <!--  where brewery contact info goes   -->
         </div>
-        <div class="col-md-6 p-4">
+        <div class="col-md-6 border rounded border-dark p-2 pb-4 m-2">
           <h5>
             Website: <a :href="this.brewery.url">{{ brewery.url }}</a>
           </h5>
@@ -59,7 +62,7 @@
 
           <!--  where brewery Website info goes   -->
         </div>
-        <div class="col-md-6 p-4">
+        <div class="col-md-6 p-4 border rounded border-dark p-2 pb-4 m-2">
           <h5>{{ brewery.hours }}</h5>
           <h5 id="null message" v-if="brewery.hours === null">
             Brewery Hours: Coming Soon
@@ -313,13 +316,13 @@
 
     </section>
 
-    <section class="container">
-      <div class="row justify-content-center">
+    <section class="container-fluid">
+      <div class="row justify-content-center bg-dark bg-gradient">
         <div class="text-center p-5">
           <!-- <router-link v-bind:to="{ name: 'beerlist' }"
             ><b-button variant="primary">View Beer List</b-button></router-link -->
           <!-- > -->
-          <h4>BEER LIST</h4>
+          <h4 class="text-light">BEER LIST</h4>
 
           <div
             v-for="beer in brewery.beerList"
