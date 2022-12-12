@@ -296,6 +296,9 @@ import AppServices from '../services/AppServices'
         })
       },
 
+      locationReload() {
+       location.reload();
+      },
       createBrewery() {
         AppServices.createBrewery(this.newBrewery)
       },
@@ -306,13 +309,16 @@ import AppServices from '../services/AppServices'
     created() {
         AppServices.getUsers().then(response => {
           this.users = response.data;
+          
         }),
 
         AppServices.getBreweries().then(response => {
           this.breweries = response.data;
         })
-
-
+        
+          
+        
+      
 
     }
   }

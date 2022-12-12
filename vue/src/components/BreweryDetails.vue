@@ -195,7 +195,7 @@
               <!-- {{ beer.beer_type }} -->
               {{beer.style}}
               <hr />
-              {{beer.avgRating}} Star Rating
+              {{beer.avgRating}} Average Star Rating
               </b-button
             >
   
@@ -300,7 +300,7 @@ export default {
     // brewery_id:  this.beer.brewery_id = this.$route.params.id;
       };
       AppServices.addBeer(this.$route.params.id, this.beer);
-
+      this.locationReload();
       // this.$emit('review-submitted', productReview)
       event.preventDefault();
       // this.addReview(newBeer);
@@ -340,6 +340,9 @@ export default {
 
     deleteBeer(beer) {
       AppServices.deleteBeer(beer);
+    },
+        locationReload() {
+      location.reload();
     }
     
   },
