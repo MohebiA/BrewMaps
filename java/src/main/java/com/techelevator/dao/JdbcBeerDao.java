@@ -31,7 +31,7 @@ public class JdbcBeerDao implements BeerDAO{
         while (results.next()) {
             BeerList currentBeer = mapRowToBeerList(results);
             Double avgRate = jdbcTemplate.queryForObject(avgSql, Double.class, Integer.parseInt(currentBeer.getId()));
-            currentBeer.setAvgRating(avgRate);
+            currentBeer.setAvgRating((avgRate == null) ? 0 : avgRate);
             beerDetails.add(currentBeer);
         }
         return beerDetails;
