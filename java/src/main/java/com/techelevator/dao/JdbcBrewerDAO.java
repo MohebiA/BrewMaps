@@ -104,7 +104,7 @@ public class JdbcBrewerDAO implements BrewerDAO {
     public int addBrewery(Brewer brewer, int userId) {
         int value = 0;
         String apiId = brewer.getApiBreweryId();
-        int brewerId = userDao.findIdByUsername(brewer.getName());
+       // int brewerId = userDao.findIdByUsername(brewer.getName());
 
         String sql = "insert into brewery (name, user_id, phone_num, address_1, address_2, city, state, zip, hours, brewery_img_url," +
                 " brewery_url, brewery_history, api_brewery_id, longitude, latitude, is_active, been_removed) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) returning brewery_id;";

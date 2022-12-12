@@ -170,6 +170,7 @@ public class BreweryController {
             if (id.length() > 14) {
                 jdbcBeerId = beerDAO.apiBeerExistsInJdbc(id);
                 if (jdbcBeerId == 0) {
+                    beer.setApiId(id);
                         return beerDAO.addBeer(beer, brewery.getBrewerId()) > 0; //CREATES BEER
                 } else {
                     return beerDAO.updateBeer(beer, jdbcBeerId);
