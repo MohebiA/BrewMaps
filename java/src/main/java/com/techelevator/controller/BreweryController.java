@@ -231,8 +231,6 @@ public class BreweryController {
 
         try {
             brewerId = userDao.findIdByUsername(brewer.getBrewerUsername());
-            
-
         }
         catch (Exception e){
             brewerId = 0;
@@ -240,6 +238,7 @@ public class BreweryController {
 
 //        int newBreweryUserId = ( brewerId == 0) ? userDao.findIdByUsername(principal.getName()) : brewerId;
         if(brewerId != 0) {
+            boolean adjusted = userDao.changeUserToBrewer(brewerId);  //Changes USER to BREWER if added to a new brewery
             int zip = Integer.parseInt(brewer.getZip());
             try {
                 ZipLongLat zipLongLat = locationConverter.getCoordinates(zip);
@@ -247,7 +246,9 @@ public class BreweryController {
                 brewer.setLongitude(zipLongLat.getLon());
             } catch (Exception e) {
                 e.getMessage();
+                System.out.println("Something went wrong!");
             }
+
             return brewerDAO.addBrewery(brewer, brewerId) > 0;
 //            return brewerDAO.addBrewery(brewer, newBreweryUserId) > 0;
         }else {
