@@ -173,7 +173,7 @@ public class BreweryController {
     @PreAuthorize("hasRole('ROLE_BREWER')")
     @RequestMapping(path="/beer/{id}/updatebeer", method = RequestMethod.PUT)
     public boolean updateBeer(@PathVariable String id, @RequestBody BeerDetails beer, Principal principal) {
-
+        BeerDetails newBeer = beer;
         boolean match = userIsBeerMaker(principal, id);
 
         if(match) {

@@ -1,11 +1,147 @@
 <template>
   <div>
     
-    <section id="brewerylist" class="p-5 bg-dark">
+    <section id="beerdetails" class="p-5 bg-dark">
 
-        <b-button v-if="this.$store.state.user.authorities[0] = 'ROLE_BREWER'" class=" border border-2 border-dark m-5" v-on:click="deleteBeer(beer.id), getDetails(beer.breweryId)">
+      
+        <!-- <b-button v-if="this.$store.state.user.authorities[0] = 'ROLE_BREWER'" class=" border border-2 border-dark m-5" v-on:click="deleteBeer(beer.id), getDetails(beer.breweryId)">
+              DELETE BEER
+            </b-button> -->
+
+
+            <section v-if="this.$store.state.user.authorities[0].name == 'ROLE_BREWER'">
+
+
+              <div>
+        <div class="mb-3">
+
+            <b-button class=" border border-2 border-dark m-5" v-on:click="deleteBeer(beer.id), getDetails(beer.breweryId)">
               DELETE BEER
             </b-button>
+
+
+          <b-button @click="fillForm()"
+            
+            v-b-toggle.my-collapse
+            >Update Beer Form</b-button
+          >
+        </div>
+
+        <b-collapse id="my-collapse">
+          <b-card title="Collapsible card">
+            <b-form @submit="locationReload" @reset="onReset" v-if="show">
+             
+              <h5 class="text-center">{{ beer.name }}</h5>
+          <b-form-group
+            id="input-group-1"
+            label="Beer Name:"
+            label-for="input-1"
+          >
+            <b-form-input
+              id="input-1"
+              v-model="updatedBeer.name"
+              type="text"
+              placeholder="Enter name"
+              
+            ></b-form-input>
+          </b-form-group>
+
+          <b-form-group id="input-group-1" label="ABV:" label-for="input-1">
+            <b-form-input
+              id="input-1"
+              v-model="updatedBeer.abv"
+              type="text"
+              placeholder="ABV"
+              
+            ></b-form-input>
+          </b-form-group>
+
+          <b-form-group id="input-group-1" label="IBU:" label-for="input-1">
+            <b-form-input
+              id="input-1"
+              v-model="updatedBeer.ibu"
+              type="text"
+              placeholder="IBU"
+              
+            ></b-form-input>
+          </b-form-group>
+
+          <b-form-group
+            id="input-group-1"
+            label="Beer Type:"
+            label-for="input-1"
+          >
+            <b-form-input
+              id="input-1"
+              v-model="updatedBeer.beer_type"
+              type="text"
+              placeholder="Type"
+              
+            ></b-form-input>
+          </b-form-group>
+
+          <b-form-group
+            id="input-group-1"
+            label="Image URL:"
+            label-for="input-1"
+          >
+            <b-form-input
+              id="input-1"
+              v-model="updatedBeer.imgUrl"
+              type="text"
+              placeholder="URL"
+              
+            ></b-form-input>
+          </b-form-group>
+
+          <b-form-group
+            id="input-group-1"
+            label="Description:"
+            label-for="input-1"
+          >
+            <b-form-textarea
+              id="input-1"
+              v-model="updatedBeer.description"
+              placeholder="Enter beer details"
+              
+            ></b-form-textarea>
+          </b-form-group>
+
+              <!-- <b-form-group>
+                <b-form-checkbox id = "checkbox-1"
+                v-model="updatedBeer.isActive"
+                name = "checkbox-1"
+                value = "false"
+                unchecked-value="true">Check to deactivate brewery, uncheck to reactivate brewery
+
+                </b-form-checkbox>
+
+                <div>active: <strong>{{updatedBrewery.isActive}}</strong></div>
+
+              </b-form-group> -->
+
+              <div class="brewerCheck">
+         
+    
+      </div>
+
+              <b-button
+                class="ml-2"
+                type="submit"
+                variant="primary"
+                @click="
+                  updateBeer(updatedBeer.id, updatedBeer)
+                "
+                >Submit</b-button
+              >
+              <b-button class="m-2" type="reset" variant="danger"
+                >Reset</b-button
+              >
+            </b-form>
+          </b-card>
+        </b-collapse>
+      </div>
+            </section>
 
 
       <div class="container">
@@ -30,28 +166,32 @@
           </div>
 
           <h4>{{ beer.name }}</h4>
-          <h5 id="null message" v-if="beer.name === null">
+          <h5 id="null message" v-if="beer.name === ''">
             Beer Name: Coming Soon
           </h5>
 
-          <h5 id="null message" v-if="beer.ABV === null">ABV: Coming Soon</h5>
+          <h5 id="null message" v-if="beer.ABV === ''">ABV: Coming Soon</h5>
           <h5 v-else>ABV: {{ beer.abv }}</h5>
 
-          <h5 id="null message" v-if="beer.IBU === null">IBU: Coming Soon</h5>
+          <h5 id="null message" v-if="beer.IBU === ''">IBU: Coming Soon</h5>
           <h5 v-else>IBU: {{ beer.ibu }}</h5>
 
-          <h5 id="null message" v-if="beer.beer_type === null">
+          <h5 id="null message" v-if="beer.beer_type === ''">
             Type: Coming Soon
           </h5>
           <h5 v-else>Type: {{ beer.beer_type }}</h5>
 
-          <h5 id="null message" v-if="beer.description === null">
+          <h5 id="null message" v-if="beer.description === ''">
             Description: Coming Soon
           </h5>
           <h5 v-else>Description: {{ beer.description }}</h5>
 
-          <h5 id="null message" v-if="beer.imgUrl === null">
-            Image: Coming Soon
+          <h5 id="null message" v-if="beer.imgUrl === ''">
+            <b-img
+          id="Brewery-logo"
+          class="img-fluid mx-auto d-block m-4"
+          :src="require('../Assets/giovanna-gomes-Qy2KMPRV3X4-unsplash.jpg')"
+        ></b-img>
           </h5>
           <h5 v-else>{{ beer.imgUrl }}</h5>
 
@@ -181,6 +321,18 @@ export default {
   
   data() {
     return {
+      updatedBeer: {
+        abv: "",
+        beenRemoved: false,
+        beer_type: "",
+        brewer: {},
+        breweryId: "",
+        description: "",
+        ibu: "",
+        id: this.$route.params.id,
+        imgUrl: "",
+        name: "",
+      },
       beer: {
         abv: "",
         beenRemoved: false,
@@ -237,6 +389,14 @@ export default {
       this.form.review = "";
       this.form.value = 0;
 
+       this.updatedBeer.abv = "";
+      this.updatedBeer.beer_type = "";
+      this.updatedBeer.description = "";
+      this.updatedBeer.ibu = "";
+      this.updatedBeer.imgUrl = "";
+      this.updatedBeer.name = "";
+
+
       // Trick to reset/clear native browser form validation state
       this.show = false;
       this.$nextTick(() => {
@@ -249,9 +409,22 @@ export default {
 
     },
 
+    updateBeer(id, beer) {
+      AppServices.updateBeer(id, beer);
+    },
+
     getDetails(id) {
             this.$router.push({name: 'brewerydetails', params: {id:id}})
         },
+
+    fillForm() {
+      this.updatedBeer.abv = this.beer.abv;
+      this.updatedBeer.beer_type = this.beer.beer_type;
+      this.updatedBeer.description = this.beer.description;
+      this.updatedBeer.ibu = this.beer.ibu;
+      this.updatedBeer.imgUrl = this.beer.imgUrl;
+      this.updatedBeer.name = this.beer.name;
+    },
 
     locationReload() {
       location.reload();

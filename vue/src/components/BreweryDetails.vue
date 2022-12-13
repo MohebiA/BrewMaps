@@ -200,7 +200,7 @@
 
       <div>
         <div class="mb-3">
-          <b-button
+          <b-button @click="fillForm()"
             v-if="this.$store.state.user.authorities[0].name == 'ROLE_BREWER'"
             v-b-toggle.my-collapse
             >Update Brewery Form</b-button
@@ -215,8 +215,9 @@
                 label="Brewery Name:"
                 label-for="input-1"
               >
-                <b-form-input
+                <b-form-input 
                   id="input-1"
+                  value= "brewery.name"
                   v-model="updatedBrewery.name"
                   type="text"
                   placeholder="Enter Brewery Name"
@@ -244,6 +245,7 @@
               >
                 <b-form-input
                   id="input-2"
+                  value= "brewery.phoneNumber"
                   v-model="updatedBrewery.phoneNumber"
                   placeholder="Enter Brewery Phone Number"
                 ></b-form-input>
@@ -256,6 +258,7 @@
               >
                 <b-form-input
                   id="input-2"
+                  value= "brewery.address1"
                   v-model="updatedBrewery.address1"
                   placeholder="Enter Brewery Address"
                 ></b-form-input>
@@ -268,6 +271,7 @@
               >
                 <b-form-input
                   id="input-2"
+                  value= "brewery.address2"
                   v-model="updatedBrewery.address2"
                   placeholder="Enter second address if applicable"
                 ></b-form-input>
@@ -280,6 +284,7 @@
               >
                 <b-form-input
                   id="input-2"
+                  value= "brewery.city"
                   v-model="updatedBrewery.city"
                   placeholder="Enter city"
                 ></b-form-input>
@@ -292,6 +297,7 @@
               >
                 <b-form-input
                   id="input-2"
+                  value= "brewery.state"
                   v-model="updatedBrewery.state"
                   placeholder="Enter state"
                 ></b-form-input>
@@ -300,6 +306,7 @@
               <b-form-group id="input-group-2" label="Zip:" label-for="input-2">
                 <b-form-input
                   id="input-2"
+                  value= "brewery.zip"
                   v-model="updatedBrewery.zip"
                   placeholder="Enter zipcode"
                 ></b-form-input>
@@ -312,6 +319,7 @@
               >
                 <b-form-input
                   id="input-2"
+                  value= "brewery.hours"
                   v-model="updatedBrewery.hours"
                   placeholder="Enter hours of operation"
                 ></b-form-input>
@@ -324,6 +332,7 @@
               >
                 <b-form-input
                   id="input-2"
+                  value= "brewery.imgUrl"
                   v-model="updatedBrewery.imgUrl"
                   placeholder="Enter the url to the brewery logo"
                 ></b-form-input>
@@ -336,6 +345,7 @@
               >
                 <b-form-input
                   id="input-2"
+                  value= "brewery.url"
                   v-model="updatedBrewery.url"
                   placeholder="Enter the url to the brewery website"
                 ></b-form-input>
@@ -348,6 +358,7 @@
               >
                 <b-form-input
                   id="input-2"
+                  value= "brewery.history"
                   v-model="updatedBrewery.history"
                   placeholder="Enter a brief description for the history of the brewery"
                 ></b-form-input>
@@ -355,14 +366,15 @@
 
               <b-form-group>
                 <b-form-checkbox id = "checkbox-1"
-                v-model="updatedBrewery.isActive"
+                value= "false"
+                v-model="updatedBrewery.active"
                 name = "checkbox-1"
-                value = "false"
+                
                 unchecked-value="true">Check to deactivate brewery, uncheck to reactivate brewery
 
                 </b-form-checkbox>
 
-                <div>active: <strong>{{updatedBrewery.isActive}}</strong></div>
+                <div>active: <strong>{{updatedBrewery.active}}</strong></div>
 
               </b-form-group>
 
@@ -453,7 +465,7 @@ export default {
         longitude: "",
         latitude: "",
         beenRemoved: "",
-        isActive: "",
+        active: "",
       },
 
       brewery: {
@@ -541,6 +553,24 @@ export default {
       this.beer.name = "";
       this.beer.brewery_id = this.$route.params.id;
       // alert(JSON.stringify(this.form))
+    },
+
+    fillForm() {
+        this.updatedBrewery.name = this.brewery.name;
+         this.updatedBrewery.phoneNumber = this.brewery.phoneNumber;
+         this.updatedBrewery.address1 = this.brewery.address1;
+        this.updatedBrewery.address2 = this.brewery.address2;
+        this.updatedBrewery.city = this.brewery.city;
+        this.updatedBrewery.state = this.brewery.state;
+        this.updatedBrewery.zip = this.brewery.zip;
+        this.updatedBrewery.hours = this.brewery.hours;
+        this.updatedBrewery.imgUrl = this.brewery.imgUrl;
+        this.updatedBrewery.url = this.brewery.url;
+        this.updatedBrewery.history = this.brewery.description;
+        this.updatedBrewery.longitude = this.brewery.longitude;
+        this.updatedBrewery.latitude = this.brewery.latitude;
+        this.updatedBrewery.beenRemoved = this.brewery.beenRemoved;
+        this.updatedBrewery.active = this.brewery.active;
     },
 
     updateBrewery(id, brewery) {

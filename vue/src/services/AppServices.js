@@ -39,7 +39,7 @@ export default {
     },
 
     getBreweries(){
-        return http.get('/brewery')
+        return http.get('/breweries')
     },
 
     deleteBeer(id) {
@@ -48,6 +48,19 @@ export default {
 
     updateBrewery(id, brewery) {
         return http.put(`/brewery/${id}/updatebrewery`, brewery)
+    },
+
+    deleteUser(id) {
+        return http.delete(`/users/${id}`)
+    },
+
+    deleteBrewery(id) {
+        return http.put(`/brewery/${id}`)
+    },
+
+    updateBeer(id, beer) {
+        return http.put(`/beer/${id}/updatebeer`, beer)
+
     }
 
 

@@ -65,7 +65,7 @@ public class JdbcUserDao implements UserDao {
     @Override
     public List<User> ListAll() {
         List<User> users = new ArrayList<>();
-        String sql = "select * from users";
+        String sql = "select * from users where role != 'ROLE_ADMIN'";
 
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
         while (results.next()) {

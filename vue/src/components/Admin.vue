@@ -179,15 +179,37 @@
       <table id = "users-list">
         <thead>
           <tr>
-            <th>User Id</th>
             <th>Username</th>
+            <th>User Id</th>
           </tr>
         </thead>
         <tbody>
           <tr v-for="user in users" v-bind:key="user.id" v-bind:user = "user">
             <td>{{user.username}}</td>
             <td>{{user.id}}</td>
-            <td><button>DELETE</button></td>
+            <td><button class = "delete" v-on:click="deleteUser(user.id)">DELETE</button></td>
+
+          </tr>
+          <p/>
+        </tbody>
+      </table>
+    </section>
+
+
+
+     <section class="container">
+      <table id = "brewery-list">
+        <thead>
+          <tr>
+            <th>Brewery name</th>
+            <th>Brewery Id</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="brewery in breweries" v-bind:key="brewery.id" v-bind:brewery = "brewery">
+            <td>{{brewery.name}}</td>
+            <td>{{brewery.id}}</td>
+            <td><button class = "delete" v-on:click="deleteBrewery(brewery.id)">DELETE</button></td>
 
           </tr>
           <p/>
@@ -301,6 +323,18 @@ import AppServices from '../services/AppServices'
       },
       createBrewery() {
         AppServices.createBrewery(this.newBrewery)
+      },
+
+      deleteUser(id) {
+        AppServices.deleteUser(id);
+               location.reload();
+
+      },
+
+       deleteBrewery(id) {
+        AppServices.deleteBrewery(id);
+               location.reload();
+
       },
 
 
