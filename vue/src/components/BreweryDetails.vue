@@ -2,89 +2,98 @@
   <div>
     <div class="text-center bg-light p-4">
       <h1>{{ brewery.name }}</h1>
-    
 
-    
       <h5 id="null message" v-if="brewery.imgUrl === null">
-            <b-img
-              id="Brewery-logo"
-              class="img-fluid mx-auto d-block m-4"
-              :src="require('../Assets/breweries.jpg')"
-            ></b-img>
-          </h5>
-          <h5 v-else>{{ Brewery.imgUrl }}</h5>
-    </div>      
-      
+        <b-img
+          id="Brewery-logo"
+          class="img-fluid mx-auto d-block m-4"
+          :src="require('../Assets/breweries.jpg')"
+        ></b-img>
+      </h5>
+      <h5 v-else>{{ Brewery.imgUrl }}</h5>
+    </div>
+
     <section class="container">
-      
       <b-row>
         <b-col>
-          
-
           <!-- <b-img
             id="Brewery-logo"
             :src="require('../Assets/breweries.jpg')"
           ></b-img> -->
         </b-col>
-
-        
       </b-row>
     </section>
 
-    <section class="container">
-      <div class="row align-items-center justify-content-center text-center">
-        <div class="col-md-6 order-md-1 border rounded border-dark p-2 pb-4 m-2">
-          <h5>Address: {{ this.$store.state.selectedBrewery.address1 }}</h5>
+    <section class="container-fluid px-0">
+      <div class="row align-items-center content">
+        <div class="col-md-6 order-2 order-md-1 text-center">
+          <h2>ADDRESS</h2>
+          <h5>{{ this.$store.state.selectedBrewery.address1 }}</h5>
           <h5
             id="null message"
             v-if="this.$store.state.selectedBrewery.address1 === null"
           >
             Brewery Address: Coming Soon
           </h5>
-
-          <!--  where brewery address goes           -->
         </div>
-        <div class="col-md-6 border rounded border-dark pb-4 m-2">
-          <h5>{{ brewery.phoneNumber }}</h5>
-          <h5 id="null message" v-if="brewery.phoneNumber === null">
-            Brewery Contact Info: Coming Soon
-          </h5>
-          <!--  where brewery contact info goes   -->
+        <div class="col-md-6 text-center order-1 order-md-2">
+          <div class="row justify-content-center">
+            <div class="col-10 col-lg-8 mb-5 mb-md-0">
+              <h2>BREWERY CONTACT INFO</h2>
+              <h5>{{ brewery.phoneNumber }}</h5>
+              <h5 id="null message" v-if="brewery.phoneNumber === null">
+                Coming Soon
+              </h5>
+            </div>
+          </div>
         </div>
-        <div class="col-md-6 border rounded border-dark p-2 pb-4 m-2">
+      </div>
+      <div class="row align-items-center content">
+        <div class="col-md-6 text-center">
+          <div class="row justify-content-center">
+            <div class="col-10 col-lg-8 mb-5 mb-md-0">
+              <h2>WEBSITE</h2>
           <h5>
-            Website: <a :href="this.brewery.url">{{ brewery.url }}</a>
+            <a :href="this.brewery.url">{{ brewery.url }}</a>
           </h5>
 
           <h5 id="null message" v-if="this.brewery.url === null">
-            Brewery Website: Coming Soon
+            Coming Soon
           </h5>
-
-          <!--  where brewery Website info goes   -->
+            </div>
+          </div>
         </div>
-        <div class="col-md-6 p-4 border rounded border-dark p-2 pb-4 m-2">
-          <h5>{{ brewery.hours }}</h5>
+        <div class="col-md-6 text-center">
+          <h2>BREWERY HOURS</h2>
+              <h5>{{ brewery.hours }}</h5>
           <h5 id="null message" v-if="brewery.hours === null">
-            Brewery Hours: Coming Soon
+            Coming Soon
           </h5>
-          <!--  where brewery hours info goes   -->
         </div>
       </div>
-    </section>
-
-    <section class="container">
-      <div class="row align-items-center">
+     
+      <div class="row align-items-center text-center">
+        <h2>BREWERY HISTORY</h2>
         <h5 class="text-center">{{ brewery.description }}</h5>
         <h5
           id="null message"
           v-if="brewery.description === null"
           class="text-center"
         >
-          Brewery History: Coming Soon
+          Coming Soon
         </h5>
       </div>
+    </section>
+
+
+    <section class="container">
+      
       <!-- v-if="this.$store.state.users.user_id === this.brewery.user_id || this.$store.state.users.user_id === 2" -->
-      <b-button v-if="this.$store.state.user.authorities[0].name == 'ROLE_BREWER'" v-b-modal.modal-tall class="mb-2" variant="primary"
+      <b-button
+        v-if="this.$store.state.user.authorities[0].name == 'ROLE_BREWER'"
+        v-b-modal.modal-tall
+        class="mb-2"
+        variant="primary"
         >Add a Beer</b-button
       >
       <b-modal id="modal-tall" title="Add Beer" ok-only ok-title="Cancel">
@@ -178,28 +187,30 @@
       </b-modal>
 
       <div>
-    <div class="mb-3">
-      <b-button v-if="this.$store.state.user.authorities[0].name == 'ROLE_BREWER'" v-b-toggle.my-collapse>Update Brewery Form</b-button>
-    </div>
+        <div class="mb-3">
+          <b-button
+            v-if="this.$store.state.user.authorities[0].name == 'ROLE_BREWER'"
+            v-b-toggle.my-collapse
+            >Update Brewery Form</b-button
+          >
+        </div>
 
-    <b-collapse id="my-collapse">
-      <b-card title="Collapsible card">
-
-      <b-form @submit="locationReload" @reset="onReset" v-if="show">
-     <b-form-group
-        id="input-group-1"
-        label="Brewery Name:"
-        label-for="input-1"
-      >
-        <b-form-input
-          id="input-1"
-          v-model="updatedBrewery.name"
-          type="text"
-          placeholder="Enter Brewery Name"
-          
-        ></b-form-input>
-      </b-form-group>
-<!--  
+        <b-collapse id="my-collapse">
+          <b-card title="Collapsible card">
+            <b-form @submit="locationReload" @reset="onReset" v-if="show">
+              <b-form-group
+                id="input-group-1"
+                label="Brewery Name:"
+                label-for="input-1"
+              >
+                <b-form-input
+                  id="input-1"
+                  v-model="updatedBrewery.name"
+                  type="text"
+                  placeholder="Enter Brewery Name"
+                ></b-form-input>
+              </b-form-group>
+              <!--  
       <b-form-group
         id="input-group-1"
         label="Brewer Username:"
@@ -214,106 +225,138 @@
         ></b-form-input>
       </b-form-group> -->
 
-      <b-form-group id="input-group-2" label="Brewery Phone Number:" label-for="input-2">
-        <b-form-input
-          id="input-2"
-          v-model="updatedBrewery.phoneNumber"
-          placeholder="Enter Brewery Phone Number"
-          
-        ></b-form-input>
-      </b-form-group>
+              <b-form-group
+                id="input-group-2"
+                label="Brewery Phone Number:"
+                label-for="input-2"
+              >
+                <b-form-input
+                  id="input-2"
+                  v-model="updatedBrewery.phoneNumber"
+                  placeholder="Enter Brewery Phone Number"
+                ></b-form-input>
+              </b-form-group>
 
-      <b-form-group id="input-group-2" label="Address:" label-for="input-2">
-        <b-form-input
-          id="input-2"
-          v-model="updatedBrewery.address1"
-          placeholder="Enter Brewery Address"
-          
-        ></b-form-input>
-      </b-form-group>
+              <b-form-group
+                id="input-group-2"
+                label="Address:"
+                label-for="input-2"
+              >
+                <b-form-input
+                  id="input-2"
+                  v-model="updatedBrewery.address1"
+                  placeholder="Enter Brewery Address"
+                ></b-form-input>
+              </b-form-group>
 
-      <b-form-group id="input-group-2" label="Second Address:" label-for="input-2">
-        <b-form-input
-          id="input-2"
-          v-model="updatedBrewery.address2"
-          placeholder="Enter second address if applicable"
-          
-        ></b-form-input>
-      </b-form-group>
+              <b-form-group
+                id="input-group-2"
+                label="Second Address:"
+                label-for="input-2"
+              >
+                <b-form-input
+                  id="input-2"
+                  v-model="updatedBrewery.address2"
+                  placeholder="Enter second address if applicable"
+                ></b-form-input>
+              </b-form-group>
 
-      <b-form-group id="input-group-2" label="City:" label-for="input-2">
-        <b-form-input
-          id="input-2"
-          v-model="updatedBrewery.city"
-          placeholder="Enter city"
-          
-        ></b-form-input>
-      </b-form-group>
+              <b-form-group
+                id="input-group-2"
+                label="City:"
+                label-for="input-2"
+              >
+                <b-form-input
+                  id="input-2"
+                  v-model="updatedBrewery.city"
+                  placeholder="Enter city"
+                ></b-form-input>
+              </b-form-group>
 
-      <b-form-group id="input-group-2" label="State:" label-for="input-2">
-        <b-form-input
-          id="input-2"
-          v-model="updatedBrewery.state"
-          placeholder="Enter state"
-          
-        ></b-form-input>
-      </b-form-group>
+              <b-form-group
+                id="input-group-2"
+                label="State:"
+                label-for="input-2"
+              >
+                <b-form-input
+                  id="input-2"
+                  v-model="updatedBrewery.state"
+                  placeholder="Enter state"
+                ></b-form-input>
+              </b-form-group>
 
-      <b-form-group id="input-group-2" label="Zip:" label-for="input-2">
-        <b-form-input
-          id="input-2"
-          v-model="updatedBrewery.zip"
-          placeholder="Enter zipcode"
-          
-        ></b-form-input>
-      </b-form-group>
+              <b-form-group id="input-group-2" label="Zip:" label-for="input-2">
+                <b-form-input
+                  id="input-2"
+                  v-model="updatedBrewery.zip"
+                  placeholder="Enter zipcode"
+                ></b-form-input>
+              </b-form-group>
 
-      <b-form-group id="input-group-2" label="Hours:" label-for="input-2">
-        <b-form-input
-          id="input-2"
-          v-model="updatedBrewery.hours"
-          placeholder="Enter hours of operation"
-          
-        ></b-form-input>
-      </b-form-group>
+              <b-form-group
+                id="input-group-2"
+                label="Hours:"
+                label-for="input-2"
+              >
+                <b-form-input
+                  id="input-2"
+                  v-model="updatedBrewery.hours"
+                  placeholder="Enter hours of operation"
+                ></b-form-input>
+              </b-form-group>
 
-      <b-form-group id="input-group-2" label="Brewery Logo:" label-for="input-2">
-        <b-form-input
-          id="input-2"
-          v-model="updatedBrewery.imgUrl"
-          placeholder="Enter the url to the brewery logo"
-          
-        ></b-form-input>
-      </b-form-group>
+              <b-form-group
+                id="input-group-2"
+                label="Brewery Logo:"
+                label-for="input-2"
+              >
+                <b-form-input
+                  id="input-2"
+                  v-model="updatedBrewery.imgUrl"
+                  placeholder="Enter the url to the brewery logo"
+                ></b-form-input>
+              </b-form-group>
 
-      <b-form-group id="input-group-2" label="Brewery Website:" label-for="input-2">
-        <b-form-input
-          id="input-2"
-          v-model="updatedBrewery.url"
-          placeholder="Enter the url to the brewery website"
-          
-        ></b-form-input>
-      </b-form-group>
+              <b-form-group
+                id="input-group-2"
+                label="Brewery Website:"
+                label-for="input-2"
+              >
+                <b-form-input
+                  id="input-2"
+                  v-model="updatedBrewery.url"
+                  placeholder="Enter the url to the brewery website"
+                ></b-form-input>
+              </b-form-group>
 
-      <b-form-group id="input-group-2" label="Brewery History:" label-for="input-2">
-        <b-form-input
-          id="input-2"
-          v-model="updatedBrewery.history"
-          placeholder="Enter a brief description for the history of the brewery"
-          
-        ></b-form-input>
-      </b-form-group> 
-      
-      <b-button class="ml-2" type="submit" variant="primary" @click="updateBrewery(updatedBrewery.brewery_id, updatedBrewery)">Submit</b-button>
-      <b-button class="m-2" type="reset" variant="danger">Reset</b-button>
-    </b-form>
+              <b-form-group
+                id="input-group-2"
+                label="Brewery History:"
+                label-for="input-2"
+              >
+                <b-form-input
+                  id="input-2"
+                  v-model="updatedBrewery.history"
+                  placeholder="Enter a brief description for the history of the brewery"
+                ></b-form-input>
+              </b-form-group>
 
-      </b-card>
-    </b-collapse>
-
-    
-  </div>
-
+              <b-button
+                class="ml-2"
+                type="submit"
+                variant="primary"
+                @click="
+                  updateBrewery(updatedBrewery.brewery_id, updatedBrewery)
+                "
+                >Submit</b-button
+              >
+              <b-button class="m-2" type="reset" variant="danger"
+                >Reset</b-button
+              >
+            </b-form>
+          </b-card>
+        </b-collapse>
+      </div>
     </section>
 
     <section class="container-fluid">
@@ -334,18 +377,13 @@
               >{{ beer.name }}
               <hr />
               <!-- {{ beer.beer_type }} -->
-              {{beer.style}}
+              {{ beer.style }}
               <hr />
-              {{beer.avgRating}} Average Star Rating
-              </b-button
-            >
-  
+              {{ beer.avgRating }} Average Star Rating
+            </b-button>
+
             <!-- </router-link> -->
-            
           </div>
-
-          
-
         </div>
       </div>
     </section>
@@ -363,9 +401,7 @@
 <script>
 import AppServices from "../services/AppServices";
 
-
 export default {
-  
   data() {
     return {
       updatedBrewery: {
@@ -383,7 +419,6 @@ export default {
         history: "",
         longitude: "",
         latitude: "",
-
       },
 
       brewery: {
@@ -430,17 +465,15 @@ export default {
       this.brewery = response.data;
     });
 
+    // this.beer.id = this.$route.params.id;
 
+    //TODO: REMOVE BEFORE PROD
+    alert(this.$route.params.id);
 
-      // this.beer.id = this.$route.params.id;
+    // this.brewery = response.data;
 
-      //TODO: REMOVE BEFORE PROD
-      alert(this.$route.params.id);
-
-      // this.brewery = response.data;
-
-      //TODO: REMOVE BEFORE PROD
-      // alert(JSON.stringify(response.data));
+    //TODO: REMOVE BEFORE PROD
+    // alert(JSON.stringify(response.data));
   },
   methods: {
     setBeerId(id) {
@@ -448,15 +481,14 @@ export default {
       this.$router.push({ name: "beerdetails", params: { id: id } });
     },
     onSubmit(event) {
-        let addedBeer = {
-
-      abv: this.beer.abv,
-      beer_type: this.beer.beer_type,
-      description: this.beer.description,
-      ibu: this.beer.ibu,
-      imgUrl: this.beer.imgUrl,
-      name: this.beer.name,
-    // brewery_id:  this.beer.brewery_id = this.$route.params.id;
+      let addedBeer = {
+        abv: this.beer.abv,
+        beer_type: this.beer.beer_type,
+        description: this.beer.description,
+        ibu: this.beer.ibu,
+        imgUrl: this.beer.imgUrl,
+        name: this.beer.name,
+        // brewery_id:  this.beer.brewery_id = this.$route.params.id;
       };
       AppServices.addBeer(this.$route.params.id, this.beer);
       this.locationReload();
@@ -465,7 +497,6 @@ export default {
       // this.addReview(newBeer);
 
       this.brewery.beerList.push(addedBeer);
-
 
       this.beer.abv = "";
       this.beer.beer_type = "";
@@ -504,10 +535,9 @@ export default {
     deleteBeer(beer) {
       AppServices.deleteBeer(beer);
     },
-        locationReload() {
+    locationReload() {
       location.reload();
-    }
-    
+    },
   },
 };
 </script>
