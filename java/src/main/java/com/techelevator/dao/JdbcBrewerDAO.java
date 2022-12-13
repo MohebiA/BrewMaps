@@ -205,6 +205,9 @@ public class JdbcBrewerDAO implements BrewerDAO {
         brewery.setName(result.getString("name"));
         brewery.setDescription(result.getString("brewery_history"));
         brewery.setUrl(result.getString("brewery_url"));
+        brewery.setAddress1(result.getString("address_1"));
+        brewery.setPhoneNumber(result.getString("phone_num"));
+
 
         return brewery;
     }
