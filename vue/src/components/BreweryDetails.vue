@@ -3,15 +3,27 @@
     <div class="text-center bg-light p-4">
       <h1>{{ brewery.name }}</h1>
 
-      <h5 id="null message" v-if="brewery.imgUrl === null">
+      <h5 id="null message" v-if="brewery.imgUrl === ''">
         <b-img
           id="Brewery-logo"
           class="img-fluid mx-auto d-block m-4"
           :src="require('../Assets/breweries.jpg')"
         ></b-img>
       </h5>
-      <h5 v-else>{{ Brewery.imgUrl }}</h5>
+      <h5 v-else>{{ brewery.imgUrl }}</h5>
     </div>
+
+    <section id="inactive" v-if="!this.brewery.active" class="container ">
+
+      <h5 class = "row justify-content-center" >
+            THIS BREWERY IS INACTIVE
+          </h5>
+
+
+
+    </section>
+
+
 
     <section class="container">
       <b-row>
@@ -28,10 +40,10 @@
       <div class="row align-items-center content">
         <div class="col-md-6 order-2 order-md-1 text-center">
           <h2>ADDRESS</h2>
-          <h5>{{ this.$store.state.selectedBrewery.address1 }}</h5>
+          <h5>{{ brewery.address1 }}</h5>
           <h5
             id="null message"
-            v-if="this.$store.state.selectedBrewery.address1 === null"
+            v-if="brewery.address1 === ''"
           >
             Brewery Address: Coming Soon
           </h5>
@@ -41,7 +53,7 @@
             <div class="col-10 col-lg-8 mb-5 mb-md-0">
               <h2>BREWERY CONTACT INFO</h2>
               <h5>{{ brewery.phoneNumber }}</h5>
-              <h5 id="null message" v-if="brewery.phoneNumber === null">
+              <h5 id="null message" v-if="brewery.phoneNumber === ''">
                 Coming Soon
               </h5>
             </div>
@@ -57,7 +69,7 @@
             <a :href="this.brewery.url">{{ brewery.url }}</a>
           </h5>
 
-          <h5 id="null message" v-if="this.brewery.url === null">
+          <h5 id="null message" v-if="this.brewery.url === ''">
             Coming Soon
           </h5>
             </div>
@@ -66,7 +78,7 @@
         <div class="col-md-6 text-center">
           <h2>BREWERY HOURS</h2>
               <h5>{{ brewery.hours }}</h5>
-          <h5 id="null message" v-if="brewery.hours === null">
+          <h5 id="null message" v-if="brewery.hours === ''">
             Coming Soon
           </h5>
         </div>
@@ -77,7 +89,7 @@
         <h5 class="text-center">{{ brewery.description }}</h5>
         <h5
           id="null message"
-          v-if="brewery.description === null"
+          v-if="brewery.description === ''"
           class="text-center"
         >
           Coming Soon
@@ -341,6 +353,27 @@
                 ></b-form-input>
               </b-form-group>
 
+              <b-form-group>
+                <b-form-checkbox id = "checkbox-1"
+                v-model="updatedBrewery.isActive"
+                name = "checkbox-1"
+                value = "false"
+                unchecked-value="true">Check to deactivate brewery, uncheck to reactivate brewery
+
+                </b-form-checkbox>
+
+                <div>active: <strong>{{updatedBrewery.isActive}}</strong></div>
+
+              </b-form-group>
+
+              <div class="brewerCheck">
+          <h5>Check to deactivate brewery, uncheck to reactive brewery</h5>
+          <!-- <div>
+            <input type="checkbox" class="form-check-input" v-model="updatedBrewery.beenRemoved" v-on:change="(updatedBrewery.beenRemoved=='false' ? updatedBrewery.beenRemoved='true': updatedBrewery.beenRemoved='false')">
+            <label for="form-check-label"></label>
+          </div> -->
+      </div>
+
               <b-button
                 class="ml-2"
                 type="submit"
@@ -419,6 +452,8 @@ export default {
         history: "",
         longitude: "",
         latitude: "",
+        beenRemoved: "",
+        isActive: "",
       },
 
       brewery: {
@@ -552,5 +587,11 @@ export default {
 
 .custom {
   width: 300px !important;
+}
+
+#inactive {
+  background-color: #ff9696;
+  padding: 20px;
+  margin-bottom: 10px;
 }
 </style>

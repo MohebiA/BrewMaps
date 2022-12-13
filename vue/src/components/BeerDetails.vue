@@ -3,7 +3,7 @@
     
     <section id="brewerylist" class="p-5 bg-dark">
 
-        <b-button v-if="this.$store.state.user.username == 'ROLE_BREWER'" class=" border border-2 border-dark m-5" v-on:click="deleteBeer(beer.id), getDetails(beer.breweryId)">
+        <b-button v-if="this.$store.state.user.authorities[0] = 'ROLE_BREWER'" class=" border border-2 border-dark m-5" v-on:click="deleteBeer(beer.id), getDetails(beer.breweryId)">
               DELETE BEER
             </b-button>
 
