@@ -115,11 +115,9 @@ public class JdbcBrewerDAO implements BrewerDAO {
             value = jdbcTemplate.queryForObject(sql, Integer.class, brewer.getName(),
                     userId, brewer.getPhoneNumber(), brewer.getAddress1(), brewer.getAddress2(), brewer.getCity(),
                     brewer.getState(), brewer.getZip(), brewer.getHours(), brewer.getImgUrl(), brewer.getUrl(),
-                    brewer.getHistory(), brewer.getApiBreweryId(), brewer.getLongitude(), brewer.getLatitude(), brewer.isActive(), brewer.isBeenRemoved());
+                    brewer.getHistory(), brewer.getApiBreweryId(), brewer.getLongitude(), brewer.getLatitude(), true, brewer.isBeenRemoved());
         }
-        catch (ResourceAccessException e){
-            System.out.println("nope");
-        }
+        catch (ResourceAccessException e){}
         return value;
     }
 

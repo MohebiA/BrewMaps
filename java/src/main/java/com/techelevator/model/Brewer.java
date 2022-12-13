@@ -17,6 +17,8 @@ public class Brewer {
     private String history;
     private double latitude;
     private double longitude;
+
+    @JsonProperty("active")
     private boolean isActive;
     private boolean beenRemoved;
     private String phoneNumber;
