@@ -195,6 +195,13 @@
       </table>
     </section>
 
+    <!-- <section>
+      <Userlist/>
+
+
+
+    </section> -->
+
 
 
      <section class="container">
@@ -225,9 +232,11 @@
 
 <script>
 import AppServices from '../services/AppServices'
+// import Userlist from './Userlist.vue'
 
 
   export default {
+  // components: { Userlist },
     data() {
       return {
         breweries: [],
@@ -258,7 +267,6 @@ import AppServices from '../services/AppServices'
           food: null,
           checked: []
         },
-        foods: [{ text: 'Select One', value: null }, 'Carrots', 'Beans', 'Tomatoes', 'Corn'],
         show: true
       }
     },
@@ -344,6 +352,11 @@ import AppServices from '../services/AppServices'
         AppServices.getUsers().then(response => {
           this.users = response.data;
           
+        }).catch(error=>{
+          alert(error)
+          location.reload();
+          console.log(error);
+
         }),
 
         AppServices.getBreweries().then(response => {
@@ -354,6 +367,16 @@ import AppServices from '../services/AppServices'
         
       
 
+    },
+    mounted() {
+      AppServices.getUsers().then(response => {
+          this.users = response.data;
+          
+        }),
+
+     AppServices.getBreweries().then(response => {
+          this.breweries = response.data;
+        })
     }
   }
 </script>

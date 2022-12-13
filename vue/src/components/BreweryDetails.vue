@@ -101,13 +101,22 @@
     <section class="container">
       
       <!-- v-if="this.$store.state.users.user_id === this.brewery.user_id || this.$store.state.users.user_id === 2" -->
-      <b-button
+
+      <div class = "buttons">
+      <b-button id="addBeer" @click="location.reload()"
         v-if="this.$store.state.user.authorities[0].name == 'ROLE_BREWER'"
         v-b-modal.modal-tall
-        class="mb-2"
+        class="breweryButtons"
         variant="primary"
-        >Add a Beer</b-button
-      >
+        >Add a Beer</b-button>
+
+        <b-button class="breweryButtons" @click="fillForm()"
+            v-if="this.$store.state.user.authorities[0].name == 'ROLE_BREWER'"
+            v-b-toggle.my-collapse
+            >Update Brewery Form</b-button>
+
+        </div>
+
       <b-modal id="modal-tall" title="Add Beer" ok-only ok-title="Cancel">
         <b-form @submit="onSubmit" @reset="onReset" v-if="show">
           <h5 class="text-center">{{ beer.name }}</h5>
@@ -200,11 +209,10 @@
 
       <div>
         <div class="mb-3">
-          <b-button @click="fillForm()"
+          <!-- <b-button @click="fillForm()"
             v-if="this.$store.state.user.authorities[0].name == 'ROLE_BREWER'"
             v-b-toggle.my-collapse
-            >Update Brewery Form</b-button
-          >
+            >Update Brewery Form</b-button> -->
         </div>
 
         <b-collapse id="my-collapse">
@@ -510,7 +518,13 @@ export default {
   created() {
     AppServices.getBreweryById(this.$route.params.id).then((response) => {
       this.brewery = response.data;
-    });
+    }).catch(error=>{
+          alert(error)
+          location.reload();
+          console.log(error);
+
+        })
+;
 
     // this.beer.id = this.$route.params.id;
 
@@ -538,7 +552,6 @@ export default {
         // brewery_id:  this.beer.brewery_id = this.$route.params.id;
       };
       AppServices.addBeer(this.$route.params.id, this.beer);
-      this.locationReload();
       // this.$emit('review-submitted', productReview)
       event.preventDefault();
       // this.addReview(newBeer);
@@ -553,6 +566,8 @@ export default {
       this.beer.name = "";
       this.beer.brewery_id = this.$route.params.id;
       // alert(JSON.stringify(this.form))
+      this.locationReload();
+
     },
 
     fillForm() {
@@ -623,5 +638,21 @@ export default {
   background-color: #ff9696;
   padding: 20px;
   margin-bottom: 10px;
+}
+
+#addBeer {
+  
+  margin-right: 30px;
+}
+
+.buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.breweryButtons {
+  min-width: 250px;
+
 }
 </style>

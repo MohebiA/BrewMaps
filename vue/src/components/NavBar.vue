@@ -21,9 +21,13 @@
                 <li class="nav-item" v-if="this.$store.state.user.username != ''">
                     <a class="nav-link"><span class="p-2 text-dark"><router-link v-bind:to="{ name: 'logout' }" v-if="$store.state.token != ''"><b-button variant="warning">Logout</b-button></router-link></span></a>
                     </li>    
-                <li class="admin" v-if="this.$store.state.user.username == 'admin'">
+                <!-- <li class="admin" v-if="this.$store.state.user.username == 'admin'">
+                    <a class="nav-link"><span class="p-2 text-dark"><b-button @click="sendRoute()" variant="warning">Admin</b-button></span></a>
+                    </li>      -->
+
+                    <li class="admin" v-if="this.$store.state.user.username == 'admin'">
                     <a class="nav-link"><span class="p-2 text-dark"><router-link v-bind:to="{ name: 'admin' }"><b-button variant="warning">Admin</b-button></router-link></span></a>
-                    </li>     
+                    </li>    
             </ul>
 
             
@@ -45,6 +49,11 @@ export default {
         return {
            
             
+        }
+    },
+    methods: {
+        sendRoute() {
+            this.$router.push({name: 'admin'})
         }
     }
     
