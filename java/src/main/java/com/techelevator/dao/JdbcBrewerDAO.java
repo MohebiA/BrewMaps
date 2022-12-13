@@ -192,6 +192,7 @@ public class JdbcBrewerDAO implements BrewerDAO {
         brewerResults.setDistance(distance);
         brewerResults.setUrl(result.getString("brewery_img_url"));
         brewerResults.setDescription(result.getString("brewery_history"));
+        brewerResults.setAddress1(result.getString("address_1"));
 
         return brewerResults;
     }
