@@ -1,6 +1,7 @@
 package com.techelevator.dao;
 
 import com.techelevator.model.Events;
+import com.techelevator.model.News;
 import com.techelevator.model.User;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
@@ -68,6 +69,30 @@ public class JdbcExtraDao implements ExtraDAO{
         return false;
     }
 
+    @Override
+    public int createNews(News news) {
+        String sql = "INSERT INTO news (description, brewery_id) VALUES (?, ?) RETURNING news_id;";
+
+        try {
+            Integer newEventId = jdbcTemplate.queryForObject(sql, Integer.class, news.getDescription(), news.getBreweryId());
+            return (newEventId);
+        } catch (ResourceAccessException rae) {
+            return 0;
+        }
+    }
+
+    @Override
+    public List<News> listOfNews(int breweryId) {
+        List<News> listOfNews = new ArrayList<>();
+        String sql = "SELECT * FROM news WHERE brewery_id = ?;";
+
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, breweryId);
+        while(results.next()){
+            listOfNews.add(mapRowToNewsResults(results));
+        }
+        return listOfNews;
+    }
+
     private Events mapRowToEventResults(SqlRowSet results){
         Events events = new Events();
 
@@ -78,6 +103,16 @@ public class JdbcExtraDao implements ExtraDAO{
         events.setBreweryId(results.getInt("brewery_id"));
 
         return events;
+    }
+
+    private News mapRowToNewsResults(SqlRowSet results){
+        News news = new News();
+
+        news.setNewsId(results.getInt("news_id"));
+        news.setDescription(results.getString("description"));
+        news.setBreweryId(results.getInt("brewery_id"));
+
+        return news;
     }
 
 

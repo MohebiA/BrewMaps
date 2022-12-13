@@ -58,7 +58,6 @@ public class JdbcBeerDao implements BeerDAO{
         return beerAvgList;
         }
 
-
     @Override
     public BeerDetails getBeerByBeerId(int id) {
         String sql = "select * from beer WHERE beer_id = ?;";

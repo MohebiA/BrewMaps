@@ -36,9 +36,19 @@ public class BreweryController {
         this.reviewsDAO = reviewsDAO;
     }
 
+//    @RequestMapping(path="/breweries", method = RequestMethod.GET)
+//    public BreweryDetails[] getAllBreweries(){
+//        return breweryDetails.getAllBreweries();
+//    }
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(path="/breweries", method = RequestMethod.GET)
-    public BreweryDetails[] getAllBreweries(){
-        return breweryDetails.getAllBreweries();
+    public List<BrewerResults> getAllBreweries(){
+        List<BrewerResults> brewerResultsList = new ArrayList<>();
+
+        brewerResultsList= brewerDAO.getListOfAllJDBCBreweries();
+
+        return brewerResultsList;
+
     }
 
     @RequestMapping(path="/brewery/{id}", method = RequestMethod.GET)

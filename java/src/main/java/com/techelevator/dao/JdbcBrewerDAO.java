@@ -25,6 +25,18 @@ public class JdbcBrewerDAO implements BrewerDAO {
 
     }
 
+    public List<BrewerResults> getListOfAllJDBCBreweries (){
+        List<BrewerResults> listOfBreweries = new ArrayList<>();
+
+        String sql = "SELECT * FROM brewery;";
+
+        SqlRowSet result = jdbcTemplate.queryForRowSet(sql);
+        while(result.next()){
+            listOfBreweries.add(mapBrewerResultsToRow(result));
+        }
+
+        return listOfBreweries;
+    }
 
     @Override
     public Brewer getBrewerByUserId(int id) {
@@ -191,6 +203,21 @@ public class JdbcBrewerDAO implements BrewerDAO {
         brewerResults.setUrl(result.getString("brewery_img_url"));
         brewerResults.setDescription(result.getString("brewery_history"));
         brewerResults.setAddress1(result.getString("address_1"));
+
+        return brewerResults;
+    }
+
+    private BrewerResults mapBrewerResultsToRow(SqlRowSet result){
+        BrewerResults brewerResults = new BrewerResults();
+//        BrewerResults brewerResults1 = new BrewerResults();
+
+        brewerResults.setId(String.valueOf(result.getInt("brewery_id")));
+//        brewerResults.set(String.valueOf(result.getInt("api_brewery_id")));
+        brewerResults.setName(result.getString("name"));
+        brewerResults.setLat(result.getDouble("latitude"));
+        brewerResults.setLon(result.getDouble("longitude"));
+        brewerResults.setUrl(result.getString("brewery_img_url"));
+        brewerResults.setDescription(result.getString("brewery_history"));
 
         return brewerResults;
     }

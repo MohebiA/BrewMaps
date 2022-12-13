@@ -20,5 +20,6 @@ public interface BrewerDAO {
     void deleteLocationId ();
     String getApiBreweryIdFromDatabase(int id);
     boolean updateBrewery(Brewer brewer, int id);
+    List<BrewerResults> getListOfAllJDBCBreweries ();
 
 }
