@@ -5,6 +5,7 @@ import com.techelevator.model.User;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.ResourceAccessException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,16 +32,20 @@ public class JdbcExtraDao implements ExtraDAO{
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, id);
         while(results.next()){
             breweryEvents.add(mapRowToEventResults(results));
-
         }
         return breweryEvents;
     }
 
     @Override
-    public boolean addEvent(Events events) {
+    public int addEvent(Events events) {
+        String sql = "INSERT INTO events (event_date, event_time, brewery_id, description) VALUES (?, ?, ?, ?) RETURNING event_id;";
 
-
-        return false;
+        try {
+            Integer newEventId = jdbcTemplate.queryForObject(sql, Integer.class, events.getDate(), events.getTime(), events.getBreweryId(), events.getDescription());
+            return (newEventId);
+        } catch (ResourceAccessException rae) {
+            return 0;
+        }
     }
 
     @Override
@@ -66,8 +71,8 @@ public class JdbcExtraDao implements ExtraDAO{
     private Events mapRowToEventResults(SqlRowSet results){
         Events events = new Events();
 
-        events.setDate(results.getDate("event_date"));
-        events.setTime(results.getTime("event_time"));
+        events.setDate(results.getDate("event_date").toLocalDate());
+        events.setTime(results.getTime("event_time").toLocalTime());
         events.setDescription(results.getString("description"));
         events.setEventId(results.getInt("event_id"));
         events.setBreweryId(results.getInt("brewery_id"));

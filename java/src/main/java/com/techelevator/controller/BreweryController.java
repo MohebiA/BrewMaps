@@ -246,7 +246,6 @@ public class BreweryController {
                 brewer.setLongitude(zipLongLat.getLon());
             } catch (Exception e) {
                 e.getMessage();
-                System.out.println("Something went wrong!");
             }
 
             return brewerDAO.addBrewery(brewer, brewerId) > 0;
@@ -254,8 +253,6 @@ public class BreweryController {
         }else {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Brewer username not found.  Brewery not created");
         }
-
-         //Userid will come from Principal
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")

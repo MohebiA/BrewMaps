@@ -87,7 +87,7 @@ public class JdbcBrewerDAO implements BrewerDAO {
         double largerLongitude = longitude + lonAdjustment;
 
 
-       String sql = "select * from brewery where (latitude between ? and ?) and (longitude between ? and ?) and api_brewery_id is NULL;";
+       String sql = "select * from brewery where (latitude between ? and ?) and (longitude between ? and ?) and api_brewery_id is NULL and been_removed = false;";
 
        try {
            SqlRowSet result = jdbcTemplate.queryForRowSet(sql, smallLatitude, largerLatitude, smallLongitude, largerLongitude);

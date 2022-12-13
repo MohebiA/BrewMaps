@@ -8,7 +8,7 @@ public interface ExtraDAO {
 
     List<Events> getEventsbyBrewery(int id);
 
-    boolean addEvent(Events events);
+    int addEvent(Events events);
 
     Events getEventbyId(int id);
 
