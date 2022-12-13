@@ -201,13 +201,21 @@ public class JdbcBrewerDAO implements BrewerDAO {
         Brewer brewery = new Brewer();
 
         brewery.setBrewerId(result.getInt("brewery_id"));
-        brewery.setUserId(result.getInt("user_id"));
         brewery.setName(result.getString("name"));
-        brewery.setDescription(result.getString("brewery_history"));
-        brewery.setUrl(result.getString("brewery_url"));
-        brewery.setAddress1(result.getString("address_1"));
+        brewery.setUserId(result.getInt("user_id"));
         brewery.setPhoneNumber(result.getString("phone_num"));
-
+        brewery.setAddress1(result.getString("address_1"));
+        brewery.setAddress2(result.getString("address_2"));
+        brewery.setCity(result.getString("city"));
+        brewery.setState(result.getString("state"));
+        brewery.setZip(result.getString("zip"));
+        brewery.setHours(result.getString("hours"));
+        brewery.setImgUrl(result.getString("brewery_img_url"));
+        brewery.setUrl(result.getString("brewery_url"));
+        brewery.setDescription(result.getString("brewery_history"));
+        brewery.setApiBreweryId(result.getString("api_brewery_id"));
+        brewery.setActive(result.getBoolean("is_active"));
+        brewery.setBeenRemoved(result.getBoolean("been_removed"));
 
         return brewery;
     }
