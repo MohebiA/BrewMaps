@@ -23,6 +23,7 @@
           <b-img
             id="Brewery-logo"
             class="img-fluid mx-auto d-block m-4"
+            style="height:40vh"
             :src="this.brewery.imgUrl"
           ></b-img>
         </div>
@@ -206,7 +207,7 @@
               v-model="beer.imgUrl"
               type="image"
               placeholder="URL"
-              required
+              
             ></b-form-input>
           </b-form-group>
 
@@ -219,7 +220,7 @@
               id="input-1"
               v-model="beer.description"
               placeholder="Enter beer details"
-              required
+              
             ></b-form-textarea>
           </b-form-group>
 
@@ -546,6 +547,15 @@ export default {
     };
   },
 
+  mounted() {
+    if(localStorage.getItem('reloaded')) {
+      localStorage.removeItem('reloaded');
+    } else {
+      localStorage.setItem('reloaded', '1');
+      location.reload();
+    }
+  },
+
   created() {
     AppServices.getBreweryById(this.$route.params.id)
       .then((response) => {
@@ -560,7 +570,7 @@ export default {
     // this.beer.id = this.$route.params.id;
 
     //TODO: REMOVE BEFORE PROD
-    alert(this.$route.params.id);
+    // alert(this.$route.params.id);
 
     // this.brewery = response.data;
 

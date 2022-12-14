@@ -7,7 +7,7 @@
             <b-card-text>
                 <h1>Our Mission</h1>
                 <p>
-                    Here at BrewMaps inc, our goal is to get you hammered by any means necessary.
+                    Here at BrewMaps inc, our goal is to get you a cold brew by any means necessary.
                 </p>
 
                 <h2>Our History</h2>
@@ -17,7 +17,7 @@
                 </p>
 
             </b-card-text>
-            <b-button href="#">Get Hammered</b-button>
+            
             </b-card>
         </div>
 

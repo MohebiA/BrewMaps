@@ -10,9 +10,11 @@
       </nav-bar>
       <!-- <home/>       -->
     </div>
+<body class ="appNav">
+      <router-view />
 
-    <router-view />
-              <Footer/>      
+</body>
+              <Footer class="mt-auto"/>      
 
   </div>
 </template>
@@ -34,4 +36,11 @@ export default {
   body {
     font-family: 'Nunito', sans-serif;
   }
+
+
+.appNav {
+  min-height: 68vh;
+}
+
+ 
 </style>

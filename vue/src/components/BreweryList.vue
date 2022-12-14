@@ -3,7 +3,7 @@
         <div class = "heading">
         </div>
 
-<section id="brewerylist" class="p-5 bg-dark">
+<section id="brewerylist" class="p-5">
         <div class="container">
             <div class="row align-items-center justify-content-between text-center text-white">
                 <h4>LIST OF BREWERIES</h4>
@@ -72,6 +72,17 @@ export default {
 
 .customButton {
   width: 300px !important;
+  background-color: rgb(35, 39, 43);
 }
+
+#brewerylist {
+    /* background-color:rgb(68, 35, 19); */
+background: rgb(33,37,41);
+background: linear-gradient(0deg, rgba(33,37,41,1) 0%, rgba(215,215,215,1) 15%, rgba(215,215,215,1) 85%, rgba(255,193,7,1) 100%);
+    min-height: 71.25vh;
+    
+
+}
+
 
 </style>

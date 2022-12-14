@@ -8,16 +8,18 @@
       <section
         v-if="this.$store.state.user.authorities[0].name == 'ROLE_BREWER'"
       >
+
+    
         <div>
-          <div class="mb-3">
+          <div class="buttons mb-5">
             <b-button
-              class="border border-2 border-dark m-5"
+              class="breweryButtons btn-danger border border-2 border-dark"
               v-on:click="deleteBeer(beer.id), getDetails(beer.breweryId)"
             >
               DELETE BEER
             </b-button>
 
-            <b-button @click="fillForm()" v-b-toggle.my-collapse
+            <b-button @click="fillForm()" class= "breweryButtons border border-2 border-dark" v-b-toggle.my-collapse
               >Update Beer Form</b-button
             >
           </div>
@@ -143,41 +145,47 @@
             text-center text-white
           "
         >
+
+        <h4>{{ beer.name }}</h4>
+          <h5 id="null message" v-if="beer.name === ''  || beer.name === null">
+            Beer Name: Coming Soon
+          </h5>
+
+
           <div>
-            <h5 id="null message" v-if="beer.imgUrl === null">
-              <b-card
+            <h5 id="null message" v-if="beer.imgUrl === null || beer.imgUrl === ''">
+              <b-img
+                rounded alt = "Rounded image"
                 id="logoBeer"
-                class="position-relative"
-                :img-src="
+                style="height:40vh"
+                class="border border-2"
+                :src="
                   require('../Assets/giovanna-gomes-Qy2KMPRV3X4-unsplash.jpg')
                 "
-              ></b-card>
+              ></b-img>
             </h5>
             <h5 v-else>{{ beer.imgUrl }}</h5>
           </div>
 
-          <h4>{{ beer.name }}</h4>
-          <h5 id="null message" v-if="beer.name === ''">
-            Beer Name: Coming Soon
-          </h5>
+       
 
-          <h5 id="null message" v-if="beer.ABV === ''">ABV: Coming Soon</h5>
+          <h5 id="null message" v-if="beer.abv === ''  || beer.abv === null">ABV: Coming Soon</h5>
           <h5 v-else>ABV: {{ beer.abv }}</h5>
 
-          <h5 id="null message" v-if="beer.IBU === ''">IBU: Coming Soon</h5>
+          <h5 id="null message" v-if="beer.ibu === ''  || beer.ibu === null || beer.ibu === 0">IBU: Coming Soon</h5>
           <h5 v-else>IBU: {{ beer.ibu }}</h5>
 
-          <h5 id="null message" v-if="beer.beer_type === ''">
+          <h5 id="null message" v-if="beer.beer_type === ''  || beer.beer_type === null">
             Type: Coming Soon
           </h5>
           <h5 v-else>Type: {{ beer.beer_type }}</h5>
 
-          <h5 id="null message" v-if="beer.description === ''">
+          <h5 id="null message" v-if="beer.description === ''  || beer.description === null">
             Description: Coming Soon
           </h5>
           <h5 v-else>Description: {{ beer.description }}</h5>
 
-          <h5 id="null message" v-if="beer.imgUrl === ''">
+          <!-- <h5 id="null message" v-if="beer.imgUrl === ''  || beer.imgUrl === null">
             <b-img
               id="logoBeer"
               class="img-fluid mx-auto d-block m-4"
@@ -186,7 +194,7 @@
               "
             ></b-img>
           </h5>
-          <h5 v-else>{{ beer.imgUrl }}</h5>
+          <h5 v-else>{{ beer.imgUrl }}</h5> -->
 
           <!-- @click="getBeerById()" -->
           <div class="brewery-list">
@@ -449,4 +457,9 @@ export default {
 
 
 <style>
+
+
+
+
+
 </style>

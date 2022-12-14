@@ -180,14 +180,14 @@
         <thead>
           <tr>
             <th>Username</th>
-            <th>User Id</th>
+            <!-- <th>User Id</th> -->
           </tr>
         </thead>
         <tbody>
           <tr v-for="user in users" v-bind:key="user.id" v-bind:user = "user">
-            <td>{{user.username}}</td>
-            <td>{{user.id}}</td>
             <td><button class = "delete" v-on:click="deleteUser(user.id)">DELETE</button></td>
+            <td>{{user.username}}</td>
+            <!-- <td>{{user.id}}</td> -->
 
           </tr>
           <p/>
@@ -209,14 +209,14 @@
         <thead>
           <tr>
             <th>Brewery name</th>
-            <th>Brewery Id</th>
+            <!-- <th>Brewery Id</th> -->
           </tr>
         </thead>
         <tbody>
           <tr v-for="brewery in breweries" v-bind:key="brewery.id" v-bind:brewery = "brewery">
+            <td><button class = "delete"  v-on:click="deleteBrewery(brewery.id)">DELETE</button></td>
             <td>{{brewery.name}}</td>
-            <td>{{brewery.id}}</td>
-            <td><button class = "delete" v-on:click="deleteBrewery(brewery.id)">DELETE</button></td>
+            <!-- <td>{{brewery.id}}</td> -->
 
           </tr>
           <p/>
@@ -353,7 +353,7 @@ import AppServices from '../services/AppServices'
           this.users = response.data;
           
         }).catch(error=>{
-          alert(error)
+          
           location.reload();
           console.log(error);
 

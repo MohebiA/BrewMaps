@@ -1,5 +1,5 @@
 <template>
-    <footer class="p-3 bg-dark text-white text-center position-relative">
+    <footer id="footer" class="p-3 bg-dark text-white text-center position-relative">
         <div class="container">
             <p></p>
             <a href="#" class="position-absolute bottom-0 end-0 p-5">
@@ -10,11 +10,11 @@
         <div>
           <b-col>
             <b-row>
-              <p><router-link v-bind:to="{ name: 'aboutus' }"><b-button variant="warning">ABOUT US</b-button ></router-link></p>
+              <p><router-link v-bind:to="{ name: 'aboutus' }"><b-button class = "footbutton" variant="warning">ABOUT US</b-button ></router-link></p>
             </b-row>
             
             <b-row>
-              <p><b-button variant="warning">CONTACT US</b-button></p>
+              <p><b-button class ="footbutton" variant="warning">CONTACT US</b-button></p>
             </b-row>
 
             <b-row>
@@ -41,5 +41,15 @@ export default {
 
 
 <style>
+
+ /* #footer {
+    position:fixed;
+    bottom:0;
+  } */
+
+
+  .footbutton {
+    min-width: 200px;
+  }
 
 </style>

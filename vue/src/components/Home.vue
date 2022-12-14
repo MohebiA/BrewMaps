@@ -67,12 +67,12 @@
             <div class="card rounded-top" style="width: 33vw">
               <b-img class="rounded-top" :src="require('../Assets/Captureresized.jpeg')"></b-img>
               <div class="card-body">
-                <h5 class="card-title">Name</h5>
+                <h5 class="card-title">Object Oriented Brewing</h5>
                 <p class="card-text">
                   Our curated Brewer of the month
                 </p>
-                <router-link v-bind:to="{ name: 'register' }"><b-button class="btn-lg btn-block" variant="warning">Visit</b-button></router-link>
-                <!-- <a href="#" class="btn btn-warning">Visit</a> -->
+                <!-- <router-link v-bind:to="{ name: 'register' }"><b-button class="btn-lg btn-block" variant="warning">Visit</b-button></router-link> -->
+                <a href="http://localhost:8080/brewery/16" class="btn btn-warning">Visit</a>
               </div>
             </div>
           </div>
