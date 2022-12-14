@@ -37,10 +37,10 @@ export default {
     font-family: 'Nunito', sans-serif;
   }
 
-
+/* 
 .appNav {
   min-height: 68vh;
-}
+} */
 
  
 </style>

@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <section id="beerdetails" class="p-5 bg-dark">
+  <div id="gradient">
+    <section  class="container text-black mb-5 p-5 border border-dark rounded bg-light">
       <!-- <b-button v-if="this.$store.state.user.authorities[0] = 'ROLE_BREWER'" class=" border border-2 border-dark m-5" v-on:click="deleteBeer(beer.id), getDetails(beer.breweryId)">
               DELETE BEER
             </b-button> -->
@@ -136,24 +136,24 @@
         </div>
       </section>
 
-      <div class="container">
+      <div class="container text-black">
         <div
           class="
             row
             align-items-center
-            justify-content-between
+            justify-content-between 
             text-center text-white
           "
         >
 
-        <h4>{{ beer.name }}</h4>
-          <h5 id="null message" v-if="beer.name === ''  || beer.name === null">
+        <h4 class="text-black">{{ beer.name }}</h4>
+          <h5 class="text-black" id="null message" v-if="beer.name === ''  || beer.name === null">
             Beer Name: Coming Soon
           </h5>
 
 
           <div>
-            <h5 id="null message" v-if="beer.imgUrl === null || beer.imgUrl === ''">
+            <h5 class="text-black" id="null message" v-if="beer.imgUrl === null || beer.imgUrl === ''">
               <b-img
                 rounded alt = "Rounded image"
                 id="logoBeer"
@@ -164,26 +164,26 @@
                 "
               ></b-img>
             </h5>
-            <h5 v-else>{{ beer.imgUrl }}</h5>
+            <h5 class="text-black"  v-else>{{ beer.imgUrl }}</h5>
           </div>
 
        
 
-          <h5 id="null message" v-if="beer.abv === ''  || beer.abv === null">ABV: Coming Soon</h5>
-          <h5 v-else>ABV: {{ beer.abv }}</h5>
+          <h5 class="text-black" id="null message" v-if="beer.abv === ''  || beer.abv === null">ABV: Coming Soon</h5>
+          <h5 class="text-black" v-else>ABV: {{ beer.abv }}</h5>
 
-          <h5 id="null message" v-if="beer.ibu === ''  || beer.ibu === null || beer.ibu === 0">IBU: Coming Soon</h5>
-          <h5 v-else>IBU: {{ beer.ibu }}</h5>
+          <h5 class="text-black" id="null message" v-if="beer.ibu === ''  || beer.ibu === null || beer.ibu === 0">IBU: Coming Soon</h5>
+          <h5 class="text-black" v-else>IBU: {{ beer.ibu }}</h5>
 
-          <h5 id="null message" v-if="beer.beer_type === ''  || beer.beer_type === null">
+          <h5 class="text-black" id="null message" v-if="beer.beer_type === ''  || beer.beer_type === null">
             Type: Coming Soon
           </h5>
-          <h5 v-else>Type: {{ beer.beer_type }}</h5>
+          <h5 class="text-black" v-else>Type: {{ beer.beer_type }}</h5>
 
-          <h5 id="null message" v-if="beer.description === ''  || beer.description === null">
+          <h5 class="text-black" id="null message" v-if="beer.description === ''  || beer.description === null">
             Description: Coming Soon
           </h5>
-          <h5 v-else>Description: {{ beer.description }}</h5>
+          <h5 class="text-black" v-else>Description: {{ beer.description }}</h5>
 
           <!-- <h5 id="null message" v-if="beer.imgUrl === ''  || beer.imgUrl === null">
             <b-img
@@ -271,23 +271,23 @@
               </b-modal>
 
               <div class="mt-4">
-                <div class="well">
+                <div class="well text-black">
                   <span class="amount" v-on:click="updateFilter()">
                     {{ averageRating }}</span
                   >
                   Average Rating
                 </div>
 
-                <h2>Reviews</h2>
+                <h2 class="text-black">Reviews</h2>
                 <ul>
                   <li
-                    class="list-unstyled border border-warning p-2 m-2 rounded"
+                    class="list-unstyled border border-warning p-2 m-2 rounded text-black"
                     v-for="review in beer.reviews"
                     v-bind:key="review.id"
                   >
                     <p>{{ review.name }}</p>
                     <p>{{ review.review }}</p>
-                    <div>
+                    <div class="text-black">
                       <label for="rating-readonly">Rating:</label>
                       <b-form-rating
                         id="rating-readonly"
@@ -436,6 +436,15 @@ export default {
         return (sum / beerReviews.length).toFixed(2);
       }
     },
+  },
+
+    mounted() {
+    if(localStorage.getItem('reloaded')) {
+      localStorage.removeItem('reloaded');
+    } else {
+      localStorage.setItem('reloaded', '1');
+      location.reload();
+    }
   },
 
   created() {

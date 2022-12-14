@@ -28,7 +28,7 @@ public class JdbcBrewerDAO implements BrewerDAO {
     public List<BrewerResults> getListOfAllJDBCBreweries (){
         List<BrewerResults> listOfBreweries = new ArrayList<>();
 
-        String sql = "SELECT * FROM brewery;";
+        String sql = "SELECT * FROM brewery WHERE been_removed = false;";
 
         SqlRowSet result = jdbcTemplate.queryForRowSet(sql);
         while(result.next()){

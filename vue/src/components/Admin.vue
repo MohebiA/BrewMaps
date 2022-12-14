@@ -1,9 +1,9 @@
-<template>
-  <div class="admin">
+<template >
+  <div id="gradient" class="admin">
     <nav-bar/>
 
    <!-- Form -->
-    <section class="container mt-5 mb-5 p-5 border border-dark rounded">
+    <section class="container  mb-5 p-5 border border-dark rounded bg-light">
       <h1 class="h3 mb-3 font-weight-normal">Add Brewery</h1>
         <div>
     <b-form @submit="onSubmit" @reset="onReset" v-if="show">
@@ -175,7 +175,7 @@
         
     </section>
 
-    <section class="container">
+    <section class="container border border-dark rounded bg-light">
       <table id = "users-list">
         <thead>
           <tr>
@@ -185,7 +185,7 @@
         </thead>
         <tbody>
           <tr v-for="user in users" v-bind:key="user.id" v-bind:user = "user">
-            <td><button class = "delete" v-on:click="deleteUser(user.id)">DELETE</button></td>
+            <td><b-button class = "delete" variant="danger" v-on:click="deleteUser(user.id)">DELETE</b-button></td>
             <td>{{user.username}}</td>
             <!-- <td>{{user.id}}</td> -->
 
@@ -193,7 +193,6 @@
           <p/>
         </tbody>
       </table>
-    </section>
 
     <!-- <section>
       <Userlist/>
@@ -204,7 +203,6 @@
 
 
 
-     <section class="container">
       <table id = "brewery-list">
         <thead>
           <tr>
@@ -214,7 +212,7 @@
         </thead>
         <tbody>
           <tr v-for="brewery in breweries" v-bind:key="brewery.id" v-bind:brewery = "brewery">
-            <td><button class = "delete"  v-on:click="deleteBrewery(brewery.id)">DELETE</button></td>
+            <td><b-button class = "delete" variant="danger"  v-on:click="deleteBrewery(brewery.id)">DEACTIVATE</b-button></td>
             <td>{{brewery.name}}</td>
             <!-- <td>{{brewery.id}}</td> -->
 
@@ -273,7 +271,7 @@ import AppServices from '../services/AppServices'
     methods: {
       onSubmit(event) {
         event.preventDefault()
-        alert(JSON.stringify(this.form))
+        // alert(JSON.stringify(this.form))
         AppServices.createBrewery(this.newBrewery)
 
 
@@ -382,5 +380,12 @@ import AppServices from '../services/AppServices'
 </script>
 
 <style>
+#gradient {
+    /* background-color:rgb(68, 35, 19); */
+background: rgb(33,37,41);
+background: linear-gradient(0deg, rgba(33,37,41,1) 0%, rgba(215,215,215,1) 15%, rgba(215,215,215,1) 85%, rgba(255,193,7,1) 100%);
+    min-height: 71.25vh;
+    
 
+}
 </style>

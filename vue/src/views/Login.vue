@@ -1,6 +1,6 @@
 <template>
-  <div>
-  <div id="login" class="container mt-5 mb-5 p-5 border border-dark rounded">
+  <div id="gradient">
+  <div id="login" class="container border border-dark rounded bg-light">
     <form class="form-signin" @submit.prevent="login">
       <h1 class="h3 mb-3 font-weight-normal">Please Sign In</h1>
       <div

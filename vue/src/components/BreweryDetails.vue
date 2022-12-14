@@ -1,13 +1,14 @@
 <template>
-  <div>
+  <div id="gradient" >
     <div
       class="text-center p-3"
-      style="
-        background-image: url('https://wallpaperset.com/w/full/c/e/7/484397.jpg');
-        height: 50vw;
-      "
+      
     >
-      <h1 class="text-white">{{ brewery.name }}</h1>
+    <!-- style="
+        background-image: url('https://wallpaperset.com/w/full/c/e/7/484397.jpg');
+        height: 35vw;
+      " -->
+      <h1 class="text-black">{{ brewery.name }}</h1>
 
       <h5 id="null message" v-if="brewery.imgUrl === '' || brewery.imgUrl === null">
         <div>
@@ -110,7 +111,7 @@
         </div>
       </div>
 
-      <div class="row align-items-center text-center mt-5">
+      <div class="row align-items-center text-center mt-5 w-50 mx-auto" >
         <h2>BREWERY HISTORY</h2>
         <h5 class="text-center">{{ brewery.description }}</h5>
         <h5
@@ -444,13 +445,14 @@
       </div>
     </section>
 
-    <section class="container-fluid">
-      <div class="row justify-content-center bg-dark bg-gradient">
+    <section class="container-fluid ">
+      <div class="row justify-content-center ">
         <div class="text-center p-5">
           <!-- <router-link v-bind:to="{ name: 'beerlist' }"
             ><b-button variant="primary">View Beer List</b-button></router-link -->
           <!-- > -->
-          <h4 class="text-light">BEER LIST</h4>
+          
+          <h4 class="text-black">BEER LIST</h4>
 
           <div
             v-for="beer in brewery.beerList"
@@ -458,7 +460,7 @@
             @click="setBeerId(beer.id)"
           >
             <!-- <router-link v-bind:to="{ name: 'beerdetails' }"> -->
-            <b-button class="mb-2 custom" variant="outline-warning"
+            <b-button class="mb-2 customButton" variant="outline-warning"
               >{{ beer.name }}
               <hr />
               <!-- {{ beer.beer_type }} -->
@@ -667,6 +669,11 @@ export default {
 b-img.resize {
   width: 100vw;
   height: auto;
+}
+
+.customButton {
+  width: 300px !important;
+  background-color: rgb(35, 39, 43);
 }
 
 #Brewery-logo {

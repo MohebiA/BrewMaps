@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div id="gradient">
         <div id = "image">
             <b-card>
                 <b-img :src="require('../Assets/breweries.jpg')"></b-img>

@@ -1,10 +1,7 @@
 <template>
-    <footer id="footer" class="p-3 bg-dark text-white text-center position-relative">
-        <div class="container">
-            <p></p>
-            <a href="#" class="position-absolute bottom-0 end-0 p-5">
-                <i class="bi bi-arrow-up-circle"></i>
-            </a>
+    <footer id="footer" class="p-3 bg-dark text-white text-center position-relative container-fluid">
+        <div class="container-fluid">
+          
         </div>
 
         <div>
@@ -41,15 +38,15 @@ export default {
 
 
 <style>
-
- /* #footer {
-    position:fixed;
-    bottom:0;
+/* 
+ #footer {
+    margin: 0 auto;
   } */
 
 
   .footbutton {
     min-width: 200px;
+    
   }
 
 </style>
