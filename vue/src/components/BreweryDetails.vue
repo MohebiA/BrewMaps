@@ -55,7 +55,7 @@
     background-image: url('src\Assets\484397flipped.jpg');
     height: 25vw;
   " >
-      <div class="row align-items-center content">
+      <div class="row align-items-center content mt-4">
         <div class="col-md-6 order-2 order-md-1 text-center">
           <h2>ADDRESS</h2>
           <h5>{{ brewery.address1 }}</h5>
@@ -81,7 +81,7 @@
       <div class="row align-items-center content">
         <div class="col-md-6 text-center">
           <div class="row justify-content-center">
-            <div class="col-10 col-lg-8 mb-5 mb-md-0">
+            <div class="col-10 col-lg-8 mb-5 mb-md-0 mt-5">
               <h2>WEBSITE</h2>
           <h5>
             <a :href="this.brewery.url">{{ brewery.url }}</a>
@@ -102,7 +102,7 @@
         </div>
       </div>
      
-      <div class="row align-items-center text-center">
+      <div class="row align-items-center text-center mt-5">
         <h2>BREWERY HISTORY</h2>
         <h5 class="text-center">{{ brewery.description }}</h5>
         <h5
@@ -116,7 +116,7 @@
     </section>
 
 
-    <section class="container">
+    <section class="container mt-5">
       
       <!-- v-if="this.$store.state.users.user_id === this.brewery.user_id || this.$store.state.users.user_id === 2" -->
 
@@ -233,8 +233,8 @@
             >Update Brewery Form</b-button> -->
         </div>
 
-        <b-collapse id="my-collapse">
-          <b-card title="Collapsible card">
+        <b-collapse id="my-collapse" class="mb-5">
+          <b-card title="Update Brewery Information">
             <b-form @submit="locationReload" @reset="onReset" v-if="show">
               <b-form-group
                 id="input-group-1"
@@ -678,4 +678,6 @@ b-img.resize{
   min-width: 250px;
 
 }
+
+
 </style>
