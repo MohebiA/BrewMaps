@@ -1,5 +1,5 @@
 <template>
-    <footer class="p-3 bg-secondary text-white text-center position-relative">
+    <footer class="p-3 bg-dark text-white text-center position-relative">
         <div class="container">
             <p></p>
             <a href="#" class="position-absolute bottom-0 end-0 p-5">
@@ -10,15 +10,15 @@
         <div>
           <b-col>
             <b-row>
-              <p><router-link v-bind:to="{ name: 'aboutus' }"><b-button>About Us</b-button></router-link></p>
+              <p><router-link v-bind:to="{ name: 'aboutus' }"><b-button variant="warning">ABOUT US</b-button ></router-link></p>
             </b-row>
             
             <b-row>
-              <p><b-button>Contact Us</b-button></p>
+              <p><b-button variant="warning">CONTACT US</b-button></p>
             </b-row>
 
             <b-row>
-              <p>Copyright &copy; 2022 BrewMaps.Co</p>
+              <p>COPYRIGHT &copy; 2022 BREWMAPS.CO</p>
             </b-row>
 
           </b-col>

@@ -1,16 +1,31 @@
 <template>
   <div>
-    <div class="text-center bg-light p-4">
-      <h1>{{ brewery.name }}</h1>
+    <div class="text-center p-4"  style="
+    background-image: url('https://wallpaperset.com/w/full/c/e/7/484397.jpg');
+    height: 50vw;
+  " >
+      <h1 class="text-white">{{ brewery.name }}</h1>
 
       <h5 id="null message" v-if="brewery.imgUrl === ''">
+        <div>
         <b-img
           id="Brewery-logo"
           class="img-fluid mx-auto d-block m-4"
           :src="require('../Assets/breweries.jpg')"
         ></b-img>
+        </div>
       </h5>
-      <h5 v-else>{{ brewery.imgUrl }}</h5>
+      <h5 v-else>
+        <div>
+
+               <b-img 
+          id="Brewery-logo"
+          
+          class="img-fluid mx-auto d-block m-4"
+          :src="this.brewery.imgUrl"
+        ></b-img>
+        </div>
+        </h5>
     </div>
 
     <section id="inactive" v-if="!this.brewery.active" class="container ">
@@ -36,7 +51,10 @@
       </b-row>
     </section>
 
-    <section class="container-fluid px-0">
+    <section class="container-fluid px-0 " style="
+    background-image: url('src\Assets\484397flipped.jpg');
+    height: 25vw;
+  " >
       <div class="row align-items-center content">
         <div class="col-md-6 order-2 order-md-1 text-center">
           <h2>ADDRESS</h2>
@@ -176,7 +194,7 @@
             <b-form-input
               id="input-1"
               v-model="beer.imgUrl"
-              type="text"
+              type="image"
               placeholder="URL"
               required
             ></b-form-input>
@@ -624,10 +642,15 @@ export default {
 
 
 <style>
+b-img.resize{
+  width: 100vw;
+  height: auto;
+}
+
 #Brewery-logo {
   grid-column: 1/2;
   grid-row: 1/2;
-  max-width: 300px;
+  max-width: 100vx;
 }
 
 .custom {

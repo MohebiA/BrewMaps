@@ -1,10 +1,19 @@
 <template>
   <div class="home">
     <nav-bar/>
-    <section class="text-dark p-4 pb-3 pt-3 bg-light">
+    <section class="text-dark p-4 pb-3 pt-3 bg-light bg-image"
+  style="
+    background-image: url('https://wallpaperset.com/w/full/c/e/7/484397.jpg');
+    height: 50vh;
+  ">
       <div class="container-fluid">
-        <div class="d-sm-flex align-items-center justify-content-between">
-          <div>
+        <div class="d-sm-flex align-items-center justify-content-between bg-image"
+  style="
+    background-image: url('https://scontent.fdtw2-1.fna.fbcdn.net/v/t1.6435-9/81933427_1368213326684123_2121037133471809536_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=9267fe&_nc_ohc=L70wW2wR_voAX-FPx08&_nc_ht=scontent.fdtw2-1.fna&oh=00_AfDtZDtgylbf_QvVwbE9y8DcE46D036R9esgj49uvv4I7Q&oe=63C06E7B');
+    height: 50vh;
+  "
+>
+          <div class="p-4 bg-white opacity-75 rounded mx-auto">
             <h2>Find a fabulous brewery and explore their beer selection</h2>
             <p>Built by beer lovers, for beer lovers.</p>
             <br>
@@ -47,31 +56,36 @@
       </div>
     </section>
 
-    <section class="p-5">
+    <section class="p-5 bg-image"
+  style="
+    background-image: url('https://wallpaperset.com/w/full/c/e/7/484397.jpg');
+    height: 50vw;
+  " >
       <div class="container">
         <div class="row text-center g-4">
           <div class="col-md d-flex justify-content-center">
-            <div class="card" style="width: 18rem">
-              <b-img :src="require('../Assets/breweries.jpg')"></b-img>
+            <div class="card rounded-top" style="width: 33vw">
+              <b-img class="rounded-top" :src="require('../Assets/Captureresized.jpeg')"></b-img>
               <div class="card-body">
-                <h5 class="card-title">Submit Your Brewery</h5>
+                <h5 class="card-title">Name</h5>
                 <p class="card-text">
-                  Keep your brewery and beer list information up-to-date
+                  Our curated Brewer of the month
                 </p>
-                <a href="#" class="btn btn-warning">Add Brewery</a>
+                <router-link v-bind:to="{ name: 'register' }"><b-button class="btn-lg btn-block customButton" variant="warning">Visit</b-button></router-link>
+                <!-- <a href="#" class="btn btn-warning">Visit</a> -->
               </div>
             </div>
           </div>
-          <div class="col-md d-flex justify-content-center">
-            <div class="card" style="width: 18rem">
-              <b-img :src="require('../Assets/breweries.jpg')"></b-img>
+          <div class="col-md d-flex justify-content-center customCard">
+            <div class="card rounded-top" style="width: 33vw">
+              <b-img class="rounded-top" :src="require('../Assets/breweries.jpg')"></b-img>
               <div class="card-body">
                 <h5 class="card-title">Become a "Registered" Beer Love</h5>
                 <p class="card-text">
                   Discover breweries and beers and add your expert ratings and
                   reviews
                 </p>
-                <router-link v-bind:to="{ name: 'register' }"><b-button variant="warning">Register</b-button></router-link>
+                <router-link v-bind:to="{ name: 'register' }"><b-button class="btn-lg btn-block customButton" variant="warning">Register</b-button></router-link>
               </div>
             </div>
           </div>
@@ -107,4 +121,13 @@ export default {
 </script>
 
 <style>
+
+.customButton {
+  width: 300px !important;
+}
+
+.customCard {
+  width: 100vw !important;
+}
+
 </style>

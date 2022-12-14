@@ -19,7 +19,7 @@ public class Brewer {
     private double longitude;
 
     @JsonProperty("active")
-    private boolean isActive;
+    private boolean isActive = true;
     private boolean beenRemoved;
     private String phoneNumber;
     private int userId;
