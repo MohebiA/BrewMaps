@@ -71,12 +71,12 @@
                 <p class="card-text">
                   Our curated Brewer of the month
                 </p>
-                <router-link v-bind:to="{ name: 'register' }"><b-button class="btn-lg btn-block customButton" variant="warning">Visit</b-button></router-link>
+                <router-link v-bind:to="{ name: 'register' }"><b-button class="btn-lg btn-block" variant="warning">Visit</b-button></router-link>
                 <!-- <a href="#" class="btn btn-warning">Visit</a> -->
               </div>
             </div>
           </div>
-          <div class="col-md d-flex justify-content-center customCard">
+          <div class="col-md d-flex justify-content-center">
             <div class="card rounded-top" style="width: 33vw">
               <b-img class="rounded-top" :src="require('../Assets/breweries.jpg')"></b-img>
               <div class="card-body">
@@ -85,7 +85,7 @@
                   Discover breweries and beers and add your expert ratings and
                   reviews
                 </p>
-                <router-link v-bind:to="{ name: 'register' }"><b-button class="btn-lg btn-block customButton" variant="warning">Register</b-button></router-link>
+                <router-link v-bind:to="{ name: 'register' }"><b-button class="btn-lg btn-block" variant="warning">Register</b-button></router-link>
               </div>
             </div>
           </div>
@@ -122,9 +122,6 @@ export default {
 
 <style>
 
-.customButton {
-  width: 300px !important;
-}
 
 .customCard {
   width: 100vw !important;

@@ -1,44 +1,37 @@
 <template>
   <div>
-    <div class="text-center p-4"  style="
-    background-image: url('https://wallpaperset.com/w/full/c/e/7/484397.jpg');
-    height: 50vw;
-  " >
+    <div
+      class="text-center p-3"
+      style="
+        background-image: url('https://wallpaperset.com/w/full/c/e/7/484397.jpg');
+        height: 50vw;
+      "
+    >
       <h1 class="text-white">{{ brewery.name }}</h1>
 
-      <h5 id="null message" v-if="brewery.imgUrl === ''">
+      <h5 id="null message" v-if="brewery.imgUrl === '' || brewery.imgUrl === null">
         <div>
-        <b-img
-          id="Brewery-logo"
-          class="img-fluid mx-auto d-block m-4"
-          :src="require('../Assets/breweries.jpg')"
-        ></b-img>
+          <b-img
+            id="Brewery-logo"
+            class="img-fluid mx-auto d-block m-4"
+            :src="require('../Assets/breweries.jpg')"
+          ></b-img>
         </div>
       </h5>
       <h5 v-else>
         <div>
-
-               <b-img 
-          id="Brewery-logo"
-          
-          class="img-fluid mx-auto d-block m-4"
-          :src="this.brewery.imgUrl"
-        ></b-img>
+          <b-img
+            id="Brewery-logo"
+            class="img-fluid mx-auto d-block m-4"
+            :src="this.brewery.imgUrl"
+          ></b-img>
         </div>
-        </h5>
+      </h5>
     </div>
 
-    <section id="inactive" v-if="!this.brewery.active" class="container ">
-
-      <h5 class = "row justify-content-center" >
-            THIS BREWERY IS INACTIVE
-          </h5>
-
-
-
+    <section id="inactive" v-if="!this.brewery.active" class="container">
+      <h5 class="row justify-content-center">THIS BREWERY IS INACTIVE</h5>
     </section>
-
-
 
     <section class="container">
       <b-row>
@@ -51,19 +44,22 @@
       </b-row>
     </section>
 
-    <section class="container-fluid px-0 " style="
-    background-image: url('src\Assets\484397flipped.jpg');
-    height: 25vw;
-  " >
+    <section
+      class="container-fluid px-0"
+      style="
+        background-image: url('src\Assets\484397flipped.jpg');
+        height: 25vw;
+      "
+    >
       <div class="row align-items-center content mt-4">
         <div class="col-md-6 order-2 order-md-1 text-center">
           <h2>ADDRESS</h2>
           <h5>{{ brewery.address1 }}</h5>
           <h5
             id="null message"
-            v-if="brewery.address1 === ''"
+            v-if="brewery.address1 === '' || brewery.address1 === null"
           >
-            Brewery Address: Coming Soon
+            Coming Soon
           </h5>
         </div>
         <div class="col-md-6 text-center order-1 order-md-2">
@@ -71,7 +67,12 @@
             <div class="col-10 col-lg-8 mb-5 mb-md-0">
               <h2>BREWERY CONTACT INFO</h2>
               <h5>{{ brewery.phoneNumber }}</h5>
-              <h5 id="null message" v-if="brewery.phoneNumber === ''">
+              <h5
+                id="null message"
+                v-if="
+                  brewery.phoneNumber === '' || brewery.phoneNumber === null
+                "
+              >
                 Coming Soon
               </h5>
             </div>
@@ -83,31 +84,37 @@
           <div class="row justify-content-center">
             <div class="col-10 col-lg-8 mb-5 mb-md-0 mt-5">
               <h2>WEBSITE</h2>
-          <h5>
-            <a :href="this.brewery.url">{{ brewery.url }}</a>
-          </h5>
+              <h5>
+                <a :href="this.brewery.url">{{ brewery.url }}</a>
+              </h5>
 
-          <h5 id="null message" v-if="this.brewery.url === ''">
-            Coming Soon
-          </h5>
+              <h5
+                id="null message"
+                v-if="this.brewery.url === '' || brewery.url === null"
+              >
+                Coming Soon
+              </h5>
             </div>
           </div>
         </div>
         <div class="col-md-6 text-center">
           <h2>BREWERY HOURS</h2>
-              <h5>{{ brewery.hours }}</h5>
-          <h5 id="null message" v-if="brewery.hours === ''">
+          <h5>{{ brewery.hours }}</h5>
+          <h5
+            id="null message"
+            v-if="brewery.hours === '' || brewery.hours === null"
+          >
             Coming Soon
           </h5>
         </div>
       </div>
-     
+
       <div class="row align-items-center text-center mt-5">
         <h2>BREWERY HISTORY</h2>
         <h5 class="text-center">{{ brewery.description }}</h5>
         <h5
           id="null message"
-          v-if="brewery.description === ''"
+          v-if="brewery.description === '' || brewery.description === null"
           class="text-center"
         >
           Coming Soon
@@ -115,25 +122,28 @@
       </div>
     </section>
 
-
-    <section class="container mt-5">
-      
+    <section class="container mt-5 mb-5">
       <!-- v-if="this.$store.state.users.user_id === this.brewery.user_id || this.$store.state.users.user_id === 2" -->
 
-      <div class = "buttons">
-      <b-button id="addBeer" @click="location.reload()"
-        v-if="this.$store.state.user.authorities[0].name == 'ROLE_BREWER'"
-        v-b-modal.modal-tall
-        class="breweryButtons"
-        variant="primary"
-        >Add a Beer</b-button>
+      <div class="buttons heightChange">
+        <b-button
+          id="addBeer"
+          @click="location.reload()"
+          v-if="this.$store.state.user.authorities[0].name == 'ROLE_BREWER'"
+          v-b-modal.modal-tall
+          class="breweryButtons"
+          variant="primary"
+          >Add a Beer</b-button
+        >
 
-        <b-button class="breweryButtons" @click="fillForm()"
-            v-if="this.$store.state.user.authorities[0].name == 'ROLE_BREWER'"
-            v-b-toggle.my-collapse
-            >Update Brewery Form</b-button>
-
-        </div>
+        <b-button
+          class="breweryButtons"
+          @click="fillForm()"
+          v-if="this.$store.state.user.authorities[0].name == 'ROLE_BREWER'"
+          v-b-toggle.my-collapse
+          >Update Brewery Form</b-button
+        >
+      </div>
 
       <b-modal id="modal-tall" title="Add Beer" ok-only ok-title="Cancel">
         <b-form @submit="onSubmit" @reset="onReset" v-if="show">
@@ -241,9 +251,9 @@
                 label="Brewery Name:"
                 label-for="input-1"
               >
-                <b-form-input 
+                <b-form-input
                   id="input-1"
-                  value= "brewery.name"
+                  value="brewery.name"
                   v-model="updatedBrewery.name"
                   type="text"
                   placeholder="Enter Brewery Name"
@@ -271,7 +281,7 @@
               >
                 <b-form-input
                   id="input-2"
-                  value= "brewery.phoneNumber"
+                  value="brewery.phoneNumber"
                   v-model="updatedBrewery.phoneNumber"
                   placeholder="Enter Brewery Phone Number"
                 ></b-form-input>
@@ -284,7 +294,7 @@
               >
                 <b-form-input
                   id="input-2"
-                  value= "brewery.address1"
+                  value="brewery.address1"
                   v-model="updatedBrewery.address1"
                   placeholder="Enter Brewery Address"
                 ></b-form-input>
@@ -297,7 +307,7 @@
               >
                 <b-form-input
                   id="input-2"
-                  value= "brewery.address2"
+                  value="brewery.address2"
                   v-model="updatedBrewery.address2"
                   placeholder="Enter second address if applicable"
                 ></b-form-input>
@@ -310,7 +320,7 @@
               >
                 <b-form-input
                   id="input-2"
-                  value= "brewery.city"
+                  value="brewery.city"
                   v-model="updatedBrewery.city"
                   placeholder="Enter city"
                 ></b-form-input>
@@ -323,7 +333,7 @@
               >
                 <b-form-input
                   id="input-2"
-                  value= "brewery.state"
+                  value="brewery.state"
                   v-model="updatedBrewery.state"
                   placeholder="Enter state"
                 ></b-form-input>
@@ -332,7 +342,7 @@
               <b-form-group id="input-group-2" label="Zip:" label-for="input-2">
                 <b-form-input
                   id="input-2"
-                  value= "brewery.zip"
+                  value="brewery.zip"
                   v-model="updatedBrewery.zip"
                   placeholder="Enter zipcode"
                 ></b-form-input>
@@ -345,7 +355,7 @@
               >
                 <b-form-input
                   id="input-2"
-                  value= "brewery.hours"
+                  value="brewery.hours"
                   v-model="updatedBrewery.hours"
                   placeholder="Enter hours of operation"
                 ></b-form-input>
@@ -358,7 +368,7 @@
               >
                 <b-form-input
                   id="input-2"
-                  value= "brewery.imgUrl"
+                  value="brewery.imgUrl"
                   v-model="updatedBrewery.imgUrl"
                   placeholder="Enter the url to the brewery logo"
                 ></b-form-input>
@@ -371,7 +381,7 @@
               >
                 <b-form-input
                   id="input-2"
-                  value= "brewery.url"
+                  value="brewery.url"
                   v-model="updatedBrewery.url"
                   placeholder="Enter the url to the brewery website"
                 ></b-form-input>
@@ -384,33 +394,36 @@
               >
                 <b-form-input
                   id="input-2"
-                  value= "brewery.history"
+                  value="brewery.history"
                   v-model="updatedBrewery.history"
                   placeholder="Enter a brief description for the history of the brewery"
                 ></b-form-input>
               </b-form-group>
 
               <b-form-group>
-                <b-form-checkbox id = "checkbox-1"
-                value= "false"
-                v-model="updatedBrewery.active"
-                name = "checkbox-1"
-                
-                unchecked-value="true">Check to deactivate brewery, uncheck to reactivate brewery
-
+                <b-form-checkbox
+                  id="checkbox-1"
+                  value="false"
+                  v-model="updatedBrewery.active"
+                  name="checkbox-1"
+                  unchecked-value="true"
+                  >Check to deactivate brewery, uncheck to reactivate brewery
                 </b-form-checkbox>
 
-                <div>active: <strong>{{updatedBrewery.active}}</strong></div>
-
+                <div>
+                  active: <strong>{{ updatedBrewery.active }}</strong>
+                </div>
               </b-form-group>
 
               <div class="brewerCheck">
-          <h5>Check to deactivate brewery, uncheck to reactive brewery</h5>
-          <!-- <div>
+                <h5>
+                  Check to deactivate brewery, uncheck to reactive brewery
+                </h5>
+                <!-- <div>
             <input type="checkbox" class="form-check-input" v-model="updatedBrewery.beenRemoved" v-on:change="(updatedBrewery.beenRemoved=='false' ? updatedBrewery.beenRemoved='true': updatedBrewery.beenRemoved='false')">
             <label for="form-check-label"></label>
           </div> -->
-      </div>
+              </div>
 
               <b-button
                 class="ml-2"
@@ -534,15 +547,15 @@ export default {
   },
 
   created() {
-    AppServices.getBreweryById(this.$route.params.id).then((response) => {
-      this.brewery = response.data;
-    }).catch(error=>{
-          alert(error)
-          location.reload();
-          console.log(error);
-
-        })
-;
+    AppServices.getBreweryById(this.$route.params.id)
+      .then((response) => {
+        this.brewery = response.data;
+      })
+      .catch((error) => {
+        alert(error);
+        location.reload();
+        console.log(error);
+      });
 
     // this.beer.id = this.$route.params.id;
 
@@ -585,25 +598,24 @@ export default {
       this.beer.brewery_id = this.$route.params.id;
       // alert(JSON.stringify(this.form))
       this.locationReload();
-
     },
 
     fillForm() {
-        this.updatedBrewery.name = this.brewery.name;
-         this.updatedBrewery.phoneNumber = this.brewery.phoneNumber;
-         this.updatedBrewery.address1 = this.brewery.address1;
-        this.updatedBrewery.address2 = this.brewery.address2;
-        this.updatedBrewery.city = this.brewery.city;
-        this.updatedBrewery.state = this.brewery.state;
-        this.updatedBrewery.zip = this.brewery.zip;
-        this.updatedBrewery.hours = this.brewery.hours;
-        this.updatedBrewery.imgUrl = this.brewery.imgUrl;
-        this.updatedBrewery.url = this.brewery.url;
-        this.updatedBrewery.history = this.brewery.description;
-        this.updatedBrewery.longitude = this.brewery.longitude;
-        this.updatedBrewery.latitude = this.brewery.latitude;
-        this.updatedBrewery.beenRemoved = this.brewery.beenRemoved;
-        this.updatedBrewery.active = this.brewery.active;
+      this.updatedBrewery.name = this.brewery.name;
+      this.updatedBrewery.phoneNumber = this.brewery.phoneNumber;
+      this.updatedBrewery.address1 = this.brewery.address1;
+      this.updatedBrewery.address2 = this.brewery.address2;
+      this.updatedBrewery.city = this.brewery.city;
+      this.updatedBrewery.state = this.brewery.state;
+      this.updatedBrewery.zip = this.brewery.zip;
+      this.updatedBrewery.hours = this.brewery.hours;
+      this.updatedBrewery.imgUrl = this.brewery.imgUrl;
+      this.updatedBrewery.url = this.brewery.url;
+      this.updatedBrewery.history = this.brewery.description;
+      this.updatedBrewery.longitude = this.brewery.longitude;
+      this.updatedBrewery.latitude = this.brewery.latitude;
+      this.updatedBrewery.beenRemoved = this.brewery.beenRemoved;
+      this.updatedBrewery.active = this.brewery.active;
     },
 
     updateBrewery(id, brewery) {
@@ -642,7 +654,7 @@ export default {
 
 
 <style>
-b-img.resize{
+b-img.resize {
   width: 100vw;
   height: auto;
 }
@@ -664,7 +676,6 @@ b-img.resize{
 }
 
 #addBeer {
-  
   margin-right: 30px;
 }
 
@@ -676,8 +687,9 @@ b-img.resize{
 
 .breweryButtons {
   min-width: 250px;
-
 }
 
-
+.heightChange {
+  margin-top: 150px;
+}
 </style>
