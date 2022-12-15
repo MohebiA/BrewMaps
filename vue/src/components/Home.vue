@@ -80,7 +80,7 @@
             <div class="card rounded-top cardClass" style="width: 33vw">
               <b-img class="rounded-top" :src="require('../Assets/breweries.jpg')"></b-img>
               <div class="card-body">
-                <h5 class="card-title">Become a "Registered" Beer Love</h5>
+                <h5 class="card-title">Become a "Registered" Beer Lover</h5>
                 <p class="card-text">
                   Discover breweries and beers and add your expert ratings and
                   reviews

@@ -99,8 +99,10 @@ public class JdbcUserDao implements UserDao {
 
     @Override
     public boolean delete(int userId){
-        String sql = "DELETE FROM users where user_id = ?;";
+        String reviewSql = "DELETE FROM reviews WHERE user_id = ?;";
+        String sql = "DELETE FROM users WHERE user_id = ?;";
         try {
+            jdbcTemplate.update(reviewSql, userId);
             jdbcTemplate.update(sql, userId);
             return true;
         }catch (ResourceAccessException e){

@@ -1,6 +1,6 @@
 <template>
   <div id="gradient">
-    <section  class="container text-black mb-5 p-5 border border-dark rounded bg-light">
+    <section  class="container text-black p-5 border border-dark rounded bg-light">
       <!-- <b-button v-if="this.$store.state.user.authorities[0] = 'ROLE_BREWER'" class=" border border-2 border-dark m-5" v-on:click="deleteBeer(beer.id), getDetails(beer.breweryId)">
               DELETE BEER
             </b-button> -->
@@ -164,7 +164,8 @@
                 "
               ></b-img>
             </h5>
-            <h5 class="text-black"  v-else>{{ beer.imgUrl }}</h5>
+            <h5 class="text-black"  v-else><b-img class="img-fluid mx-auto d-block m-4"
+            style="height:40vh" :src="this.beer.imgUrl" alt=""></b-img></h5>
           </div>
 
        
