@@ -72,7 +72,7 @@
                   Our curated Brewer of the month
                 </p>
                 <!-- <router-link v-bind:to="{ name: 'register' }"><b-button class="btn-lg btn-block" variant="warning">Visit</b-button></router-link> -->
-                <a href="http://localhost:8080/brewery/12" class="btn btn-warning btn-lg customCard">Visit</a>
+                <a href="http://localhost:8080/brewery/16" class="btn btn-warning btn-lg customCard">Visit</a>
               </div>
             </div>
           </div>

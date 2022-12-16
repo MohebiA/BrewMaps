@@ -180,7 +180,7 @@
               v-model="beer.ibu"
               type="text"
               placeholder="IBU"
-              required
+              
             ></b-form-input>
           </b-form-group>
 
